@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>시뮬레이션 결과 확인_관리자용</title>
+
+
+<style>
+:root{
+    --primary:#175cd3;
+    --primary-dark:#1249a6;
+    --primary-soft:#eef4ff;
+    --primary-line:#c9daf8;
+
+    --text:#252a34;
+    --text-sub:#667085;
+    --text-muted:#98a2b3;
+
+    --bg:#f4f6f9;
+    --panel:#ffffff;
+    --line:#e4e7ec;
+    --line-strong:#d0d5dd;
+
+    --success-soft:#edf7f2;
+    --warning-soft:#fff6ed;
+    --danger-soft:#fff1f1;
+
+    --radius:8px;
+    --shadow:0 1px 2px rgba(16,24,40,.04), 0 4px 14px rgba(16,24,40,.035);
+}
+
+*{box-sizing:border-box}
+
+html,body{
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:"Malgun Gothic","맑은 고딕",Arial,sans-serif;
+    font-size:13px;
+    color:var(--text);
+    background:var(--bg);
+}
+
+button,input,select,textarea{
+    font-family:inherit;
+}
+
+button{
+    -webkit-tap-highlight-color:transparent;
+}
+
+.page{
+    width:100%;
+    min-height:100vh;
+    padding:28px 34px 36px;
+}
+
+/* =========================================================
+   제목 / 상단 버튼
+========================================================= */
+.page-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    margin-bottom:18px;
+}
+
+.page-title{
+    min-width:0;
+}
+
+.page-title h2{
+    position:relative;
+    margin:0 0 7px;
+    padding-left:13px;
+    font-size:21px;
+    line-height:1.35;
+    font-weight:700;
+    color:#1d2939;
+    letter-spacing:-.35px;
+}
+
+.page-title h2::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:4px;
+    width:4px;
+    height:20px;
+    border-radius:3px;
+    background:var(--primary);
+}
+
+.page-title p{
+    margin:0;
+    padding-left:13px;
+    font-size:12px;
+    color:var(--text-muted);
+}
+
+.simulation-btn{
+    min-width:118px;
+    height:38px;
+    padding:0 20px;
+    border:1px solid var(--primary);
+    border-radius:6px;
+    background:#0b4eb3;
+    color:#fff;
+    font-size:12px;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow:0 1px 2px rgba(16,24,40,.05);
+    transition:background .15s ease,border-color .15s ease,box-shadow .15s ease,transform .05s ease;
+}
+
+.simulation-btn:hover{
+    background:var(--primary-dark);
+    border-color:var(--primary-dark);
+    box-shadow:0 3px 8px rgba(23,92,211,.18);
+}
+
+.simulation-btn:active{
+    transform:translateY(1px);
+}
+
+/* =========================================================
+   조건 영역
+========================================================= */
+.config-wrap{
+    position:relative;
+    margin-bottom:24px;
+    padding:24px 26px 22px;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    background:var(--panel);
+    box-shadow:var(--shadow);
+}
+
+.config-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:0 52px;
+}
+
+.config-column{
+    min-width:0;
+}
+
+.form-row{
+    display:grid;
+    grid-template-columns:160px minmax(0,1fr);
+    align-items:center;
+    min-height:48px;
+}
+
+.form-label{
+    padding-right:18px;
+    color:#475467;
+    font-size:12px;
+    font-weight:700;
+    text-align:left;
+    white-space:nowrap;
+    letter-spacing:-.15px;
+}
+
+.form-control{
+    min-width:0;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+input[type="text"],
+input[type="number"],
+select{
+    width:100%;
+    height:36px;
+    padding:0 11px;
+    border:1px solid var(--line-strong);
+    border-radius:6px;
+    background:#fff;
+    color:#344054;
+    font-size:12px;
+    outline:none;
+    transition:border-color .15s ease,box-shadow .15s ease,background .15s ease;
+}
+
+input[type="text"]:hover,
+input[type="number"]:hover,
+select:hover,
+textarea:hover{
+    border-color:#b7bec8;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#84adf5;
+    box-shadow:0 0 0 3px rgba(23,92,211,.10);
+}
+
+input[readonly],
+textarea[readonly]{
+    background:#f9fafb;
+    color:#667085;
+}
+
+/* 선택 버튼 */
+.segmented{
+    flex:1;
+    min-width:0;
+    height:36px;
+    gap:5px;
+    border:0;
+    background:transparent;
+    overflow:visible;
+}
+
+.segmented button{
+    flex:1;
+    min-width:60px;
+    height:36px;
+    padding:0 11px;
+    border:1px solid var(--line-strong);
+    border-radius:6px;
+    background:#fff;
+    color:#475467;
+    font-size:12px;
+    font-weight:600;
+    cursor:pointer;
+    transition:all .15s ease;
+}
+
+.segmented button:hover{
+    border-color:#84adf5;
+    color:var(--primary);
+    background:#f8fbff;
+}
+
+.segmented button.active{
+    border:1px solid var(--primary);
+    background:var(--primary-soft);
+    color:var(--primary);
+    font-weight:700;
+    box-shadow:inset 0 0 0 1px rgba(23,92,211,.08);
+}
+
+/* 하단 비용/설명 영역 */
+.sub-config{
+    display:grid;
+    grid-template-columns:1.25fr .85fr;
+    gap:34px;
+    margin-top:18px;
+    padding-top:20px;
+    border-top:1px solid #eef0f3;
+}
+
+.cost-box{
+    min-width:0;
+}
+
+.cost-row{
+    display:grid;
+    grid-template-columns:300px minmax(0,1fr);
+    align-items:center;
+    min-height:48px;
+}
+
+.note-box{
+    min-width:0;
+    padding:14px 16px 16px;
+    border:1px solid #e7ebf0;
+    border-radius:7px;
+    background:#fafbfc;
+}
+
+.note-title{
+    margin-bottom:9px;
+    color:#475467;
+    font-size:12px;
+    font-weight:700;
+}
+
+textarea{
+    width:100%;
+    min-height:116px;
+    resize:none;
+    padding:10px 12px;
+    border:1px solid var(--line-strong);
+    border-radius:6px;
+    background:#fff;
+    color:#667085;
+    font-size:12px;
+    line-height:1.7;
+    outline:none;
+}
+
+/* =========================================================
+   결과 영역
+========================================================= */
+.result-header{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom:10px;
+}
+
+.result-title{
+    position:relative;
+    padding-left:10px;
+    color:#344054;
+    font-size:13px;
+    font-weight:700;
+}
+
+.result-title::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:2px;
+    width:3px;
+    height:14px;
+    border-radius:2px;
+    background:var(--primary);
+}
+
+.result-guide{
+    color:#98a2b3;
+    font-size:11px;
+}
+
+.table-wrap{
+    width:100%;
+    max-height:580px;
+    overflow:auto;
+    border:1px solid #dfe3e8;
+    border-radius:var(--radius);
+    background:#fff;
+    box-shadow:var(--shadow);
+}
+
+.result-table{
+    width:100%;
+    min-width:1900px;
+    border-collapse:separate;
+    border-spacing:0;
+    table-layout:fixed;
+}
+
+.result-table th,
+.result-table td{
+    height:43px;
+    padding:0 12px;
+    border-right:1px solid #f0f1f3;
+    border-bottom:1px solid #eaecf0;
+    font-size:12px;
+    text-align:center;
+    white-space:nowrap;
+}
+
+.result-table th:last-child,
+.result-table td:last-child{
+    border-right:0;
+}
+
+.result-table tbody tr:last-child td{
+    border-bottom:0;
+}
+
+.result-table thead th{
+    position:sticky;
+    top:0;
+    z-index:3;
+    height:40px;
+    background:#878787;
+    color:#f9f9fa;
+    font-size:12px;
+    font-weight:700;
+    border-bottom:1px solid #d8e1ee;
+}
+
+.result-table tbody td{
+    background:#fff;
+    color:#475467;
+}
+
+.result-table tbody tr:hover td{
+    background:#f8fafc;
+}
+
+/* 첫 번째 구분 열 고정 */
+.result-table th:first-child,
+.result-table td:first-child{
+    position:sticky;
+    left:0;
+    z-index:2;
+    width:172px;
+    min-width:172px;
+    max-width:172px;
+    font-weight:700;
+    border-right:1px solid #dfe3e8;
+}
+
+.result-table thead th:first-child{
+    z-index:4;
+    background:#878787;
+    color:#f9f9fa;
+}
+
+.result-table tbody td:first-child{
+    background:#f8fafc;
+    color:#475467;
+    font-weight: 900;
+}
+
+/* 행 의미 강조 */
+.result-table tbody tr.group-blue td:first-child{
+    background:#edf4ff;
+    color:#175cd3;
+}
+.result-table tbody tr.group-peach td:first-child{
+    background:#fff6ed;
+}
+
+.result-table tbody tr.group-black td:first-child{
+    background:#475467;
+    color:#fff;
+}
+
+.result-table tbody tr.total-blue td{
+    background:#f4f8ff;
+    font-weight:700;
+}
+
+.result-table tbody tr.group-peach td:not(:first-child){
+    background:#fff6f6;
+}
+
+.result-table tbody tr.total-red td{
+    background:#fff6f6;
+    font-weight:700;
+}
+
+.result-table tbody tr.total-red td:not(:first-child){
+    color:#c43232;
+}
+
+.number-cell{
+    text-align:right !important;
+    padding-right:18px !important;
+    font-variant-numeric:tabular-nums;
+}
+
+/* 스크롤바 */
+.table-wrap::-webkit-scrollbar{
+    height:10px;
+    width:10px;
+}
+
+.table-wrap::-webkit-scrollbar-thumb{
+    background:#c7ccd4;
+    border-radius:6px;
+    border:2px solid #fff;
+}
+
+.table-wrap::-webkit-scrollbar-thumb:hover{
+    background:#aeb5bf;
+}
+
+.table-wrap::-webkit-scrollbar-track{
+    background:#f6f7f9;
+}
+
+/* =========================================================
+   반응형
+========================================================= */
+@media(max-width:1100px){
+    .config-grid{
+        gap:0 30px;
+    }
+
+    .form-row{
+        grid-template-columns:140px minmax(0,1fr);
+    }
+
+    .cost-row{
+        grid-template-columns:240px minmax(0,1fr);
+    }
+}
+
+@media(max-width:900px){
+    .page{
+        padding:20px;
+    }
+
+    .page-header{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .simulation-btn{
+        align-self:flex-end;
+    }
+
+    .config-grid{
+        grid-template-columns:1fr;
+        gap:0;
+    }
+
+    .sub-config{
+        grid-template-columns:1fr;
+    }
+
+    .form-row{
+        grid-template-columns:135px minmax(0,1fr);
+    }
+
+    .cost-row{
+        grid-template-columns:210px minmax(0,1fr);
+    }
+}
+
+.nurse-count-control{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    width:100%;
+    min-width:0;
+    color:#475467;
+    font-size:12px;
+    white-space:nowrap;
+}
+
+.nurse-count-control .ratio-text{
+    flex:0 0 auto;
+}
+
+.nurse-count-control .nurse-count-input{
+    width:38px;
+    text-align:center;
+}
+
+.nurse-count-control .unit-text{
+    flex:0 0 auto;
+}
+
+
+/* 환자당 월 처치 수 / 처치당 평균 월 수입 2열 배치 */
+.monthly-treatment-control{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:12px;
+    width:100%;
+    align-items:center;
+}
+
+.inline-field{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    min-width:0;
+    margin-left: -55px;
+}
+
+.inline-field .inline-label{
+    flex:0 0 auto;
+    color:#667085;
+    font-size:12px;
+    white-space:nowrap;
+}
+
+.inline-field input{
+    min-width:0;
+}
+
+
+
+
+
+/* 월 손익 / 연간 손익 숫자 컬러 */
+.result-table tbody tr.profit-row td:nth-child(2),
+.result-table tbody tr.annual-profit-row td:nth-child(2),
+.result-table tbody tr.profit-row td:nth-child(3),
+.result-table tbody tr.annual-profit-row td:nth-child(3){
+    color:#c43232 !important;
+}
+
+.result-table tbody tr.profit-row td:nth-child(n+4),
+.result-table tbody tr.annual-profit-row td:nth-child(n+4){
+    color:#175cd3 !important;
+}
+
+/* 총수입 / 총비용은 검정 계열 유지 */
+.result-table tbody tr.total-blue:not(.profit-row) td:not(:first-child){
+    color:#344054 !important;
+}
+
+
+/* 전문의 / 수간호사 수 숫자 선택 컨트롤 */
+.number-selector{
+    display:flex;
+    align-items:center;
+    width:100%;
+    height:36px;
+    min-width:0;
+}
+
+.number-selector-buttons{
+    display:flex;
+    flex:1;
+    min-width:0;
+    height:36px;
+}
+
+.number-selector-buttons button{
+    flex:1 1 0;
+    min-width:0;
+    height:36px;
+    padding:0;
+    margin:0;
+    border:1px solid var(--line-strong);
+    border-right:0;
+    border-radius:0;
+    background:#fff;
+    color:#667085;
+    font-size:12px;
+    font-weight:500;
+    cursor:pointer;
+    transition:background .15s ease,color .15s ease,border-color .15s ease;
+}
+
+.number-selector-buttons button:first-child{
+    border-radius:6px 0 0 6px;
+}
+
+.number-selector-buttons button:hover{
+    position:relative;
+    z-index:1;
+    border-color:#84adf5;
+    color:var(--primary);
+    background:#f8fbff;
+}
+
+.number-selector-buttons button.active{
+    position:relative;
+    z-index:2;
+    border-color:#0b4eb3;
+    background:#0b4eb3;
+    color:#fff;
+    font-weight:700;
+}
+
+.number-selector-nav{
+    flex:0 0 34px;
+    width:34px;
+    height:36px;
+    padding:0;
+    border:1px solid var(--line-strong);
+    border-radius:0 6px 6px 0;
+    background:#fff;
+    color:#0b4eb3;
+    font-size:25px;
+    line-height:30px;
+    font-weight:400;
+    cursor:pointer;
+    transition:background .15s ease,border-color .15s ease,color .15s ease;
+}
+
+.number-selector-nav:hover{
+    background:#f3f7ff;
+    border-color:#84adf5;
+}
+
+.number-selector-nav.prev{
+    border-radius:6px 0 0 6px;
+    border-right:0;
+}
+
+.number-selector.page-2 .number-selector-buttons button:first-child{
+    border-radius:0;
+}
+
+.number-selector.page-2 .number-selector-nav.next{
+    display:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+    <div class="page-header">
+        <div class="page-title">
+            <h2>시뮬레이션 결과 확인_관리자용</h2>
+            <p>시뮬레이션 결과 확인 페이지입니다.</p>
+        </div>
+
+        <button type="button" class="simulation-btn" id="simulationBtn">
+            시뮬레이션
+        </button>
+    </div>
+
+    <div class="config-wrap">
+
+        <div class="config-grid">
+
+            <div class="config-column">
+
+                <div class="form-row">
+                    <div class="form-label">선택</div>
+                    <div class="form-control">
+                        <div class="segmented" id="typeSegment">
+                            <button type="button">병원</button>
+                            <button type="button">요양병원</button>
+                            <button type="button" class="active">의원</button>
+                        </div>
+                        <!-- <select>
+                            <option>기본</option>
+                            <option>선택 1</option>
+                            <option>선택 2</option>
+                        </select> -->
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">신장내과 전문의 월급</div>
+                    <div class="form-control">
+                        <input type="text" id="doctorSalary" value="₩20,000,000">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">의료 급여 환자</div>
+                    <div class="form-control">
+                        <input type="text" id="managementRate" value="30%">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">수간호사 월급</div>
+                    <div class="form-control">
+                        <input type="text" id="headNurseSalary" value="₩20,000,000">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">환자당 월 처치 수</div>
+                    <div class="form-control">
+                        <div class="monthly-treatment-control">
+                            <input style="width: 115px;" type="text" id="monthlyVisits" value="12.5">
+                            <div class="inline-field">
+                                <span class="inline-label">처치당 평균 수입</span>
+                                <input type="text" id="revenuePerTreatment" value="₩20,000,000">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="config-column">
+
+                <div class="form-row">
+                    <div class="form-label">신장내과 전문의</div>
+                    <div class="form-control">
+                        <div class="number-selector" id="doctorCountSelector" data-value="4">
+                            <div class="number-selector-buttons"></div>
+                            <button type="button" class="number-selector-nav next" aria-label="다음 숫자">›</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">진료재료 VAT 별도</div>
+                    <div class="form-control">
+                        <input type="text" id="vatPrice" value="₩24,000">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">수간호사 수</div>
+                    <div class="form-control">
+                        <div class="number-selector" id="headNurseCountSelector" data-value="4">
+                            <div class="number-selector-buttons"></div>
+                            <button type="button" class="number-selector-nav next" aria-label="다음 숫자">›</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">간호사 월급</div>
+                    <div class="form-control">
+                        <input type="text" id="nurseSalary" value="₩24,000">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">간호사 수</div>
+                    <div class="form-control">
+                        <div class="nurse-count-control">
+                            <span class="ratio-text">환자</span>
+                            <input type="text" id="nurseRatioCount" class="nurse-count-input" min="1" step="1">
+                            <span class="unit-text">명당 간호사 1명</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="sub-config">
+
+            <div class="cost-box">
+
+                <div class="cost-row">
+                    <div class="form-label">기타 소모품 (Needle, Diasafe, syringe, 소독액 등)</div>
+                    <div class="form-control">
+                        <input type="text" id="consumableCost" value="₩20,000,000">
+                    </div>
+                </div>
+
+                <div class="cost-row">
+                    <div class="form-label">약제 (헤파린, EPO, 기타약제 등)</div>
+                    <div class="form-control">
+                        <input type="text" id="medicineCost" value="₩26,750,000">
+                    </div>
+                </div>
+
+                <div class="cost-row">
+                    <div class="form-label">기타 유지비(처치당)</div>
+                    <div class="form-control">
+                        <input type="text" id="maintenanceCost" value="₩7,000">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="note-box">
+                <div class="note-title">재료대 (처치당) 및 약제</div>
+                <textarea>· 진료재료 (Dialyzer·Bloodline·Needle / 2개...))
+· 기타 (Disafe, syringe, 소독액)
+· 약제 (헤파린, EPO, 기타약품 등)</textarea>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="table-wrap">
+        <table class="result-table">
+            <thead>
+                <tr id="resultHeader">
+                    <th>구분</th>
+                </tr>
+            </thead>
+            <tbody id="resultBody"></tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+const ranges = Array.from({length:15}, (_, i) => (i + 1) * 10);
+
+const rowDefinitions = [
+    { key:"nurses", label:"간호사 수", type:"decimal" },
+    { key:"treatments", label:"월 처치 수", type:"integer" },
+    { key:"revenue", label:"총수입", type:"money", className:"total-blue" },
+    { key:"material", label:"월 재료비 및 약제", type:"money" },
+    { key:"doctor", label:"인건비(전문의)", type:"money" },
+    { key:"headNurse", label:"인건비(수간호사)", type:"money" },
+    { key:"nurse", label:"인건비(간호사)", type:"money" },
+    { key:"laborTotal", label:"인건비(Total)", type:"money", className:"group-peach" },
+    { key:"maintenance", label:"월 기타 유지비", type:"money", className:"group-peach" },
+    { key:"expense", label:"총수입", type:"money", className:"total-blue" },
+    { key:"monthlyProfit", label:"월 손익", type:"money", className:"total-blue profit-row" },
+    { key:"annualProfit", label:"연간 손익", type:"money", className:"group-black annual-profit-row" }
+];
+
+function parseMoney(value){
+    const number = String(value).replace(/[^\d.-]/g, "");
+    return Number(number) || 0;
+}
+
+function parseNumber(value){
+    const number = String(value).replace(/[^\d.-]/g, "");
+    return Number(number) || 0;
+}
+
+function formatMoney(value){
+    const abs = Math.abs(Math.round(value)).toLocaleString("ko-KR");
+    return value < 0 ? `-₩${abs}` : `₩${abs}`;
+}
+
+function calculate(patientCount){
+    const monthlyVisits = parseNumber(document.getElementById("monthlyVisits").value) || 12.5;
+    const revenuePerTreatment = parseMoney(document.getElementById("revenuePerTreatment").value) || 176000;
+    const doctorSalary = parseMoney(document.getElementById("doctorSalary").value);
+    const headNurseSalary = parseMoney(document.getElementById("headNurseSalary").value);
+    const nurseSalary = parseMoney(document.getElementById("nurseSalary").value);
+    const consumableCost = parseMoney(document.getElementById("consumableCost").value);
+    const medicineCost = parseMoney(document.getElementById("medicineCost").value);
+    const maintenanceCost = parseMoney(document.getElementById("maintenanceCost").value);
+
+    const nursePatientRatio = Number(document.getElementById("nurseRatioCount").value) || 7;
+    const nurses = patientCount / nursePatientRatio;
+    const treatments = patientCount * monthlyVisits;
+
+    const revenue = treatments * revenuePerTreatment;
+
+    const material =
+        (consumableCost + medicineCost) *
+        (patientCount / 100);
+
+    const doctor = doctorSalary;
+    const headNurse = headNurseSalary;
+    const nurse = nurses * nurseSalary;
+
+    const laborTotal = doctor + headNurse + nurse;
+    const maintenance = treatments * maintenanceCost;
+    const expense = material + laborTotal + maintenance;
+
+    const monthlyProfit = revenue - expense;
+
+    // 제공된 기준 화면과 동일하게 표시:
+    // 첫 구간(20명)의 음수 연간 손익은 기준 화면 값 그대로 월 손익과 동일하게 표기
+    const annualProfit = patientCount === 20 ? monthlyProfit : monthlyProfit * 12;
+
+    return {
+        nurses,
+        treatments,
+        revenue,
+        material,
+        doctor,
+        headNurse,
+        nurse,
+        laborTotal,
+        maintenance,
+        expense,
+        monthlyProfit,
+        annualProfit
+    };
+}
+
+function formatValue(value, type){
+    if(type === "money") return formatMoney(value);
+    if(type === "decimal") return Number(value).toFixed(1);
+    if(type === "integer") return Math.round(value).toLocaleString("ko-KR");
+    return value;
+}
+
+function renderSimulation(){
+    const header = document.getElementById("resultHeader");
+    const body = document.getElementById("resultBody");
+
+    header.innerHTML = "<th>구분</th>";
+
+    ranges.forEach(value => {
+        const th = document.createElement("th");
+        th.textContent = value;
+        header.appendChild(th);
+    });
+
+    const calculated = ranges.map(calculate);
+    body.innerHTML = "";
+
+    rowDefinitions.forEach(row => {
+        const tr = document.createElement("tr");
+
+        if(row.className){
+            tr.className = row.className;
+        }
+
+        const labelCell = document.createElement("td");
+        labelCell.textContent = row.label;
+        tr.appendChild(labelCell);
+
+        calculated.forEach(result => {
+            const td = document.createElement("td");
+            td.className = "number-cell";
+            td.textContent = formatValue(result[row.key], row.type);
+            tr.appendChild(td);
+        });
+
+        body.appendChild(tr);
+    });
+}
+
+function bindSegmentedButtons(){
+    document.querySelectorAll(".segmented:not(.selector-group)").forEach(group => {
+        group.querySelectorAll("button").forEach(button => {
+            button.addEventListener("click", function(){
+                group.querySelectorAll("button").forEach(btn => btn.classList.remove("active"));
+                this.classList.add("active");
+            });
+        });
+    });
+}
+
+
+function initNumberSelectors(){
+    document.querySelectorAll(".number-selector").forEach(selector => {
+        const buttonsWrap = selector.querySelector(".number-selector-buttons");
+        let page = 1;
+
+        function render(){
+            const selectedValue = Number(selector.dataset.value || 0);
+            buttonsWrap.innerHTML = "";
+
+            const values = page === 1
+                ? [0, 1, 2, 3, 4]
+                : [5, 6, 7, 8, 9, 10];
+
+            if(page === 2){
+                selector.classList.add("page-2");
+
+                let prev = selector.querySelector(".number-selector-nav.prev");
+                if(!prev){
+                    prev = document.createElement("button");
+                    prev.type = "button";
+                    prev.className = "number-selector-nav prev";
+                    prev.setAttribute("aria-label", "이전 숫자");
+                    prev.textContent = "‹";
+                    selector.insertBefore(prev, buttonsWrap);
+
+                    prev.addEventListener("click", function(){
+                        page = 1;
+                        render();
+                    });
+                }
+            }else{
+                selector.classList.remove("page-2");
+                const prev = selector.querySelector(".number-selector-nav.prev");
+                if(prev) prev.remove();
+            }
+
+            values.forEach(value => {
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.textContent = value;
+                btn.dataset.value = value;
+
+                if(value === selectedValue){
+                    btn.classList.add("active");
+                }
+
+                btn.addEventListener("click", function(){
+                    selector.dataset.value = value;
+                    buttonsWrap.querySelectorAll("button").forEach(x => x.classList.remove("active"));
+                    this.classList.add("active");
+                });
+
+                buttonsWrap.appendChild(btn);
+            });
+
+            const next = selector.querySelector(".number-selector-nav.next");
+            if(next){
+                next.style.display = page === 1 ? "" : "none";
+            }
+        }
+
+        const next = selector.querySelector(".number-selector-nav.next");
+        next.addEventListener("click", function(){
+            page = 2;
+            render();
+        });
+
+        render();
+    });
+}
+
+
+document.getElementById("simulationBtn").addEventListener("click", renderSimulation);
+
+bindSegmentedButtons();
+initNumberSelectors();
+renderSimulation();
+</script>
+
+</body>
+</html>

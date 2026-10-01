@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>계약 리스트</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:"Malgun Gothic","맑은 고딕",Arial,sans-serif;font-size:13px;color:#333;background:#f5f6f9}
+button,input{font-family:inherit}
+.page{width:100%;min-height:100vh;padding:30px 36px}
+.page-title{margin-bottom:26px}
+.page-title h2{margin:0 0 8px;font-size:20px;font-weight:700;color:#222}
+.page-title p{margin:0;font-size:12px;color:#888}
+.search-panel{margin-bottom:28px;padding:20px 24px;background:#fff;border:1px solid #e6e8ec}
+.search-row{display:flex;align-items:center;gap:15px;flex-wrap:wrap}
+.search-item{display:flex;align-items:center;gap:12px;min-width:0}
+.search-item.customer{width:520px}
+.search-label{flex:0 0 64px;margin:0;color:#333;font-size:12px;font-weight:700;white-space:nowrap;text-align:right}
+.customer-search-wrap{display:flex;flex:1;min-width:0}
+input[type="text"]{width:100%;height:34px;padding:0 10px;border:1px solid #d5d9df;border-radius:3px;background:#fff;color:#444;font-size:12px;outline:none}
+input[type="text"]:focus{border-color:#367bd8}
+.search-button{flex:0 0 78px;height:34px;margin-left:10px;padding:0 12px;border:0;border-radius:3px;background:#64676c;color:#fff;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;font-size:12px;font-weight:600;white-space:nowrap}
+.search-button img{display:block;width:15px;height:15px;object-fit:contain}
+.search-button:hover{background:#484b50}
+.result-header{display:flex;align-items:center;margin-bottom:12px;font-size:12px;font-weight:700}
+.result-count{margin-left:4px;color:#1769e0}
+.grid-wrap{overflow-x:auto;border:1px solid #e1e3e7;background:#fff}
+table{width:100%;min-width:1200px;border-collapse:collapse;table-layout:fixed}
+thead th{height:38px;padding:0 10px;background:#dfe7f5;color:#30343b;font-size:13px;font-weight:700;text-align:center;border-bottom:1px solid #d7dce4}
+tbody td{height:42px;padding:0 12px;border-bottom:1px solid #eceef1;color:#444;font-size:13px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+tbody tr:hover{background:#f3f3f3}
+tbody tr:last-child td{border-bottom:0}
+.amount-cell{text-align:right;padding-right:28px;font-weight:600;color:#333}
+.no-data{height:100px!important;color:#999!important;text-align:center!important}
+@media (max-width:800px){
+.page{padding:20px}
+.search-item.customer{width:100%}
+.search-label{flex-basis:64px;text-align:left}
+table{min-width:1200px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+    <div class="page-title">
+        <h2>계약 리스트</h2>
+        <p>거래처별 계약 내역을 조회할 수 있습니다.</p>
+    </div>
+
+    <div class="search-panel">
+        <div class="search-row">
+            <div class="search-item customer">
+                <div class="search-label">거래처</div>
+                <div class="customer-search-wrap">
+                    <input type="text" id="customerFilter" placeholder="거래처 검색">
+                    <button type="button" class="search-button" id="customerSearchBtn" title="검색">
+                        <img src="search.png" alt="">
+                        <span>검색</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="result-header">
+        계약 목록
+        <span class="result-count" id="resultCount">(0)</span>
+    </div>
+
+    <div class="grid-wrap">
+        <table>
+            <colgroup>
+                <col style="width:20%">
+                <col style="width:13%">
+                <col style="width:15%">
+                <col style="width:10.4%">
+                <col style="width:10.4%">
+                <col style="width:10.4%">
+                <col style="width:10.4%">
+                <col style="width:10.4%">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>거래처</th>
+                    <th>계약 일</th>
+                    <th>계약 금액</th>
+                    <th>예비 컬럼1</th>
+                    <th>예비 컬럼2</th>
+                    <th>예비 컬럼3</th>
+                    <th>예비 컬럼4</th>
+                    <th>예비 컬럼5</th>
+                </tr>
+            </thead>
+            <tbody id="contractTableBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+const contractData = [
+    {
+        id:1,
+        customer:"트루인포",
+        contractDate:"2026-09-01",
+        contractAmount:125000000,
+        reserve1:"",
+        reserve2:"",
+        reserve3:"",
+        reserve4:"",
+        reserve5:""
+    },
+    {
+        id:2,
+        customer:"서울메디텍",
+        contractDate:"2026-08-18",
+        contractAmount:87000000,
+        reserve1:"",
+        reserve2:"",
+        reserve3:"",
+        reserve4:"",
+        reserve5:""
+    },
+    {
+        id:3,
+        customer:"세림메디칼",
+        contractDate:"2026-07-25",
+        contractAmount:153500000,
+        reserve1:"",
+        reserve2:"",
+        reserve3:"",
+        reserve4:"",
+        reserve5:""
+    },
+    {
+        id:4,
+        customer:"한빛병원",
+        contractDate:"2026-06-10",
+        contractAmount:42000000,
+        reserve1:"",
+        reserve2:"",
+        reserve3:"",
+        reserve4:"",
+        reserve5:""
+    },
+    {
+        id:5,
+        customer:"미래헬스케어",
+        contractDate:"2026-05-22",
+        contractAmount:98000000,
+        reserve1:"",
+        reserve2:"",
+        reserve3:"",
+        reserve4:"",
+        reserve5:""
+    },
+    {
+        id:6,
+        customer:"트루인포",
+        contractDate:"2026-04-15",
+        contractAmount:76000000,
+        reserve1:"",
+        reserve2:"",
+        reserve3:"",
+        reserve4:"",
+        reserve5:""
+    }
+];
+
+const tableBody = document.getElementById("contractTableBody");
+const resultCount = document.getElementById("resultCount");
+const customerFilter = document.getElementById("customerFilter");
+
+function formatAmount(value){
+    return Number(value).toLocaleString("ko-KR") + " 원";
+}
+
+function renderTable(){
+    const keyword = customerFilter.value.trim().toLowerCase();
+
+    const filtered = contractData.filter(item =>
+        keyword === "" || item.customer.toLowerCase().includes(keyword)
+    );
+
+    resultCount.textContent = `(${filtered.length})`;
+    tableBody.innerHTML = "";
+
+    if(filtered.length === 0){
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="8" class="no-data">조회된 계약 내역이 없습니다.</td>
+            </tr>
+        `;
+        return;
+    }
+
+    filtered.forEach(item => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${item.customer}</td>
+            <td>${item.contractDate}</td>
+            <td class="amount-cell">${formatAmount(item.contractAmount)}</td>
+            <td>${item.reserve1 || ""}</td>
+            <td>${item.reserve2 || ""}</td>
+            <td>${item.reserve3 || ""}</td>
+            <td>${item.reserve4 || ""}</td>
+            <td>${item.reserve5 || ""}</td>
+        `;
+        tableBody.appendChild(tr);
+    });
+}
+
+document.getElementById("customerSearchBtn").addEventListener("click", renderTable);
+
+customerFilter.addEventListener("keydown", function(e){
+    if(e.key === "Enter") renderTable();
+});
+
+renderTable();
+</script>
+</body>
+</html>

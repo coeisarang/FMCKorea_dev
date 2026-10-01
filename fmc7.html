@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>거래처, 신규 선택</title>
+
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+    font-family:"Malgun Gothic","맑은 고딕",Arial,sans-serif;
+    font-size:13px;
+    color:#333;
+    background:#f5f6f9;
+}
+button,input,select{font-family:inherit}
+
+:root{
+    --primary:#0b48b9;
+    --primary-hover:#083b98;
+    --border:#e2e5e9;
+    --muted:#888;
+}
+
+/* =========================================================
+   Layout
+========================================================= */
+.page{
+    width:100%;
+    min-height:100vh;
+    padding:30px 36px 40px;
+}
+
+.page-title{
+    margin-bottom:24px;
+}
+
+.page-title h2{
+    margin:0 0 8px;
+    font-size:20px;
+    font-weight:700;
+    color:#222;
+}
+
+.page-title p{
+    margin:0;
+    font-size:12px;
+    color:#888;
+}
+
+/* =========================================================
+   검색 영역
+========================================================= */
+.search-panel{
+    margin-bottom:26px;
+    padding:18px 22px;
+    border:1px solid #e6e8ec;
+    background:#fff;
+}
+
+.search-row{
+    display:flex;
+    align-items:center;
+    gap:24px;
+    flex-wrap:wrap;
+}
+
+.search-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.search-label{
+    min-width:54px;
+    font-size:12px;
+    font-weight:700;
+    color:#333;
+    text-align:right;
+    white-space:nowrap;
+}
+
+select,
+input[type="text"],
+input[type="number"]{
+    height:34px;
+    padding:0 10px;
+    border:1px solid #d5d9df;
+    border-radius:3px;
+    background:#fff;
+    color:#444;
+    font-size:12px;
+    outline:none;
+}
+
+select:focus,
+input:focus{
+    border-color:#367bd8;
+}
+
+.search-item.customer{
+    width:520px;
+}
+
+.customer-search-wrap{
+    flex:1;
+    display:flex;
+    min-width:0;
+}
+
+.customer-search-wrap input{
+    width:100%;
+}
+
+.search-button{
+    flex:0 0 78px;
+    height:34px;
+    margin-left:10px;
+    padding:0 12px;
+    border:0;
+    border-radius:3px;
+    background:#64676c;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    cursor:pointer;
+    font-size:12px;
+    font-weight:600;
+}
+
+.search-button img{
+    width:15px;
+    height:15px;
+    object-fit:contain;
+}
+
+.search-button:hover{
+    background:#484b50;
+}
+
+/* =========================================================
+   결과 헤더
+========================================================= */
+.result-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:12px;
+}
+
+.result-title{
+    font-size:12px;
+    font-weight:700;
+}
+
+.result-count{
+    margin-left:4px;
+    color:#1769e0;
+}
+
+.new-start-btn{
+    min-width:112px;
+    height:34px;
+    padding:0 18px;
+    border:1px solid #043d93;
+    border-radius:3px;
+    background:#043d93;
+    color:#fff;
+    font-size:12px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.new-start-btn:hover{
+    background:#063c95;
+}
+
+/* =========================================================
+   카드 3열
+========================================================= */
+.card-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:16px;
+}
+
+.customer-card{
+    min-height:160px;
+    padding:18px 18px 16px;
+    border:1px solid #e1e4e8;
+    border-radius:4px;
+    background:#fff;
+    box-shadow:0 2px 5px rgba(0,0,0,.04);
+    display:flex;
+    flex-direction:column;
+    transition:border-color .15s ease,box-shadow .15s ease,transform .15s ease;
+}
+
+.customer-card:hover{
+    border-color:#cbd4e2;
+    box-shadow:0 4px 12px rgba(33,53,85,.08);
+    transform:translateY(-1px);
+}
+
+.card-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    margin-bottom:10px;
+}
+
+.customer-name{
+    margin:0;
+    font-size:15px;
+    font-weight:700;
+    color:#222;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.card-divider{
+    height:1px;
+    margin:0 0 14px;
+    background:#eceef1;
+}
+
+.card-action-top{
+    flex:0 0 auto;
+    min-width:78px;
+    height:30px;
+    padding:0 14px;
+    border:1px solid #1769e0;
+    border-radius:100px;
+    background:#fff;
+    color:#1769e0;
+    font-size:11px;
+    font-weight:700;
+    cursor:pointer;
+    transition:background .15s ease,border-color .15s ease;
+}
+
+.card-action-top:hover{
+    border: 2px solid #1769e0;
+    background: #e9f1ff;
+    color: #0759c7;
+    font-weight: 700;
+
+}
+
+.card-info{
+    display:grid;
+    grid-template-columns:64px 1fr;
+    row-gap:8px;
+    margin-bottom:18px;
+    font-size:12px;
+}
+
+.info-label{
+    color:#92979e;
+}
+
+.info-value{
+    color:#454a51;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+
+
+.no-data{
+    grid-column:1/-1;
+    height:130px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid #e1e3e7;
+    background:#fff;
+    color:#999;
+}
+
+/* =========================================================
+   Popup
+========================================================= */
+.modal-overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(0,0,0,.46);
+}
+
+.modal-overlay.show{
+    display:flex;
+}
+
+.modal{
+    width:560px;
+    max-width:100%;
+    background:#fff;
+    border:1px solid #9fa3aa;
+    box-shadow:0 8px 25px rgba(0,0,0,.18);
+    animation:modalOpen .14s ease-out;
+}
+
+@keyframes modalOpen{
+    from{opacity:0;transform:translateY(-8px)}
+    to{opacity:1;transform:translateY(0)}
+}
+
+.modal-header{
+    height:48px;
+    padding:0 20px;
+    border-bottom:1px solid #e5e5e5;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.modal-title{
+    font-size:14px;
+    font-weight:700;
+    color:#222;
+}
+
+.modal-close{
+    width:30px;
+    height:30px;
+    padding:0;
+    border:0;
+    background:transparent;
+    color:#555;
+    font-size:22px;
+    cursor:pointer;
+}
+
+.modal-body{
+    padding:24px 28px 28px;
+}
+
+.modal-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px 18px;
+}
+
+.modal-field{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    min-width:0;
+}
+
+.modal-label{
+    font-size:12px;
+    font-weight:700;
+    color:#333;
+}
+
+.modal-field input{
+    width:100%;
+}
+
+.modal-field input[readonly]{
+    background:#f5f5f5;
+    color:#777;
+}
+
+.modal-footer{
+    display:flex;
+    height:48px;
+}
+
+.modal-action{
+    flex:1;
+    border:0;
+    color:#fff;
+    font-size:13px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.close-btn{
+    background:#666;
+}
+.close-btn:hover{
+    background:#555;
+}
+
+.register-btn{
+    background:#043d93;
+}
+.register-btn:hover{
+    background:#063c95;
+}
+
+@media(max-width:980px){
+    .card-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+}
+
+@media(max-width:700px){
+    .page{
+        padding:20px;
+    }
+
+    .search-item.customer{
+        min-width:100%;
+    }
+
+    .card-grid{
+        grid-template-columns:1fr;
+    }
+
+    .modal-grid{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <div class="page-title">
+        <h2>거래처, 신규 선택</h2>
+        <p>거래처를 선택하여 작성 중인 시뮬레이션을 이어서 진행하거나 새로 시작할 수 있습니다.</p>
+    </div>
+
+    <div class="search-panel">
+        <div class="search-row">
+
+            <div class="search-item customer">
+                <div class="search-label">거래처</div>
+
+                <div class="customer-search-wrap">
+                    <input
+                        type="text"
+                        id="customerFilter"
+                        placeholder="거래처 검색"
+                    >
+
+                    <button
+                        type="button"
+                        class="search-button"
+                        id="customerSearchBtn"
+                    >
+                        <img src="search.png" alt="">
+                        <span>검색</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="result-header">
+
+        <div class="result-title">
+            검색 결과
+            <span class="result-count" id="resultCount">(0)</span>
+        </div>
+
+        <!-- 요청대로 우선 버튼만 생성 -->
+        <button
+            type="button"
+            class="new-start-btn"
+            id="globalNewStartBtn">
+            신규거래처 작성
+        </button>
+
+    </div>
+
+    <div class="card-grid" id="customerCardGrid"></div>
+
+</div>
+
+<!-- =========================================================
+     카드 작성중 / 새로시작 Popup
+========================================================= -->
+<div class="modal-overlay" id="modalOverlay">
+
+    <div class="modal">
+
+        <div class="modal-header">
+            <div class="modal-title" id="modalTitle">거래처 정보</div>
+
+            <button
+                type="button"
+                class="modal-close"
+                id="modalClose">
+                ×
+            </button>
+        </div>
+
+        <div class="modal-body">
+
+            <div class="modal-grid">
+
+                <div class="modal-field">
+                    <label class="modal-label">고객명</label>
+                    <input
+                        type="text"
+                        id="modalCustomerName"
+                        readonly
+                    >
+                </div>
+
+                <div class="modal-field">
+                    <label class="modal-label">SAP No</label>
+                    <input
+                        type="text"
+                        id="modalSapNo"
+                        readonly
+                    >
+                </div>
+
+                <div class="modal-field">
+                    <label class="modal-label">Contract DSO(일)</label>
+                    <input
+                        type="text"
+                        id="modalContractDso"
+                        min="0"
+                    >
+                </div>
+
+                <div class="modal-field">
+                    <label class="modal-label">Actual DSO(일)</label>
+                    <input
+                        type="text"
+                        id="modalActualDso"
+                        min="0"
+                    >
+                </div>
+
+                <div class="modal-field">
+                    <label class="modal-label">FxRate</label>
+                    <input
+                        type="text"
+                        id="modalFxRate"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                    >
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <button
+                type="button"
+                class="modal-action close-btn"
+                id="closeBtn">
+                닫기
+            </button>
+
+            <button
+                type="button"
+                class="modal-action register-btn"
+                id="registerBtn">
+                등록
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+const customerData = [
+    {
+        id:1,
+        customer:"삼성서울병원",
+        type:"종합병원",
+        sapNo:"1234569788",
+        phone:"02-3410-2114",
+        modified:"2026-09-17 10:32",
+        progress:true,
+        contractDso:45,
+        actualDso:39,
+        fxRate:1380
+    },
+    {
+        id:2,
+        customer:"서울아산병원",
+        type:"종합병원",
+        sapNo:"920209324",
+        phone:"02-3010-3114",
+        modified:"2026-09-16 16:08",
+        progress:false,
+        contractDso:"",
+        actualDso:"",
+        fxRate:""
+    },
+    {
+        id:3,
+        customer:"세브란스병원",
+        type:"종합병원",
+        sapNo:"1234569844",
+        phone:"02-2228-5800",
+        modified:"2026-09-16 14:21",
+        progress:true,
+        contractDso:60,
+        actualDso:52,
+        fxRate:1381
+    },
+    {
+        id:4,
+        customer:"서울메디텍",
+        type:"기타",
+        sapNo:"1234569871",
+        phone:"031-555-1144",
+        modified:"2026-09-15 17:12",
+        progress:false,
+        contractDso:"",
+        actualDso:"",
+        fxRate:""
+    },
+    {
+        id:5,
+        customer:"한빛병원",
+        type:"병원",
+        sapNo:"1234569910",
+        phone:"031-555-6666",
+        modified:"2026-09-15 13:25",
+        progress:true,
+        contractDso:30,
+        actualDso:28,
+        fxRate:1379
+    },
+    {
+        id:6,
+        customer:"미래헬스케어",
+        type:"기타",
+        sapNo:"1234569955",
+        phone:"02-555-8800",
+        modified:"2026-09-14 11:03",
+        progress:false,
+        contractDso:"",
+        actualDso:"",
+        fxRate:""
+    },
+    {
+        id:7,
+        customer:"세림메디칼",
+        type:"기타",
+        sapNo:"1234570011",
+        phone:"031-777-1200",
+        modified:"2026-09-13 15:48",
+        progress:false,
+        contractDso:"",
+        actualDso:"",
+        fxRate:""
+    },
+    {
+        id:8,
+        customer:"메디파트너",
+        type:"기타",
+        sapNo:"1234570057",
+        phone:"02-700-2727",
+        modified:"2026-09-12 09:17",
+        progress:true,
+        contractDso:40,
+        actualDso:35,
+        fxRate:1378
+    },
+    {
+        id:9,
+        customer:"강남연세의원",
+        type:"의원",
+        sapNo:"1234570102",
+        phone:"02-555-3030",
+        modified:"2026-09-11 18:31",
+        progress:false,
+        contractDso:"",
+        actualDso:"",
+        fxRate:""
+    }
+];
+
+let selectedCustomerId = null;
+let selectedAction = "";
+
+const customerCardGrid = document.getElementById("customerCardGrid");
+const resultCount = document.getElementById("resultCount");
+const customerFilter = document.getElementById("customerFilter");
+const modalOverlay = document.getElementById("modalOverlay");
+const modalTitle = document.getElementById("modalTitle");
+const modalCustomerName = document.getElementById("modalCustomerName");
+const modalSapNo = document.getElementById("modalSapNo");
+const modalContractDso = document.getElementById("modalContractDso");
+const modalActualDso = document.getElementById("modalActualDso");
+const modalFxRate = document.getElementById("modalFxRate");
+
+/* FxRate는 소수점 없이 정수만 입력 */
+modalFxRate.addEventListener("input", function(){
+    this.value = this.value.replace(/[^0-9]/g, "");
+});
+
+function renderCards(){
+
+    const keyword =
+        customerFilter.value
+            .trim()
+            .toLowerCase();
+
+const filtered =
+        customerData.filter(item => {
+
+            const matchCustomer =
+                keyword === ""
+                || item.customer
+                    .toLowerCase()
+                    .includes(keyword);
+
+            return matchCustomer;
+        });
+
+    resultCount.textContent = `(${filtered.length})`;
+    customerCardGrid.innerHTML = "";
+
+    if(filtered.length === 0){
+
+        customerCardGrid.innerHTML = `
+            <div class="no-data">
+                조회된 거래처가 없습니다.
+            </div>
+        `;
+
+        return;
+    }
+
+    filtered.forEach(item => {
+
+        const card = document.createElement("div");
+
+        card.className = "customer-card";
+
+        card.innerHTML = `
+            <div class="card-top">
+                <h3 class="customer-name" title="${item.customer}">
+                    ${item.customer}
+                </h3>
+
+                <button
+                    type="button"
+                    class="card-action-top"
+                    data-id="${item.id}"
+                    data-action="${item.progress ? "작성중" : "새로시작"}">
+                    ${item.progress ? "작성중" : "새로시작"}
+                </button>
+            </div>
+
+            <div class="card-divider"></div>
+
+            <div class="card-info">
+
+                <div class="info-label">연락처</div>
+                <div class="info-value">${item.phone}</div>
+
+                <div class="info-label">최근 수정</div>
+                <div class="info-value">${item.modified}</div>
+            </div>
+        `;
+
+        customerCardGrid.appendChild(card);
+    });
+
+    bindCardButtons();
+}
+
+function bindCardButtons(){
+
+    document
+        .querySelectorAll(".card-action-top")
+        .forEach(button => {
+
+            button.addEventListener("click", function(){
+
+                const id = Number(this.dataset.id);
+                const action = this.dataset.action;
+
+                openModal(id, action);
+            });
+        });
+}
+
+function openModal(id, action){
+
+    const record =
+        customerData.find(item => item.id === id);
+
+    if(!record) return;
+
+    selectedCustomerId = id;
+    selectedAction = action;
+
+    modalTitle.textContent =
+        action === "작성중"
+            ? "작성 중인 거래처 정보"
+            : "신규 거래처 시작";
+
+    modalCustomerName.value = record.customer;
+    modalSapNo.value = record.sapNo;
+
+    if(action === "작성중"){
+        modalContractDso.value = record.contractDso;
+        modalActualDso.value = record.actualDso;
+        const fxRateNumber =
+            Number(String(record.fxRate).replace(/,/g, ""));
+
+        modalFxRate.value =
+            Number.isFinite(fxRateNumber)
+                ? Math.trunc(fxRateNumber)
+                : "";
+    }else{
+        modalContractDso.value = "";
+        modalActualDso.value = "";
+        modalFxRate.value = "";
+    }
+
+    modalOverlay.classList.add("show");
+}
+
+function closeModal(){
+
+    modalOverlay.classList.remove("show");
+
+    selectedCustomerId = null;
+    selectedAction = "";
+}
+
+document
+    .getElementById("modalClose")
+    .addEventListener("click", closeModal);
+
+document
+    .getElementById("closeBtn")
+    .addEventListener("click", closeModal);
+
+modalOverlay.addEventListener("click", function(e){
+
+    if(e.target === modalOverlay){
+        closeModal();
+    }
+});
+
+document.addEventListener("keydown", function(e){
+
+    if(
+        e.key === "Escape"
+        && modalOverlay.classList.contains("show")
+    ){
+        closeModal();
+    }
+});
+
+document
+    .getElementById("registerBtn")
+    .addEventListener("click", function(){
+
+        const record =
+            customerData.find(
+                item => item.id === selectedCustomerId
+            );
+
+        if(!record) return;
+
+        if(modalContractDso.value === ""){
+            alert("Contract DSO(일)를 입력해주세요.");
+            modalContractDso.focus();
+            return;
+        }
+
+        if(modalActualDso.value === ""){
+            alert("Actual DSO(일)를 입력해주세요.");
+            modalActualDso.focus();
+            return;
+        }
+
+        if(modalFxRate.value.trim() === ""){
+            alert("FxRate를 입력해주세요.");
+            modalFxRate.focus();
+            return;
+        }
+
+        record.contractDso = modalContractDso.value;
+        record.actualDso = modalActualDso.value;
+        record.fxRate =
+            parseInt(modalFxRate.value, 10);
+
+        /*
+          실제 등록 API 호출 위치.
+          새로시작인 경우 등록 후 작성중 상태로 바꾸는 데모 처리.
+        */
+        record.progress = true;
+        record.modified = "2026-09-17 15:20";
+
+        closeModal();
+        renderCards();
+    });
+
+document
+    .getElementById("customerSearchBtn")
+    .addEventListener("click", renderCards);
+
+customerFilter.addEventListener("keydown", function(e){
+
+    if(e.key === "Enter"){
+        renderCards();
+    }
+});
+
+/*
+  요청대로 현재는 버튼만 생성.
+  향후 별도 신규 거래처 검색/등록 화면 연결 위치.
+*/
+document
+    .getElementById("globalNewStartBtn")
+    .addEventListener("click", function(){
+        console.log("신규 새로 시작 버튼 클릭");
+    });
+
+renderCards();
+</script>
+
+</body>
+</html>

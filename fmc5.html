@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>거래처 요청</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+    font-size: 13px;
+    color: #333;
+    background: #f5f6f9;
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+.page {
+    width: 100%;
+    min-height: 100vh;
+    padding: 30px 36px;
+}
+
+.page-title {
+    margin-bottom: 26px;
+}
+
+.page-title h2 {
+    margin: 0 0 8px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #222;
+}
+
+.page-title p {
+    margin: 0;
+    font-size: 12px;
+    color: #888;
+}
+
+/* =========================================================
+   검색 영역
+========================================================= */
+
+.search-panel {
+    margin-bottom: 28px;
+    padding: 20px 24px;
+    background: #fff;
+    border: 1px solid #e6e8ec;
+}
+
+.search-row {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+}
+
+.search-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.search-item.status {
+    width: 500px;
+}
+
+.search-item.customer {
+    width: 480px;
+}
+
+.search-label {
+    flex: 0 0 64px;
+    margin: 0;
+    color: #333;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+    text-align: right;
+}
+
+.status-buttons,
+.customer-search-wrap {
+    flex: 1;
+    min-width: 0;
+}
+
+.status-buttons {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+}
+
+.status-btn {
+    flex: 1;
+    min-width: 64px;
+    height: 34px;
+    padding: 0 14px;
+    border: 1px solid #cbd2dc;
+    border-radius: 4px;
+    background: #fff;
+    color: #444;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .15s ease;
+}
+
+.status-btn:hover {
+    border-color: #1769e0;
+    color: #1769e0;
+}
+
+.status-btn.active {
+    border: 2px solid #1769e0;
+    background: #f6f9ff;
+    color: #0759c7;
+    font-weight: 700;
+}
+
+.status-btn.expired:hover {
+    border-color: #8f949b;
+    background: #e9eaec;
+    color: #444;
+}
+
+.status-btn.expired.active {
+    border: 2px solid #7e838a;
+    background: #e4e5e7;
+    color: #444;
+}
+
+input[type="text"],
+input[type="date"] {
+    width: 100%;
+    height: 34px;
+    padding: 0 10px;
+    border: 1px solid #d5d9df;
+    border-radius: 3px;
+    background: #fff;
+    color: #444;
+    font-size: 12px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #367bd8;
+}
+
+input[readonly],
+input:disabled {
+    background: #f5f5f5;
+    color: #777;
+}
+
+.customer-search-wrap {
+    display: flex;
+}
+
+.search-button {
+    flex: 0 0 78px;
+    height: 34px;
+    margin-left: 10px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 3px;
+    background: #64676c;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.search-button img {
+    display: block;
+    width: 15px;
+    height: 15px;
+    object-fit: contain;
+}
+
+.search-button:hover {
+    background: #484b50;
+}
+
+/* =========================================================
+   리스트 상단
+========================================================= */
+
+.result-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.result-title {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.result-count {
+    margin-left: 4px;
+    color: #1769e0;
+}
+
+.request-open-btn {
+    min-width: 104px;
+    height: 34px;
+    padding: 0 18px;
+    border: 1px solid #043d93;
+    border-radius: 3px;
+    background: #043d93;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.request-open-btn:hover {
+    background: #063c95;
+}
+
+/* =========================================================
+   테이블
+========================================================= */
+
+.grid-wrap {
+    overflow-x: auto;
+    border: 1px solid #e1e3e7;
+    background: #fff;
+}
+
+table {
+    width: 100%;
+    min-width: 1020px;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+thead th {
+    height: 38px;
+    padding: 0 8px;
+    background: #dfe7f5;
+    color: #30343b;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    border-bottom: 1px solid #d7dce4;
+}
+
+tbody td {
+    height: 42px;
+    padding: 0 10px;
+    border-bottom: 1px solid #eceef1;
+    text-align: center;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+tbody tr:hover {
+    background: #f3f3f3;
+}
+
+tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.no-data {
+    height: 100px;
+    color: #999;
+    text-align: center;
+}
+
+/* =========================================================
+   상태 Badge
+========================================================= */
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 52px;
+    height: 24px;
+    padding: 0 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.status-request {
+    color: #1d63c6;
+    background: #e9f1ff;
+}
+
+.status-accept {
+    color: #237341;
+    background: #e5f4ea;
+}
+
+.status-expired {
+    color: #666;
+    background: #e9eaec;
+}
+
+.status-reject {
+    color: #b23a3a;
+    background: #fdeaea;
+}
+
+/* =========================================================
+   O / X
+========================================================= */
+
+.strategic-o {
+    /* color: #1769e0; */
+    color: #888;
+    font-weight: 700;
+}
+
+.strategic-x {
+    color: #888;
+    font-weight: 700;
+}
+
+/* =========================================================
+   Toggle - 이미지와 비슷한 스위치
+========================================================= */
+
+.toggle-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.record-toggle {
+    position: relative;
+    width: 28px;
+    height: 15px;
+    padding: 0;
+    border: 1px solid #c9cdd2;
+    border-radius: 10px;
+    background: #f2f3f4;
+    cursor: pointer;
+    transition: all .15s ease;
+}
+
+.record-toggle::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #c8cbd0;
+    transition: all .15s ease;
+}
+
+.record-toggle.on {
+    border-color: #1765df;
+    background: #f7faff;
+}
+
+.record-toggle.on::after {
+    left: 15px;
+    background: #0759c7;
+}
+
+.record-toggle:hover {
+    border-color: #7e9fd7;
+}
+
+/* =========================================================
+   Modal
+========================================================= */
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, .46);
+}
+
+.modal-overlay.show {
+    display: flex;
+}
+
+.modal {
+    width: 520px;
+    background: #fff;
+    border: 1px solid #9fa3aa;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, .18);
+    animation: modalOpen .14s ease-out;
+}
+
+@keyframes modalOpen {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-header {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.modal-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #222;
+}
+
+.modal-close {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #555;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.modal-close:hover {
+    color: #000;
+}
+
+.modal-body {
+    padding: 24px 28px 28px;
+}
+
+
+.modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 18px;
+}
+
+@media (max-width: 640px) {
+    .modal-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.modal-field {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.modal-field.full {
+    grid-column: 1 / -1;
+}
+
+.modal-label {
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.lookup-wrap {
+    position: relative;
+    display: flex;
+}
+
+.lookup-wrap input {
+    border-radius: 3px 0 0 3px;
+}
+
+.lookup-btn {
+    flex: 0 0 38px;
+    height: 34px;
+    padding: 0;
+    border: 1px solid #d5d9df;
+    border-left: 0;
+    border-radius: 0 3px 3px 0;
+    background: #f7f8fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.lookup-btn img {
+    width: 15px;
+    height: 15px;
+    object-fit: contain;
+    filter: brightness(.65);
+}
+
+.lookup-btn:hover {
+    background: #eceef1;
+}
+
+.lookup-result {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 62px;
+    z-index: 20;
+    max-height: 175px;
+    overflow-y: auto;
+    border: 1px solid #cfd4da;
+    background: #fff;
+    box-shadow: 0 5px 14px rgba(0, 0, 0, .12);
+}
+
+.lookup-result.show {
+    display: block;
+}
+
+.lookup-item {
+    padding: 9px 11px;
+    border-bottom: 1px solid #eef0f3;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.lookup-item:last-child {
+    border-bottom: 0;
+}
+
+.lookup-item:hover {
+    background: #edf4ff;
+}
+
+.lookup-empty {
+    padding: 13px 11px;
+    color: #999;
+    font-size: 12px;
+    text-align: center;
+}
+
+.modal-request-date {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid #ececec;
+}
+
+.request-date-value {
+    color: #444;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.modal-footer {
+    display: flex;
+    height: 48px;
+}
+
+.modal-action {
+    flex: 1;
+    border: 0;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.cancel-btn {
+    background: #666;
+    color: #fff;
+}
+
+.cancel-btn:hover {
+    background: #555;
+}
+
+.submit-btn {
+    background: #043d93;
+    color: #fff;
+}
+
+.submit-btn:hover {
+    background: #063c95;
+}
+
+@media (max-width: 900px) {
+    .page {
+        padding: 20px;
+    }
+
+    .search-row {
+        gap: 16px;
+    }
+
+    .search-item.status,
+    .search-item.customer {
+        width: 100%;
+    }
+
+    .search-label {
+        flex-basis: 64px;
+        text-align: left;
+    }
+
+    .modal {
+        width: calc(100% - 30px);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <div class="page-title">
+        <h2>거래처 리스트</h2>
+        <p>거래처 리스트 내역을 조회하고 새로운 거래처 요청을 등록할 수 있습니다.</p>
+    </div>
+
+    <!-- 검색 조건 -->
+    <div class="search-panel">
+        <div class="search-row">
+
+            <div class="search-item status">
+                <div class="search-label">요청 상태</div>
+
+                <div class="status-buttons">
+                    <button type="button" class="status-btn active" data-status="전체">전체</button>
+                    <button type="button" class="status-btn" data-status="요청">요청</button>
+                    <button type="button" class="status-btn" data-status="수락">수락</button>
+                    <button type="button" class="status-btn expired" data-status="만료">만료</button>
+                    <button type="button" class="status-btn" data-status="거절">거절</button>
+                </div>
+            </div>
+
+            <div class="search-item customer">
+                <div class="search-label">거래처</div>
+
+                <div class="customer-search-wrap">
+                    <input
+                        type="text"
+                        id="customerFilter"
+                        placeholder="거래처 검색"
+                    >
+
+                    <button
+                        type="button"
+                        class="search-button"
+                        id="customerSearchBtn"
+                        title="검색"
+                    >
+                        <img src="search.png" alt="">
+                        <span>검색</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 리스트 헤더 -->
+    <div class="result-header">
+        <div class="result-title">
+            거래처 목록
+            <span class="result-count" id="resultCount">(0)</span>
+        </div>
+
+        <button
+            type="button"
+            class="request-open-btn"
+            id="openRequestBtn">
+            거래처 요청
+        </button>
+    </div>
+
+    <!-- 리스트 -->
+    <div class="grid-wrap">
+        <table>
+            <colgroup>
+                <col style="width: 11%">
+                <col style="width: 20%">
+                <col style="width: 11%">
+                <col style="width: 15%">
+                <col style="width: 15%">
+                <col style="width: 18%">
+                <col style="width: 10%">
+            </colgroup>
+
+            <thead>
+            <tr>
+                <th>요청상태</th>
+                <th>거래처</th>
+                <th>구분</th>
+                <th>시작일</th>
+                <th>종료일</th>
+                <th>전략적 고객(O/X)</th>
+                <th>...</th>
+            </tr>
+            </thead>
+
+            <tbody id="requestTableBody"></tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- =========================================================
+     요청 팝업
+========================================================= -->
+
+<div class="modal-overlay" id="requestModalOverlay">
+    <div class="modal">
+
+        <div class="modal-header">
+            <div class="modal-title">거래처 사용 요청</div>
+
+            <button
+                type="button"
+                class="modal-close"
+                id="requestModalClose">
+                ×
+            </button>
+        </div>
+
+        <div class="modal-body">
+
+            <div class="modal-grid">
+
+                <!-- 거래처 Lookup -->
+                <div class="modal-field">
+                    <label class="modal-label">거래처</label>
+
+                    <div class="lookup-wrap">
+                        <input
+                            type="text"
+                            id="requestCustomer"
+                            placeholder="거래처를 검색하세요."
+                            autocomplete="off"
+                        >
+
+                        <button
+                            type="button"
+                            class="lookup-btn"
+                            id="customerLookupBtn"
+                            title="거래처 검색">
+                            <img src="search.png" alt="검색">
+                        </button>
+                    </div>
+
+                    <div
+                        class="lookup-result"
+                        id="customerLookupResult">
+                    </div>
+                </div>
+
+                <!-- 요청자 -->
+                <div class="modal-field">
+                    <label class="modal-label">요청자</label>
+
+                    <input
+                        type="text"
+                        id="requestRequester"
+                        value="최사랑"
+                        readonly
+                    >
+                </div>
+
+                <!-- 시작일 -->
+                <div class="modal-field">
+                    <label class="modal-label">시작일</label>
+
+                    <input
+                        type="date"
+                        id="requestStartDate"
+                        value="2026-09-16"
+                        readonly
+                    >
+                </div>
+
+                <!-- 종료일 -->
+                <div class="modal-field">
+                    <label class="modal-label">종료일</label>
+
+                    <input
+                        type="date"
+                        id="requestEndDate"
+                        value="2026-12-31"
+                        readonly
+                    >
+                </div>
+
+            </div>
+
+            <!-- 기존 요청상태 위치 대신 요청일 -->
+            <div class="modal-request-date">
+                <span class="modal-label">요청일</span>
+                <span
+                    class="request-date-value"
+                    id="requestDateValue">
+                    2026-09-16
+                </span>
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <button
+                type="button"
+                class="modal-action cancel-btn"
+                id="cancelRequestBtn">
+                취소
+            </button>
+
+            <button
+                type="button"
+                class="modal-action submit-btn"
+                id="submitRequestBtn">
+                요청
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+/* =========================================================
+   임시 데이터
+========================================================= */
+
+const requestData = [
+    {
+        id: 1,
+        status: "수락",
+        customer: "트루인포",
+        type: "상급종합병원",
+        startDate: "2026-09-01",
+        endDate: "2026-12-31",
+        strategic: "O",
+        active: true,
+        requestDate: "2026-08-29"
+    },
+    {
+        id: 2,
+        status: "요청",
+        customer: "서울메디텍",
+        type: "종합병원",
+        startDate: "2026-09-16",
+        endDate: "2026-12-31",
+        strategic: "X",
+        active: false,
+        requestDate: "2026-09-16"
+    },
+    {
+        id: 3,
+        status: "만료",
+        customer: "세림메디칼",
+        type: "병원",
+        startDate: "2026-01-01",
+        endDate: "2026-08-31",
+        strategic: "O",
+        active: false,
+        requestDate: "2025-12-20"
+    },
+    {
+        id: 4,
+        status: "거절",
+        customer: "한빛병원",
+        type: "요양병원",
+        startDate: "2026-09-10",
+        endDate: "2026-10-31",
+        strategic: "X",
+        active: false,
+        requestDate: "2026-09-08"
+    },
+    {
+        id: 5,
+        status: "수락",
+        customer: "미래헬스케어",
+        type: "의원",
+        startDate: "2026-09-05",
+        endDate: "2027-03-31",
+        strategic: "X",
+        active: false,
+        requestDate: "2026-08-31"
+    },
+    {
+        id: 6,
+        status: "요청",
+        customer: "메디파트너",
+        type: "종합병원",
+        startDate: "2026-09-16",
+        endDate: "2026-11-30",
+        strategic: "O",
+        active: false,
+        requestDate: "2026-09-15"
+    }
+];
+
+const lookupCustomers = [
+    "트루인포",
+    "서울메디텍",
+    "세림메디칼",
+    "한빛병원",
+    "미래헬스케어",
+    "메디파트너",
+    "대한메디컬",
+    "한성헬스케어"
+];
+
+const customerTypes = [
+    "삼급종합병원",
+    "종합병원",
+    "병원",
+    "요양병원",
+    "의원"
+];
+
+/* =========================================================
+   State
+========================================================= */
+
+let selectedStatus = "전체";
+let selectedLookupCustomer = "";
+
+/* =========================================================
+   DOM
+========================================================= */
+
+const tableBody = document.getElementById("requestTableBody");
+const resultCount = document.getElementById("resultCount");
+const customerFilter = document.getElementById("customerFilter");
+
+const requestModalOverlay = document.getElementById("requestModalOverlay");
+const requestCustomer = document.getElementById("requestCustomer");
+const customerLookupResult = document.getElementById("customerLookupResult");
+
+/* =========================================================
+   Status
+========================================================= */
+
+function getStatusClass(status) {
+    switch (status) {
+        case "수락":
+            return "status-accept";
+
+        case "요청":
+            return "status-request";
+
+        case "만료":
+            return "status-expired";
+
+        case "거절":
+            return "status-reject";
+
+        default:
+            return "";
+    }
+}
+
+/* =========================================================
+   List render / sort
+   우선순위: 수락 > 요청 > 만료 > 거절
+========================================================= */
+
+function renderTable() {
+
+    const customerKeyword =
+        customerFilter.value
+            .trim()
+            .toLowerCase();
+
+    const filtered = requestData
+        .filter(item => {
+
+            const matchStatus =
+                selectedStatus === "전체"
+                || item.status === selectedStatus;
+
+            const matchCustomer =
+                customerKeyword === ""
+                || item.customer
+                    .toLowerCase()
+                    .includes(customerKeyword);
+
+            return matchStatus && matchCustomer;
+
+        })
+        .sort((a, b) => {
+
+            const statusPriority = {
+                "수락": 1,
+                "요청": 2,
+                "만료": 3,
+                "거절": 4
+            };
+
+            return (statusPriority[a.status] || 99)
+                 - (statusPriority[b.status] || 99);
+        });
+
+    resultCount.textContent = `(${filtered.length})`;
+
+    tableBody.innerHTML = "";
+
+    if (filtered.length === 0) {
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="7" class="no-data">
+                    조회된 데이터가 없습니다.
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    filtered.forEach(item => {
+
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+            <td>
+                <span class="status-badge ${getStatusClass(item.status)}">
+                    ${item.status}
+                </span>
+            </td>
+
+            <td>${item.customer}</td>
+            <td>${item.type}</td>
+            <td>${item.startDate}</td>
+            <td>${item.endDate}</td>
+
+            <td class="${item.strategic === "O" ? "strategic-o" : "strategic-x"}">
+                ${item.strategic}
+            </td>
+
+            <td>
+                <div class="toggle-wrap">
+                    <button
+                        type="button"
+                        class="record-toggle ${item.active ? "on" : ""}"
+                        data-id="${item.id}"
+                        title="${item.active ? "사용 중" : "사용 안 함"}">
+                    </button>
+                </div>
+            </td>
+        `;
+
+        tableBody.appendChild(tr);
+    });
+
+    bindToggleEvents();
+}
+
+/* =========================================================
+   Toggle
+   최대 1개만 ON
+========================================================= */
+
+function bindToggleEvents() {
+
+    document
+        .querySelectorAll(".record-toggle")
+        .forEach(toggle => {
+
+            toggle.addEventListener("click", function () {
+
+                const id = Number(this.dataset.id);
+                const target = requestData.find(item => item.id === id);
+
+                if (!target) return;
+
+                const willTurnOn = !target.active;
+
+                requestData.forEach(item => {
+                    item.active = false;
+                });
+
+                if (willTurnOn) {
+                    target.active = true;
+                }
+
+                renderTable();
+            });
+        });
+}
+
+/* =========================================================
+   Search filter
+========================================================= */
+
+document
+    .querySelectorAll(".status-btn")
+    .forEach(button => {
+
+        button.addEventListener("click", function () {
+
+            document
+                .querySelectorAll(".status-btn")
+                .forEach(btn => btn.classList.remove("active"));
+
+            this.classList.add("active");
+
+            selectedStatus = this.dataset.status;
+
+            renderTable();
+        });
+    });
+
+document
+    .getElementById("customerSearchBtn")
+    .addEventListener("click", renderTable);
+
+customerFilter.addEventListener("keydown", function (e) {
+
+    if (e.key === "Enter") {
+        renderTable();
+    }
+});
+
+/* =========================================================
+   Request modal
+========================================================= */
+
+function openRequestModal() {
+
+    selectedLookupCustomer = "";
+    requestCustomer.value = "";
+
+    customerLookupResult.classList.remove("show");
+
+    requestModalOverlay.classList.add("show");
+
+    setTimeout(() => {
+        requestCustomer.focus();
+    }, 0);
+}
+
+function closeRequestModal() {
+
+    requestModalOverlay.classList.remove("show");
+
+    customerLookupResult.classList.remove("show");
+}
+
+document
+    .getElementById("openRequestBtn")
+    .addEventListener("click", openRequestModal);
+
+document
+    .getElementById("requestModalClose")
+    .addEventListener("click", closeRequestModal);
+
+document
+    .getElementById("cancelRequestBtn")
+    .addEventListener("click", closeRequestModal);
+
+requestModalOverlay.addEventListener("click", function (e) {
+
+    if (e.target === requestModalOverlay) {
+        closeRequestModal();
+    }
+});
+
+document.addEventListener("keydown", function (e) {
+
+    if (
+        e.key === "Escape"
+        && requestModalOverlay.classList.contains("show")
+    ) {
+        closeRequestModal();
+    }
+});
+
+/* =========================================================
+   Customer lookup
+========================================================= */
+
+function renderLookup(keyword = "") {
+
+    const normalized = keyword.trim().toLowerCase();
+
+    const matches =
+        lookupCustomers.filter(name => {
+            return normalized === ""
+                || name.toLowerCase().includes(normalized);
+        });
+
+    customerLookupResult.innerHTML = "";
+
+    if (matches.length === 0) {
+
+        customerLookupResult.innerHTML = `
+            <div class="lookup-empty">
+                검색된 거래처가 없습니다.
+            </div>
+        `;
+
+    } else {
+
+        matches.forEach(name => {
+
+            const div = document.createElement("div");
+
+            div.className = "lookup-item";
+            div.textContent = name;
+
+            div.addEventListener("click", function () {
+
+                selectedLookupCustomer = name;
+                requestCustomer.value = name;
+
+                customerLookupResult.classList.remove("show");
+            });
+
+            customerLookupResult.appendChild(div);
+        });
+    }
+
+    customerLookupResult.classList.add("show");
+}
+
+document
+    .getElementById("customerLookupBtn")
+    .addEventListener("click", function () {
+
+        renderLookup(requestCustomer.value);
+    });
+
+requestCustomer.addEventListener("input", function () {
+
+    selectedLookupCustomer = "";
+
+    renderLookup(this.value);
+});
+
+requestCustomer.addEventListener("keydown", function (e) {
+
+    if (e.key === "Enter") {
+
+        e.preventDefault();
+
+        renderLookup(this.value);
+    }
+});
+
+document.addEventListener("click", function (e) {
+
+    if (
+        !e.target.closest(".lookup-wrap")
+        && !e.target.closest("#customerLookupResult")
+    ) {
+        customerLookupResult.classList.remove("show");
+    }
+});
+
+/* =========================================================
+   Submit request
+========================================================= */
+
+document
+    .getElementById("submitRequestBtn")
+    .addEventListener("click", function () {
+
+        const customerName =
+            selectedLookupCustomer
+            || requestCustomer.value.trim();
+
+        if (!customerName) {
+
+            alert("거래처를 선택해주세요.");
+
+            requestCustomer.focus();
+
+            return;
+        }
+
+        const nextId =
+            requestData.length
+                ? Math.max(...requestData.map(item => item.id)) + 1
+                : 1;
+
+        requestData.push({
+            id: nextId,
+            status: "요청",
+            customer: customerName,
+            type: customerTypes[(nextId - 1) % customerTypes.length],
+            startDate: document.getElementById("requestStartDate").value,
+            endDate: document.getElementById("requestEndDate").value,
+            strategic: "X",
+            active: false,
+            requestDate: document.getElementById("requestDateValue").textContent.trim()
+        });
+
+        closeRequestModal();
+
+        selectedStatus = "전체";
+
+        document
+            .querySelectorAll(".status-btn")
+            .forEach(btn => {
+                btn.classList.toggle(
+                    "active",
+                    btn.dataset.status === "전체"
+                );
+            });
+
+        customerFilter.value = "";
+
+        renderTable();
+    });
+
+/* =========================================================
+   Init
+========================================================= */
+
+renderTable();
+</script>
+
+</body>
+</html>

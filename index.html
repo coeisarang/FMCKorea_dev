@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:"Malgun Gothic","맑은 고딕",Arial,sans-serif;color:#2d3138}
+button,input{font-family:inherit}
+
+:root{
+    --primary:#0c42aa;
+    --primary-hover:#08368d;
+    --page-bg:#f1f2f5;
+    --muted:#8c929b;
+    --line:#d8dce4;
+    --danger:#e85b61;
+}
+
+/* =========================
+   전체 화면
+========================= */
+body{
+    min-height:100vh;
+    background:var(--page-bg);
+}
+
+.login-page{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+}
+
+/* 배경 장식 */
+.bg-circle{
+    position:absolute;
+    border-radius:50%;
+    pointer-events:none;
+}
+
+.bg-circle.small{
+    width:135px;
+    height:135px;
+    left:14%;
+    top:16%;
+    background:#e6e6e6;
+}
+
+.bg-circle.large{
+    width:560px;
+    height:560px;
+    right:-190px;
+    bottom:-185px;
+    background:#e4e4e4;
+}
+
+/* =========================
+   관리자 로그인 전환
+   기본: 회색
+   활성: 파란색 + "관리자 로그인" 표시
+========================= */
+.admin-switch{
+    position:absolute;
+    top:18px;
+    left:18px;
+    z-index:20;
+
+    display:flex;
+    align-items:center;
+
+    height:38px;
+    padding:0 11px;
+
+    border:0;
+    border-radius:7px;
+    color:#dddddd;
+
+    cursor:pointer;
+    transition:background .18s ease,color .18s ease,box-shadow .18s ease;
+    background-color: #f1f2f5;
+}
+
+.admin-switch.active{
+    color:#0b42ab;
+}
+
+.admin-icon{
+    width:18px;
+    height:18px;
+    flex:0 0 18px;
+}
+
+.admin-text{
+    margin-left: 7px;
+    max-width:0;
+    opacity:0;
+    overflow:hidden;
+    white-space:nowrap;
+    font-size:9px;
+    font-weight:700;
+    transition:max-width .22s ease,opacity .16s ease;
+}
+
+.admin-switch.active .admin-text{
+    max-width:105px;
+    opacity:1;
+}
+
+/* =========================
+   중앙 로그인 카드
+========================= */
+.content{
+    position:relative;
+    z-index:2;
+    flex:1;
+    min-height:610px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:72px 24px 52px;
+}
+
+.login-card{
+    width:760px;
+    max-width:100%;
+    min-height:430px;
+    display:grid;
+    grid-template-columns:285px 1fr;
+    overflow:hidden;
+
+    border-radius:8px;
+    background:#fff;
+    box-shadow:0 4px 14px rgba(30,40,60,.18);
+}
+
+/* 왼쪽 브랜드 영역 */
+.brand-panel{
+    background:#0b42ab;
+    color:#fff;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+}
+
+.brand-logo{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom: -7px;
+}
+
+.brand-logo img{
+    display:block;
+    width:205px;
+    max-width:100%;
+    height:auto;
+    filter:brightness(0) invert(1);
+    margin-top: -25px;
+}
+
+.brand-message{
+    color:#fff;
+    font-size:15px;
+    font-weight:700;
+    line-height:1.55;
+    letter-spacing:-0.5px;
+}
+
+.brand-desc{
+    margin:0;
+    color:#a9bde9;
+    font-size:11.5px;
+    font-weight:400;
+    line-height:1.55;
+    letter-spacing:-0.25px;
+}
+
+/* 오른쪽 로그인 영역 */
+.form-panel{
+    padding:49px 64px 42px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.login-title{
+    margin:0 0 27px;
+    font-size:24px;
+    font-weight:700;
+    text-align:center;
+    color:#333;
+}
+
+.login-title::after{
+    content:"";
+    display:block;
+    width:21px;
+    height:3px;
+    margin:7px auto 0;
+    border-radius:2px;
+    background:var(--primary);
+}
+
+.field{
+    margin-bottom:21px;
+}
+
+.field-label{
+    display:block;
+    margin-bottom:6px;
+    font-size:11.5px;
+    font-weight:700;
+    color:#4d5259;
+}
+
+.input-line{
+    position:relative;
+}
+
+.input-line input{
+    width:100%;
+    height:33px;
+    padding:0 34px 0 0;
+    border:0;
+    border-bottom:1px solid #bbc1c9;
+    border-radius:0;
+    outline:none;
+    background:transparent;
+    color:#333;
+    font-size:13px;
+    transition:border-color .15s ease;
+}
+
+.input-line input::placeholder{
+    color:#c4c8cd;
+}
+
+.input-line input:focus{
+    border-bottom:2px solid var(--primary);
+}
+
+.input-status{
+    position:absolute;
+    right:1px;
+    top:50%;
+    transform:translateY(-50%);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+    
+
+    width:19px;
+    height:19px;
+    border-radius:50%;
+    background:#c8cbd0;
+    color:#fff;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:11px;
+    font-weight:700;
+}
+
+.input-status.valid{
+    background:var(--primary);
+}
+
+.password-toggle{
+    position:absolute;
+    right:23px;
+    top:50%;
+    transform:translateY(-50%);
+    width:23px;
+    height:25px;
+    border:0;
+    background:transparent;
+    color:#9298a0;
+    cursor:pointer;
+    display:none;
+}
+
+.error-message{
+    min-height:17px;
+    margin-top:7px;
+    color:var(--danger);
+    font-size:10.5px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.error-icon{
+    flex:0 0 18px;
+    width:18px;
+    height:18px;
+    border:1.5px solid var(--danger);
+    border-radius:50%;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--danger);
+    font-size:12px;
+    font-weight:700;
+}
+
+.login-options{
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    margin:2px 0 27px;
+}
+
+.remember-label{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    color:#555b63;
+    font-size:11.5px;
+    cursor:pointer;
+}
+
+.remember-label input{
+    position:absolute;
+    opacity:0;
+    pointer-events:none;
+}
+
+.fake-check{
+    width:17px;
+    height:17px;
+    border:1px solid #b7bdc5;
+    border-radius:3px;
+    background:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.remember-label input:checked + .fake-check{
+    border-color:var(--primary);
+    background:var(--primary);
+}
+
+.remember-label input:checked + .fake-check::after{
+    content:"✓";
+    color:#fff;
+    font-size:11px;
+    font-weight:700;
+}
+
+.login-btn{
+    display:block;
+    width:190px;
+    height:38px;
+    margin:0 auto;
+    border:0;
+    border-radius:3px;
+    background:var(--primary);
+    color:#fff;
+    font-size:12px;
+    font-weight:700;
+    cursor:pointer;
+    transition:background .15s ease;
+}
+
+.login-btn:hover{
+    background:var(--primary-hover);
+}
+
+.mode-guide{
+    height:18px;
+    margin-top:5px;
+    margin-left: 4px;
+    text-align:center;
+    font-size:10px;
+    color:#8b919a;
+    opacity:0;
+    transition:opacity .15s ease;
+}
+
+.mode-guide.show{
+    opacity:1;
+    color:var(--primary);
+    font-weight:700;
+}
+
+/* =========================
+   하단
+========================= */
+.footer{
+    position:relative;
+    z-index:3;
+    height:47px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#7a7a7a;
+    color:#eee;
+    font-size:9px;
+}
+
+/* =========================
+   반응형
+========================= */
+@media(max-width:760px){
+    .content{
+        align-items:flex-start;
+        padding-top:82px;
+    }
+
+    .login-card{
+        width:430px;
+        grid-template-columns:1fr;
+    }
+
+    .brand-panel{
+        min-height:155px;
+        padding:25px 30px;
+    }
+
+    .brand-logo{
+        margin-bottom:18px;
+    }
+
+    .brand-logo img{
+        width:180px;
+    }
+
+    .brand-message{
+        margin-bottom:13px;
+        font-size:17px;
+    }
+
+    .brand-desc{
+        display:block;
+        font-size:12px;
+    }
+
+    .form-panel{
+        padding:38px 42px 40px;
+    }
+
+    .bg-circle.small{
+        left:-50px;
+    }
+}
+
+@media(max-width:480px){
+    .admin-switch{
+        top:12px;
+        left:12px;
+    }
+
+    .content{
+        padding:70px 14px 35px;
+    }
+
+    .form-panel{
+        padding:32px 26px 35px;
+    }
+
+    .footer{
+        padding:0 12px;
+        text-align:center;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-page">
+
+    <div class="bg-circle small"></div>
+    <div class="bg-circle large"></div>
+
+    <!--
+        관리자 로그인 토글
+        기본: 아이콘만 회색
+        클릭: 파란색 + "관리자 로그인" 문구 노출
+        재클릭: 다시 회색 + 문구 숨김
+    -->
+    <button
+        type="button"
+        class="admin-switch"
+        id="adminSwitch"
+        aria-pressed="false"
+    >
+        <svg class="admin-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 20V8.4L12 4l8 4.4V20M3 20h18M7 20v-8h3v8M14 20v-8h3v8M8 9h2M14 9h2"
+                  stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="admin-text">관리자 로그인 모드입니다.</span>
+    </button>
+
+    <main class="content">
+
+        <section class="login-card">
+
+            <div class="brand-panel">
+
+                <div class="brand-logo">
+                    <img
+                        src="data:image/png;base64,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"
+                        alt="Fresenius Medical Care"
+                    >
+                </div>
+
+                <p class="brand-message">
+                    환자의 삶을 위한 가치 있는 미래,<br>
+                    매일 함께 만들어갑니다.
+                </p>
+
+                <p class="brand-desc">
+                    글로벌 투석 치료를 선도하는<br>
+                    프레제니우스메디칼케어에 오신 것을<br>
+                    환영합니다.
+                </p>
+
+            </div>
+
+            <div class="form-panel">
+
+                <h1 class="login-title">Login</h1>
+
+                <form id="loginForm" autocomplete="off">
+
+                    <div class="field">
+                        <label class="field-label" for="loginId">ID</label>
+
+                        <div class="input-line">
+                            <input
+                                type="text"
+                                id="loginId"
+                                name="loginId"
+                                value="basarajiny"
+                                autocomplete="username"
+                            >
+                            <span class="input-status valid" id="idStatus">✓</span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="loginPassword">PASSWORD</label>
+
+                        <div class="input-line">
+                            <input
+                                type="password"
+                                id="loginPassword"
+                                name="loginPassword"
+                                placeholder="비밀번호를 입력해주세요"
+                                autocomplete="current-password"
+                            >
+                            <span class="input-status" id="passwordStatus">✓</span>
+                        </div>
+
+                        <div class="error-message" id="loginError">
+                            <span class="error-icon">!</span>
+                            <span class="error-text">아이디 또는 비밀번호가 일치하지 않습니다.</span>
+                        </div>
+                    </div>
+
+                    <div class="login-options">
+                        <!-- 기존 관리자 체크 영역은 삭제하고 ID 저장만 유지 -->
+                        <label class="remember-label">
+                            <input type="checkbox" id="rememberId" checked>
+                            <span class="fake-check"></span>
+                            <span>아이디 저장</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="login-btn">
+                        LOGIN
+                    </button>
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        Copyright (c) 프레제니우스메디칼케어코리아 2026. all rights reserved.
+    </footer>
+
+</div>
+
+<script>
+const adminSwitch = document.getElementById("adminSwitch");
+const modeGuide = document.getElementById("modeGuide");
+
+const loginForm = document.getElementById("loginForm");
+const loginId = document.getElementById("loginId");
+const loginPassword = document.getElementById("loginPassword");
+
+const idStatus = document.getElementById("idStatus");
+const passwordStatus = document.getElementById("passwordStatus");
+const loginError = document.getElementById("loginError");
+const rememberId = document.getElementById("rememberId");
+
+let isAdminMode = false;
+
+/* =========================================================
+   관리자 로그인 모드 전환
+========================================================= */
+adminSwitch.addEventListener("click", function(){
+
+    isAdminMode = !isAdminMode;
+
+    this.classList.toggle("active", isAdminMode);
+    this.setAttribute("aria-pressed", String(isAdminMode));
+
+    modeGuide.classList.toggle("show", isAdminMode);
+
+    /*
+      실제 로그인 API 호출 시 아래 isAdminMode 값을 이용해
+      일반 로그인 / 관리자 로그인 분기 처리하면 됩니다.
+    */
+});
+
+/* =========================================================
+   입력 상태 표시
+========================================================= */
+function updateInputStatus(){
+
+    const hasId = loginId.value.trim() !== "";
+    const hasPassword = loginPassword.value !== "";
+
+    idStatus.classList.toggle("valid", hasId);
+    passwordStatus.classList.toggle("valid", hasPassword);
+}
+
+loginId.addEventListener("input", updateInputStatus);
+loginPassword.addEventListener("input", function(){
+    updateInputStatus();
+
+    if(this.value){
+        loginError.textContent = "";
+    }
+});
+
+/* =========================================================
+   ID 저장
+========================================================= */
+const savedId = localStorage.getItem("savedLoginId");
+
+if(savedId){
+    loginId.value = savedId;
+    rememberId.checked = true;
+}
+
+function saveRememberId(){
+
+    if(rememberId.checked){
+        localStorage.setItem(
+            "savedLoginId",
+            loginId.value.trim()
+        );
+    }else{
+        localStorage.removeItem("savedLoginId");
+    }
+}
+
+/* =========================================================
+   로그인 데모
+========================================================= */
+loginForm.addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    const id = loginId.value.trim();
+    const password = loginPassword.value;
+
+    if(!id){
+        loginError.textContent = "아이디를 입력해주세요.";
+        loginId.focus();
+        return;
+    }
+
+    if(!password){
+        loginError.textContent = "비밀번호를 입력해주세요.";
+        loginPassword.focus();
+        return;
+    }
+
+    saveRememberId();
+
+    /*
+      실제 환경에서는 여기서 API를 호출하면 됩니다.
+
+      예)
+      login({
+          id: id,
+          password: password,
+          isAdmin: isAdminMode
+      });
+    */
+
+    if(isAdminMode){
+        alert("관리자 로그인 요청");
+    }else{
+        alert("일반 로그인 요청");
+    }
+});
+
+updateInputStatus();
+</script>
+
+</body>
+</html>

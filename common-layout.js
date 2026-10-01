@@ -8,7 +8,7 @@
         { id: 'gnb_01', label: '거래처 승인', href: 'fmc4.html' },
         { id: 'gnb_02', label: '거래처 리스트 ', href: 'fmc5.html' },
         { id: 'gnb_03', label: 'STL 완료 리스트', href: 'fmc6.html' },
-        { id: 'gnb_04', label: 'STL 시뮬레이션', href: 'fmc9.html' },
+        { id: 'gnb_04', label: 'STL 시뮬레이션', href: 'fmc7.html' },
         { id: 'gnb_05', label: '견적 리스트', href: 'fmc14.html' },
         { id: 'gnb_06', label: '계약 리스트', href: 'fmc15.html' },
         { id: 'gnb_07', label: 'Billing 리스트', href: 'fmc16.html' }
@@ -16,7 +16,7 @@
 
     const salesMenu = [
         { id: 'gnb_03', label: 'STL 완료 리스트', href: 'fmc6.html' },
-        { id: 'gnb_04', label: 'STL 시뮬레이션', href: 'fmc9.html' },
+        { id: 'gnb_04', label: 'STL 시뮬레이션', href: 'fmc7.html' },
         { id: 'gnb_05', label: 'price 시뮬레이션', href: 'fmc25.html' }
     ];
 

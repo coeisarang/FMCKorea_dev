@@ -748,9 +748,14 @@ const filtered =
 
     filtered.forEach(item => {
 
-        const card = document.createElement("div");
+    const card = document.createElement("div");
 
-        card.className = "customer-card";
+    card.className = "customer-card";
+    card.style.cursor = "pointer";
+
+    card.addEventListener("click", function(){
+        window.location.href = "fmc9.html";
+    });
 
         card.innerHTML = `
             <div class="card-top">
@@ -770,7 +775,6 @@ const filtered =
             <div class="card-divider"></div>
 
             <div class="card-info">
-
                 <div class="info-label">연락처</div>
                 <div class="info-value">${item.phone}</div>
 

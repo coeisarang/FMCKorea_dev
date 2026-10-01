@@ -46,9 +46,12 @@ body.fmc-layout-ready > footer.footer {
 /* 상단 사용자 정보 아래 HOME > 현재 페이지 경로 */
 .common-top-title {
     display:flex;
-    justify-content:flex-end;
+    justify-content:space-between;
     align-items:center;
     margin:18px 0 24px !important;
+}
+.common-top-title .page-title {
+    margin:0 !important;
 }
 .common-top-title .guide_depth {
     display:flex;

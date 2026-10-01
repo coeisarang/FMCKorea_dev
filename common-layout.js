@@ -6,7 +6,7 @@
 
     const adminMenu = [
         { id: 'gnb_01', label: '거래처 승인', href: 'fmc4.html' },
-        { id: 'gnb_02', label: '거래처 관리', href: 'fmc5.html' },
+        { id: 'gnb_02', label: '거래처 리스트 ', href: 'fmc5.html' },
         { id: 'gnb_03', label: 'STL 완료 리스트', href: 'fmc6.html' },
         { id: 'gnb_04', label: 'STL 시뮬레이션', href: 'fmc9.html' },
         { id: 'gnb_05', label: '견적 리스트', href: 'fmc14.html' },
@@ -17,7 +17,7 @@
     const salesMenu = [
         { id: 'gnb_03', label: 'STL 완료 리스트', href: 'fmc6.html' },
         { id: 'gnb_04', label: 'STL 시뮬레이션', href: 'fmc9.html' },
-        { id: 'gnb_05', label: 'Open price 시뮬레이션', href: 'fmc25.html' }
+        { id: 'gnb_05', label: 'price 시뮬레이션', href: 'fmc25.html' }
     ];
 
     const mode = sessionStorage.getItem('fmcLoginMode') === 'admin' ? 'admin' : 'sales';
@@ -84,6 +84,13 @@
 
         const contentGroup = wrap.querySelector('.content_group');
         movableNodes.forEach(function (node) { contentGroup.appendChild(node); });
+
+        // 기존 페이지 제목과 HOME > 현재 페이지 경로를 같은 줄에 배치합니다.
+        const pageTitle = contentGroup.querySelector('.page-title');
+        const commonTopTitle = wrap.querySelector('.common-top-title');
+        if (pageTitle && commonTopTitle) {
+            commonTopTitle.insertBefore(pageTitle, commonTopTitle.querySelector('.guide_depth'));
+        }
 
         document.body.classList.add('fmc-layout-ready');
 

@@ -17,11 +17,15 @@
     const salesMenu = [
         { id: 'gnb_03', label: 'STL 완료 리스트', href: 'fmc6.html' },
         { id: 'gnb_04', label: 'STL 시뮬레이션', href: 'fmc9.html' },
-        { id: 'gnb_05', label: 'Open price 시뮬레이션', href: 'openprice.html' }
+        { id: 'gnb_05', label: 'Open price 시뮬레이션', href: 'fmc25.html' }
     ];
 
     const mode = sessionStorage.getItem('fmcLoginMode') === 'admin' ? 'admin' : 'sales';
     const menu = mode === 'admin' ? adminMenu : salesMenu;
+    const currentMenu = adminMenu.concat(salesMenu).find(function (item) {
+        return fileName === item.href.toLowerCase();
+    });
+    const currentPageLabel = currentMenu ? currentMenu.label : (document.title || '현재 페이지');
 
     function menuHtml() {
         return menu.map(function (item) {
@@ -62,6 +66,12 @@
                         '</li>' +
                     '</ul>' +
                 '</header>' +
+                '<div class="top_title common-top-title">' +
+                    '<div class="guide_depth">' +
+                        '<a href="fmc4.html" class="home">HOME</a>' +
+                        '<span class="navi">' + currentPageLabel + '</span>' +
+                    '</div>' +
+                '</div>' +
                 '<section class="content_group"></section>' +
             '</section>';
 

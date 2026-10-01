@@ -41,3 +41,28 @@ body.fmc-layout-ready > footer.footer {
 .content_wrap .info_group li .myinfo_menu button {
     color:inherit;
 }
+
+
+/* 상단 사용자 정보 아래 HOME > 현재 페이지 경로 */
+.common-top-title {
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    margin:18px 0 24px !important;
+}
+.common-top-title .guide_depth {
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    min-height:20px;
+    font-size:var(--font-small-size);
+}
+.common-top-title .guide_depth .home,
+.common-top-title .guide_depth .navi {
+    display:inline-flex;
+    align-items:center;
+    white-space:nowrap;
+}
+.common-top-title .guide_depth .navi::before {
+    flex:0 0 auto;
+}

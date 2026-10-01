@@ -1,0 +1,43 @@
+/* FMC static common layout overrides.
+   IMPORTANT: original base.css/components.css/layout.css own the visual styling.
+   This file only adjusts the static HTML wrapper and must NOT override image assets. */
+
+html, body { width:100%; min-height:100%; }
+
+body.fmc-layout-ready {
+    margin:0 !important;
+    min-height:100vh;
+    background-color:var(--bg-color) !important;
+    font-family:'Pretendard','Malgun Gothic','맑은 고딕',Arial,sans-serif;
+    font-size:var(--font-size);
+    color:var(--gray01-color);
+}
+
+body.fmc-layout-ready > .fre_wrap {
+    display:flex !important;
+    width:100%;
+    min-height:calc(100vh - 58px);
+}
+
+/* @RenderBody() replacement for static pages */
+.content_group { width:100%; }
+.content_group > .page {
+    width:100%;
+    min-height:auto !important;
+    padding:0 !important;
+}
+
+/* Keep footer behavior compatible with the original layout.css. */
+body.fmc-layout-ready > footer.footer {
+    position:relative !important;
+    left:auto !important;
+    bottom:auto !important;
+    width:100% !important;
+    height:58px !important;
+    line-height:normal !important;
+}
+
+/* Original ASP.NET layout uses a form button for logout. */
+.content_wrap .info_group li .myinfo_menu button {
+    color:inherit;
+}

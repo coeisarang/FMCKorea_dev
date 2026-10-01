@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Open price 시뮬레이션</title>
+<link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="common.css">
+<script src="common-layout.js" defer></script>
+<style>
+*{box-sizing:border-box} body{margin:0;font-family:"Malgun Gothic","맑은 고딕",Arial,sans-serif;background:#f5f6f9;color:#333}
+.page{padding:30px 36px}.page-title{margin-bottom:26px}.page-title h2{margin:0 0 8px;font-size:20px}.page-title p{margin:0;color:#888;font-size:12px}
+.panel{background:#fff;border:1px solid #e6e8ec;padding:26px;max-width:900px}.grid{display:grid;grid-template-columns:160px 1fr;gap:14px 18px;align-items:center}.label{font-weight:700;font-size:12px}.field{height:34px;border:1px solid #d5d9df;border-radius:3px;padding:0 10px;font:inherit}.actions{margin-top:22px;text-align:right}.btn{height:34px;border:0;border-radius:3px;background:#0b42ab;color:#fff;padding:0 18px;font-weight:700;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="page-title"><h2>Open price 시뮬레이션</h2><p>백엔드 없이 화면 흐름을 확인하기 위한 테스트 페이지입니다.</p></div>
+  <section class="panel">
+    <div class="grid">
+      <div class="label">거래처</div><input class="field" type="text" value="테스트 거래처">
+      <div class="label">제품</div><input class="field" type="text" value="테스트 제품">
+      <div class="label">Open price</div><input class="field" type="number" value="100000">
+    </div>
+    <div class="actions"><button class="btn" type="button" onclick="alert('테스트 시뮬레이션입니다.')">시뮬레이션</button></div>
+  </section>
+</div>
+</body>
+</html>

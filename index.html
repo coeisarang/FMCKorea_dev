@@ -594,8 +594,6 @@ body{
 
 <script>
 const adminSwitch = document.getElementById("adminSwitch");
-const modeGuide = document.getElementById("modeGuide");
-
 const loginForm = document.getElementById("loginForm");
 const loginId = document.getElementById("loginId");
 const loginPassword = document.getElementById("loginPassword");
@@ -616,8 +614,6 @@ adminSwitch.addEventListener("click", function(){
 
     this.classList.toggle("active", isAdminMode);
     this.setAttribute("aria-pressed", String(isAdminMode));
-
-    modeGuide.classList.toggle("show", isAdminMode);
 
     /*
       실제 로그인 API 호출 시 아래 isAdminMode 값을 이용해
@@ -703,11 +699,9 @@ loginForm.addEventListener("submit", function(e){
       });
     */
 
-    if(isAdminMode){
-        alert("관리자 로그인 요청");
-    }else{
-        alert("일반 로그인 요청");
-    }
+    // 테스트용 정적 페이지: 선택한 로그인 모드를 세션에 저장한 뒤 공통 레이아웃 페이지로 이동
+    sessionStorage.setItem("fmcLoginMode", isAdminMode ? "admin" : "sales");
+    window.location.href = "fmc4.html";
 });
 
 updateInputStatus();

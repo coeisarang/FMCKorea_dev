@@ -59,9 +59,9 @@
         .search-row {
             display: flex;
             align-items: flex-end;
-            justify-content: center;
             gap: 15px;
             flex-wrap: wrap;
+            justify-content: space-between;
         }
 
         .search-item {
@@ -183,7 +183,7 @@
 
         .search-button {
             flex: 0 0 78px;
-            height: 34px;
+            height: 29px;
             padding: 0 12px;
             border: 0;
             border-radius: 3px;
@@ -506,6 +506,196 @@
                 width: calc(100% - 30px);
             }
         }
+        /* =========================================================
+   신규 거래처 - 병원 정보 팝업
+   기존 CSS 충돌 방지를 위해 hospital-create-* 사용
+========================================================= */
+
+.hospital-create-overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:20000;
+    background:rgba(0,0,0,.32);
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.hospital-create-overlay.show{
+    display:flex;
+}
+
+.hospital-create-popup{
+    width:580px;
+    max-width:calc(100vw - 40px);
+    background:#fff;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 10px 35px rgba(0,0,0,.20);
+}
+
+/* 헤더 */
+.hospital-create-header{
+    position:relative;
+    height:92px;
+    border-bottom:1px solid #222;
+    background:#fff url("/images/common/bg_hospital.png") center center / cover no-repeat;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.hospital-create-title{
+    position:relative;
+    z-index:1;
+    margin:0;
+    font-size:32px;
+    font-weight:700;
+    color:#0345a5;
+    line-height:1;
+}
+
+/* 본문 */
+.hospital-create-body{
+    padding:24px 36px 26px;
+}
+
+.hospital-create-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    column-gap:15px;
+    row-gap:18px;
+}
+
+.hospital-create-field{
+    min-width:0;
+}
+
+.hospital-create-label{
+    display:block;
+    margin-bottom:7px;
+    font-size:13px;
+    font-weight:700;
+    color:#111;
+}
+
+.hospital-create-input,
+.hospital-create-select{
+    width:100%;
+    height:30px;
+    padding:0 10px;
+    border:1px solid #d2d5da;
+    border-radius:3px;
+    background:#fff;
+    color:#444;
+    font-family:inherit;
+    font-size:13px;
+    outline:none;
+}
+
+.hospital-create-input:focus,
+.hospital-create-select:focus{
+    border-color:#1769e0;
+}
+
+.hospital-create-input[readonly]{
+    background:#f6f6f6;
+    color:#777;
+}
+
+/* 동의 */
+.hospital-create-check-wrap{
+    margin-top:86px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.hospital-create-check{
+    appearance:none;
+    width:23px;
+    height:23px;
+    margin:0;
+    border:1px solid #b8bdc6;
+    border-radius:4px;
+    background:#fff;
+    cursor:pointer;
+    position:relative;
+}
+
+.hospital-create-check:checked{
+    background:#0648aa;
+    border-color:#0648aa;
+}
+
+.hospital-create-check:checked::after{
+    content:"";
+    position:absolute;
+    left:7px;
+    top:3px;
+    width:6px;
+    height:11px;
+    border:solid #fff;
+    border-width:0 2px 2px 0;
+    transform:rotate(45deg);
+}
+
+.hospital-create-check-label{
+    font-size:14px;
+    color:#222;
+    cursor:pointer;
+}
+
+/* 하단 버튼 */
+.hospital-create-footer{
+    display:flex;
+    height:40px;
+}
+
+.hospital-create-footer button{
+    flex:1;
+    border:0;
+    color:#fff;
+    font-family:inherit;
+    font-size:14px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.hospital-create-close-btn{
+    background:#6d6d6d;
+}
+
+.hospital-create-close-btn:hover{
+    background:#595959;
+}
+
+.hospital-create-register-btn{
+    background:#0644b5;
+}
+
+.hospital-create-register-btn:hover{
+    background:#033b9e;
+}
+
+@media(max-width:650px){
+    .hospital-create-popup{
+        width:100%;
+    }
+
+    .hospital-create-grid{
+        grid-template-columns:1fr;
+    }
+
+    .hospital-create-check-wrap{
+        margin-top:35px;
+    }
+
+    .hospital-create-title{
+        font-size:26px;
+    }
+}
     </style>
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/components.css">
@@ -575,7 +765,7 @@
                         id="keywordSearchBtn"
                         title="검색"
                     >
-                        <img src="search.png" alt="">
+                        <img src="/images/common/ico_search_white.svg" alt="">
                         <span>검색</span>
                     </button>
                 </div>
@@ -744,6 +934,132 @@
                 id="acceptBtn"
             >
                 수락
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- 신규 거래처 병원 정보 팝업 -->
+<div class="hospital-create-overlay" id="hospitalCreateOverlay">
+
+    <div class="hospital-create-popup">
+
+        <!-- 상단 병원정보 디자인 -->
+        <div class="hospital-create-header">
+            <h2 class="hospital-create-title">병원 정보</h2>
+        </div>
+
+        <!-- 입력 영역 -->
+        <div class="hospital-create-body">
+
+            <div class="hospital-create-grid">
+
+                <div class="hospital-create-field">
+                    <label class="hospital-create-label">
+                        고객명 / SAP 검색
+                    </label>
+                    <input
+                        type="text"
+                        class="hospital-create-input"
+                        id="newHospitalName"
+                        placeholder="고객명을 입력하세요">
+                </div>
+
+                <div class="hospital-create-field">
+                    <label class="hospital-create-label">
+                        SAP No
+                    </label>
+                    <input
+                        type="text"
+                        class="hospital-create-input"
+                        id="newHospitalSapNo"
+                        placeholder="SAP No를 입력하세요">
+                </div>
+
+                <div class="hospital-create-field">
+                    <label class="hospital-create-label">
+                        Contract DSO(일)
+                    </label>
+                    <input
+                        type="number"
+                        class="hospital-create-input"
+                        id="newHospitalContractDso"
+                        min="0">
+                </div>
+
+                <div class="hospital-create-field">
+                    <label class="hospital-create-label">
+                        Actual DSO(일)
+                    </label>
+                    <input
+                        type="number"
+                        class="hospital-create-input"
+                        id="newHospitalActualDso"
+                        min="0">
+                </div>
+
+                <div class="hospital-create-field">
+                    <label class="hospital-create-label">
+                        병원 유형
+                    </label>
+                    <select
+                        class="hospital-create-select"
+                        id="newHospitalType">
+                        <option value="">전체</option>
+                        <option value="종합병원">종합병원</option>
+                        <option value="병원">병원</option>
+                        <option value="의원">의원</option>
+                        <option value="기타">기타</option>
+                    </select>
+                </div>
+
+                <div class="hospital-create-field">
+                    <label class="hospital-create-label">
+                        거래처 구분
+                    </label>
+                    <select
+                        class="hospital-create-select"
+                        id="newHospitalCustomerType">
+                        <option value="">전체</option>
+                        <option value="신규">신규</option>
+                        <option value="기존">기존</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="hospital-create-check-wrap">
+                <input
+                    type="checkbox"
+                    class="hospital-create-check"
+                    id="newHospitalConfirm">
+
+                <label
+                    for="newHospitalConfirm"
+                    class="hospital-create-check-label">
+                    입력한 고객 및 기본정보를 확인했습니다.
+                </label>
+            </div>
+
+        </div>
+
+        <div class="hospital-create-footer">
+
+            <button
+                type="button"
+                class="hospital-create-close-btn"
+                id="hospitalCreateCloseBtn">
+                닫기
+            </button>
+
+            <button
+                type="button"
+                class="hospital-create-register-btn"
+                id="hospitalCreateRegisterBtn">
+                등록
             </button>
 
         </div>

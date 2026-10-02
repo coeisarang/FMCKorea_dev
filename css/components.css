@@ -1,5 +1,5 @@
 ﻿/*인풋*/
-input[type="text"],input[type="password"],input[type="date"]{width:70%; height:30px; padding:0 10px; font-size:var(--font-size); 
+input[type="text"],input[type="password"],input[type="date"]{width:100%; height:30px; padding:0 10px; font-size:var(--font-size); 
 	color:var(--black-color);
 	line-height: 30px; border:1px solid var(--gray05-color); font-family: 'Pretendard'; border-radius: var(--radius); vertical-align: var(--vertical-middle);}
 input::placeholder{color:var(--gray04-color); font-size:var(--font-size); font-weight: 200; font-family: 'Pretendard'; }

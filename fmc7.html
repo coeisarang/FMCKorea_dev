@@ -115,7 +115,7 @@ input:focus{
 
 .search-button{
     flex:0 0 78px;
-    height:34px;
+    height:29px;
     margin-left:10px;
     padding:0 12px;
     border:0;
@@ -430,6 +430,196 @@ input:focus{
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="common.css">
+
+    <style id="fmc7-hospital-popup-style">
+    /* 신규거래처 작성 팝업 전용. 기존 화면 스타일에 영향을 주지 않도록 모두 fmc7-hospital-* 범위로 제한 */
+    #fmc7HospitalOverlay{
+        display:none;
+        position:fixed;
+        inset:0;
+        z-index:30000;
+        align-items:center;
+        justify-content:center;
+        padding:20px;
+        background:rgba(0,0,0,.32);
+    }
+    #fmc7HospitalOverlay.is-open{display:flex;}
+
+    #fmc7HospitalOverlay .fmc7-hospital-popup{
+        width:580px;
+        max-width:calc(100vw - 40px);
+        background:#fff;
+        border-radius:12px;
+        overflow:hidden;
+        box-shadow:0 8px 26px rgba(0,0,0,.22);
+        font-family:"Malgun Gothic","맑은 고딕",Arial,sans-serif;
+    }
+
+    #fmc7HospitalOverlay .fmc7-hospital-head{
+        position:relative;
+        height:70px;
+        margin: 24px 38px 0px 38px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        background:#fff url("images/common/bg_hospital.png") center center / 100% 100% no-repeat;
+    }
+
+    #fmc7HospitalOverlay .fmc7-hospital-title{
+        margin:0;
+        padding:0;
+        color:#0645a5;
+        font-size:31px;
+        line-height:1;
+        font-weight:900;
+        letter-spacing:-2px;
+    }
+
+    #fmc7HospitalOverlay .fmc7-hospital-body{
+        padding:31px 42px 28px;
+        background:#fff;
+    }
+
+    #fmc7HospitalOverlay .fmc7-hospital-field-full{
+    grid-column:1 / -1;
+    }
+
+    #fmc7HospitalOverlay .fmc7-hospital-grid{
+        display:grid;
+        grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+        column-gap:23px;
+        row-gap:17.5px;
+    }
+
+    #fmc7HospitalOverlay .fmc7-hospital-field{min-width:0;}
+
+    #fmc7HospitalOverlay .fmc7-hospital-label{
+        display:block;
+        margin:0 0 7px;
+        padding:0;
+        color:#111;
+        font-size:13px;
+        line-height:18px;
+        font-weight:700;
+    }
+
+    #fmc7HospitalOverlay .fmc7-hospital-input,
+    #fmc7HospitalOverlay .fmc7-hospital-select{
+        all:unset;
+        box-sizing:border-box;
+        display:block;
+        width:100%;
+        height:30px;
+        padding:0 10px;
+        border:1px solid #d0d3d8;
+        border-radius:3px;
+        background:#fff;
+        color:#555;
+        font-family:"Malgun Gothic","맑은 고딕",Arial,sans-serif;
+        font-size:13px;
+        line-height:28px;
+    }
+
+    #fmc7HospitalOverlay .fmc7-hospital-input:focus,
+    #fmc7HospitalOverlay .fmc7-hospital-select:focus{border-color:#1769e0;}
+
+    #fmc7HospitalOverlay .fmc7-hospital-select-wrap{position:relative;}
+    #fmc7HospitalOverlay .fmc7-hospital-select{
+        cursor:pointer;
+        padding-right:34px;
+        appearance:none;
+        -webkit-appearance:none;
+    }
+    #fmc7HospitalOverlay .fmc7-hospital-select-wrap:after{
+        content:"";
+        position:absolute;
+        right:12px;
+        top:10px;
+        width:7px;
+        height:7px;
+        border-right:1px solid #999;
+        border-bottom:1px solid #999;
+        transform:rotate(45deg);
+        pointer-events:none;
+    }
+
+    #fmc7HospitalOverlay .fmc7-hospital-confirm{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        margin-top:50px;
+    }
+
+    #fmc7HospitalOverlay .fmc7-hospital-check{
+        appearance:none;
+        -webkit-appearance:none;
+        width:23px;
+        height:23px;
+        margin:0;
+        border:1px solid #aeb5c0;
+        border-radius:4px;
+        background:#fff;
+        cursor:pointer;
+        position:relative;
+        flex:0 0 23px;
+    }
+    #fmc7HospitalOverlay .fmc7-hospital-check:checked{
+        border-color:#0646aa;
+        background:#0646aa;
+    }
+    #fmc7HospitalOverlay .fmc7-hospital-check:checked:after{
+        content:"";
+        position:absolute;
+        left:7px;
+        top:3px;
+        width:6px;
+        height:11px;
+        border:solid #fff;
+        border-width:0 2px 2px 0;
+        transform:rotate(45deg);
+    }
+
+    #fmc7HospitalOverlay .fmc7-hospital-confirm-label{
+        margin:0;
+        padding:0;
+        color:#222;
+        font-size:14px;
+        line-height:23px;
+        cursor:pointer;
+    }
+
+    #fmc7HospitalOverlay .fmc7-hospital-footer{
+        display:flex;
+        width:100%;
+        height:40px;
+    }
+
+    #fmc7HospitalOverlay .fmc7-hospital-btn{
+        all:unset;
+        box-sizing:border-box;
+        flex:1 1 50%;
+        height:40px;
+        color:#fff;
+        text-align:center;
+        font-family:"Malgun Gothic","맑은 고딕",Arial,sans-serif;
+        font-size:14px;
+        line-height:40px;
+        font-weight:700;
+        cursor:pointer;
+    }
+    #fmc7HospitalOverlay .fmc7-hospital-close{background:#6d6d6d;}
+    #fmc7HospitalOverlay .fmc7-hospital-submit{background:#0645b5;}
+    #fmc7HospitalOverlay .fmc7-hospital-close:hover{background:#5b5b5b;}
+    #fmc7HospitalOverlay .fmc7-hospital-submit:hover{background:#053c9c;}
+
+    @media(max-width:650px){
+        #fmc7HospitalOverlay{padding:12px;}
+        #fmc7HospitalOverlay .fmc7-hospital-popup{width:100%;}
+        #fmc7HospitalOverlay .fmc7-hospital-grid{grid-template-columns:1fr;}
+        #fmc7HospitalOverlay .fmc7-hospital-confirm{margin-top:36px;}
+        #fmc7HospitalOverlay .fmc7-hospital-title{font-size:26px;}
+    }
+    </style>
     <script src="common-layout.js" defer></script>
 </head>
 
@@ -460,7 +650,7 @@ input:focus{
                         class="search-button"
                         id="customerSearchBtn"
                     >
-                        <img src="search.png" alt="">
+                        <img src="/images/common/ico_search_white.svg" alt="">
                         <span>검색</span>
                     </button>
                 </div>
@@ -513,7 +703,7 @@ input:focus{
             <div class="modal-grid">
 
                 <div class="modal-field">
-                    <label class="modal-label">고객명</label>
+                    <label class="modal-label">거래처</label>
                     <input
                         type="text"
                         id="modalCustomerName"
@@ -580,6 +770,96 @@ input:focus{
 
     </div>
 
+</div>
+
+
+<!-- =========================================================
+     신규거래처 작성 전용 팝업
+     기존 modal 구조와 완전히 분리
+========================================================= -->
+<div id="fmc7HospitalOverlay" aria-hidden="true">
+    <div class="fmc7-hospital-popup" role="dialog" aria-modal="true" aria-labelledby="fmc7HospitalTitle">
+
+        <div class="fmc7-hospital-head">
+            <h2 class="fmc7-hospital-title" id="fmc7HospitalTitle">병원 정보</h2>
+        </div>
+
+        <div class="fmc7-hospital-body">
+            <div class="fmc7-hospital-grid">
+
+                <!-- 고객명 : 2열 전체 -->
+                <div class="fmc7-hospital-field fmc7-hospital-field-full">
+                    <label
+                        class="fmc7-hospital-label"
+                        for="fmc7NewCustomerName">
+                        거래처명
+                    </label>
+
+                    <input
+                        class="fmc7-hospital-input"
+                        id="fmc7NewCustomerName"
+                        type="text"
+                        placeholder="거래처명을 입력하세요">
+                </div>
+
+
+                <!-- 2번째 줄 왼쪽 -->
+                <div class="fmc7-hospital-field">
+                    <label
+                        class="fmc7-hospital-label"
+                        for="fmc7NewContractDso">
+                        Contract DSO(일)
+                    </label>
+
+                    <input
+                        class="fmc7-hospital-input"
+                        id="fmc7NewContractDso"
+                        type="text">
+                </div>
+
+
+                <!-- 2번째 줄 오른쪽 -->
+                <div class="fmc7-hospital-field">
+                    <label
+                        class="fmc7-hospital-label"
+                        for="fmc7NewActualDso">
+                        Actual DSO(일)
+                    </label>
+
+                    <input
+                        class="fmc7-hospital-input"
+                        id="fmc7NewActualDso"
+                        type="text">
+                </div>
+
+
+                <!-- 3번째 줄 왼쪽만 -->
+                <div class="fmc7-hospital-field">
+                    <label
+                        class="fmc7-hospital-label"
+                        for="fmc7NewFxRate">
+                        FX rate
+                    </label>
+
+                    <input
+                        class="fmc7-hospital-input"
+                        id="fmc7NewFxRate"
+                        type="text">
+                </div>
+            </div>
+
+            <div class="fmc7-hospital-confirm">
+                <input class="fmc7-hospital-check" id="fmc7NewConfirm" type="checkbox">
+                <label class="fmc7-hospital-confirm-label" for="fmc7NewConfirm">거래처 등록은 추후에 추가하시기 바랍니다.</label>
+            </div>
+        </div>
+
+        <div class="fmc7-hospital-footer">
+            <button class="fmc7-hospital-btn fmc7-hospital-close" id="fmc7HospitalCloseBtn" type="button">취소</button>
+            <button class="fmc7-hospital-btn fmc7-hospital-submit" id="fmc7HospitalRegisterBtn" type="button">등록</button>
+        </div>
+
+    </div>
 </div>
 
 <script>
@@ -795,7 +1075,9 @@ function bindCardButtons(){
         .querySelectorAll(".card-action-top")
         .forEach(button => {
 
-            button.addEventListener("click", function(){
+            button.addEventListener("click", function(e){
+
+                e.stopPropagation();
 
                 const id = Number(this.dataset.id);
                 const action = this.dataset.action;
@@ -931,14 +1213,138 @@ customerFilter.addEventListener("keydown", function(e){
     }
 });
 
-/*
-  요청대로 현재는 버튼만 생성.
-  향후 별도 신규 거래처 검색/등록 화면 연결 위치.
-*/
+/* =========================================================
+   신규거래처 작성 팝업
+   기존 화면/기존 modal 동작은 건드리지 않음
+========================================================= */
+const fmc7HospitalOverlay =
+    document.getElementById("fmc7HospitalOverlay");
+
+const fmc7NewCustomerName =
+    document.getElementById("fmc7NewCustomerName");
+
+const fmc7NewContractDso =
+    document.getElementById("fmc7NewContractDso");
+
+const fmc7NewActualDso =
+    document.getElementById("fmc7NewActualDso");
+
+const fmc7NewFxRate =
+    document.getElementById("fmc7NewFxRate");
+const fmc7NewConfirm = document.getElementById("fmc7NewConfirm");
+
+function openFmc7HospitalPopup(){
+
+    fmc7NewCustomerName.value = "";
+    fmc7NewContractDso.value = "";
+    fmc7NewActualDso.value = "";
+    fmc7NewFxRate.value = "";
+
+    fmc7HospitalOverlay.classList.add("is-open");
+    fmc7HospitalOverlay.setAttribute("aria-hidden", "false");
+
+    document.body.style.overflow = "hidden";
+
+    // setTimeout(function(){
+    //     fmc7NewCustomerName.focus();
+    // }, 0);
+}
+
+function closeFmc7HospitalPopup(){
+    fmc7HospitalOverlay.classList.remove("is-open");
+    fmc7HospitalOverlay.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+}
+
 document
     .getElementById("globalNewStartBtn")
     .addEventListener("click", function(){
-        console.log("신규 새로 시작 버튼 클릭");
+        openFmc7HospitalPopup();
+    });
+
+document
+    .getElementById("fmc7HospitalCloseBtn")
+    .addEventListener("click", closeFmc7HospitalPopup);
+
+fmc7HospitalOverlay.addEventListener("click", function(e){
+    if(e.target === fmc7HospitalOverlay){
+        closeFmc7HospitalPopup();
+    }
+});
+
+document.addEventListener("keydown", function(e){
+    if(e.key === "Escape" && fmc7HospitalOverlay.classList.contains("is-open")){
+        closeFmc7HospitalPopup();
+    }
+});
+
+document
+    .getElementById("fmc7HospitalRegisterBtn")
+    .addEventListener("click", function(){
+
+        const customerName = fmc7NewCustomerName.value.trim();
+        const sapNo = fmc7NewSapNo.value.trim();
+        const contractDso = fmc7NewContractDso.value.trim();
+        const actualDso = fmc7NewActualDso.value.trim();
+
+        if(customerName === ""){
+            alert("고객명을 입력해주세요.");
+            fmc7NewCustomerName.focus();
+            return;
+        }
+
+        if(sapNo === ""){
+            alert("SAP No를 입력해주세요.");
+            fmc7NewSapNo.focus();
+            return;
+        }
+
+        if(contractDso === ""){
+            alert("Contract DSO(일)를 입력해주세요.");
+            fmc7NewContractDso.focus();
+            return;
+        }
+
+        if(actualDso === ""){
+            alert("Actual DSO(일)를 입력해주세요.");
+            fmc7NewActualDso.focus();
+            return;
+        }
+
+        if(!fmc7NewConfirm.checked){
+            alert("입력한 고객 및 기본정보 확인에 체크해주세요.");
+            fmc7NewConfirm.focus();
+            return;
+        }
+
+        const now = new Date();
+        const pad = value => String(value).padStart(2, "0");
+        const modified =
+            now.getFullYear() + "-"
+            + pad(now.getMonth() + 1) + "-"
+            + pad(now.getDate()) + " "
+            + pad(now.getHours()) + ":"
+            + pad(now.getMinutes());
+
+        const newId = customerData.length
+            ? Math.max(...customerData.map(item => item.id)) + 1
+            : 1;
+
+        customerData.unshift({
+            id:newId,
+            customer:customerName,
+            type:fmc7NewHospitalType.value || "기타",
+            sapNo:sapNo,
+            phone:"-",
+            modified:modified,
+            progress:true,
+            contractDso:Number(contractDso),
+            actualDso:Number(actualDso),
+            fxRate:""
+        });
+
+        closeFmc7HospitalPopup();
+        renderCards();
     });
 
 renderCards();

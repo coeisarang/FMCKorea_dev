@@ -11,7 +11,7 @@ button,input{font-family:inherit}
 .page{width:100%;min-height:100vh;padding:30px 36px}
 .page-title{margin-bottom:26px}.page-title h2{margin:0 0 8px;font-size:20px;font-weight:700;color:#222}.page-title p{margin:0;font-size:12px;color:#888}
 .search-panel{margin-bottom:28px;padding:20px 24px;background:#fff;border:1px solid #e6e8ec}
-.search-row{display:flex;align-items:center;gap:28px;flex-wrap:wrap}
+.search-row{display:flex;align-items:center;gap:28px;flex-wrap:wrap;justify-content: space-between}
 .search-item{display:flex;align-items:center;gap:12px;min-width:0}
 .search-item.status{width:330px}.search-item.customer{width:470px}
 .search-label{flex:0 0 64px;color:#333;font-size:12px;font-weight:700;white-space:nowrap;text-align:right}
@@ -23,7 +23,7 @@ button,input{font-family:inherit}
 .customer-search-wrap{display:flex}
 input[type=text]{width:100%;height:34px;padding:0 10px;border:1px solid #d5d9df;border-radius:3px;background:#fff;color:#444;font-size:12px;outline:none}
 input[type=text]:focus{border-color:#367bd8}
-.search-button{flex:0 0 78px;height:34px;margin-left:10px;padding:0 12px;border:0;border-radius:3px;background:#64676c;color:#fff;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;font-size:12px;font-weight:600}
+.search-button{flex:0 0 78px;height:29px;margin-left:10px;padding:0 12px;border:0;border-radius:3px;background:#64676c;color:#fff;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;font-size:12px;font-weight:600}
 .search-button img{width:15px;height:15px;object-fit:contain}.search-button:hover{background:#484b50}
 .result-header{display:flex;align-items:center;margin-bottom:12px;font-size:12px;font-weight:700}.result-count{margin-left:4px;color:#1769e0}
 .grid-wrap{overflow-x:auto;border:1px solid #e1e3e7;background:#fff}
@@ -60,7 +60,7 @@ tbody tr:hover{background:#f3f3f3} tbody tr:last-child td{border-bottom:0}
     </div></div>
     <div class="search-item customer"><div class="search-label">거래처</div><div class="customer-search-wrap">
       <input type="text" id="customerFilter" placeholder="거래처 검색">
-      <button class="search-button" id="customerSearchBtn" type="button"><img src="search.png" alt=""><span>검색</span></button>
+      <button class="search-button" id="customerSearchBtn" type="button"><img src="/images/common/ico_search_white.svg" alt=""><span>검색</span></button>
     </div></div>
   </div></div>
   <div class="result-header">시뮬레이션 목록 <span class="result-count" id="resultCount">(0)</span></div>

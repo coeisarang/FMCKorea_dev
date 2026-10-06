@@ -276,6 +276,8 @@ function renderTable(){
     filtered.forEach(item => {
         const tr = document.createElement("tr");
 
+        tr.style.cursor = "pointer";
+
         tr.innerHTML = `
             <td>${item.customer}</td>
             <td>${item.to || "-"}</td>
@@ -285,6 +287,10 @@ function renderTable(){
             <td class="content-cell" title="${item.content}">${item.content}</td>
             <td class="note-cell" title="${item.note || ""}">${item.note || "-"}</td>
         `;
+
+        tr.addEventListener("click", function(){
+            openEstimate(item);
+        });
 
         tableBody.appendChild(tr);
     });
@@ -299,6 +305,20 @@ customerFilter.addEventListener("keydown", function(e){
 });
 
 renderTable();
+
+function openEstimate(item){
+    sessionStorage.setItem(
+        "selectedEstimate",
+        JSON.stringify(item)
+    );
+
+    sessionStorage.removeItem("selectedSimulation");
+
+    const template = item.template || "5008";
+
+    location.href =
+        `estimate-detail.html?id=${encodeURIComponent(item.id)}&template=${encodeURIComponent(template)}`;
+}
 </script>
 
 </body>

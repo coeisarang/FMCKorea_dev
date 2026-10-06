@@ -1789,6 +1789,323 @@ button {
 .cop-table-scroll::-webkit-scrollbar-track{background:#f5f6f8}
 @media(max-width:760px){.cop-detail-content{padding:12px}}
 
+
+/* =========================================================
+   영업 모드 3단계 Wizard
+   관리자 화면에는 영향을 주지 않습니다.
+========================================================= */
+.sales-only {
+    display: none !important;
+}
+
+body.sales-mode .sales-only {
+    display: block !important;
+}
+
+body.sales-mode .sales-wizard-actions {
+    display: block !important;
+}
+
+body.sales-mode {
+    padding-bottom: 0;
+}
+
+.sales-wizard-shell {
+    width: 100%;
+    padding: 18px 34px 4px;
+}
+
+.sales-wizard-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+.sales-step-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 18px;
+    padding: 14px 30px 4px;
+    background: transparent;
+}
+
+.sales-step-bar::before {
+    content: "";
+    position: absolute;
+    left: 72px;
+    right: 72px;
+    top: 31px;
+    height: 1px;
+    background: #2a58b8;
+}
+
+.sales-step-item {
+    position: relative;
+    z-index: 1;
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: auto;
+    padding: 0;
+    border-right: 0;
+    background: transparent;
+    color: #8a9099;
+}
+
+.sales-step-item::before {
+    display: none;
+}
+
+.sales-step-name {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 7px 18px 8px;
+    border-radius: 999px;
+    background: #d8dde7;
+    color: #6d7580;
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .08);
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.2;
+    word-break: keep-all;
+}
+
+.sales-step-desc {
+    display: none;
+}
+
+.sales-step-item.active .sales-step-name,
+.sales-step-item.completed .sales-step-name {
+    background: #0a45b5;
+    color: #fff;
+}
+
+/* 영업 모드에서는 기존 페이지 내부 이동 버튼을 사용하지 않음 */
+body.sales-mode #page1 .button-area {
+    display: none !important;
+}
+
+body.sales-mode #page2 .step2-title-row > div:last-child {
+    display: none !important;
+}
+
+/* Price/COP은 영업 Wizard에서 사용하지 않음 */
+body.sales-mode #page2 .cop-detail-section {
+    display: none !important;
+}
+
+/* STEP 1 */
+body.sales-mode.sales-step-1 #page1 {
+    display: block !important;
+}
+
+body.sales-mode.sales-step-1 #page2 {
+    display: none !important;
+}
+
+/* STEP 2 */
+body.sales-mode.sales-step-2 #page1 {
+    display: none !important;
+}
+
+body.sales-mode.sales-step-2 #page2 {
+    display: block !important;
+}
+
+body.sales-mode.sales-step-2 #page2 .step2-layout {
+    display: none !important;
+}
+
+body.sales-mode.sales-step-2 #page2 .machine-supply-section {
+    display: block !important;
+}
+
+body.sales-mode.sales-step-2 #page2 .result-section-title,
+body.sales-mode.sales-step-2 #page2 .result-summary-section {
+    display: none !important;
+}
+
+/* STEP 3 */
+body.sales-mode.sales-step-3 #page1 {
+    display: none !important;
+}
+
+body.sales-mode.sales-step-3 #page2 {
+    display: block !important;
+}
+
+body.sales-mode.sales-step-3 #page2 .step2-layout,
+body.sales-mode.sales-step-3 #page2 .machine-supply-section {
+    display: none !important;
+}
+
+/* STEP 3에서는 상단 step2-title을 페이지 제목으로 사용하므로
+   결과 영역 내부의 동일 제목은 숨겨 중복 표시를 방지 */
+body.sales-mode.sales-step-3 #page2 .result-section-title {
+    display: none !important;
+}
+
+body.sales-mode.sales-step-3 #page2 .result-summary-section {
+    display: block !important;
+}
+
+/* 영업 모드 공통 버튼 - 각 단계 콘텐츠 하단 */
+.sales-wizard-actions {
+    position: static;
+    width: 100%;
+    padding: 22px 0px 30px;
+    margin: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.sales-wizard-actions-inner {
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sales-wizard-btn {
+    min-width: 120px;
+    height: 40px;
+    padding: 0 18px;
+    border: 1px solid #cfd5dd;
+    border-radius: 4px;
+    background: #fff;
+    color: #555;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.sales-wizard-btn:hover {
+    border-color: #1765df;
+    color: #124ec4;
+    background: #f8fbff;
+}
+
+.sales-wizard-btn:disabled {
+    border-color: #e1e4e8;
+    background: #fff;
+    color: #b7bcc3;
+    cursor: default;
+}
+
+.sales-wizard-btn.save {
+    border: 1px solid #1765df;
+    background: #fff;
+    color: #124ec4;
+}
+
+.sales-wizard-btn.save:hover {
+    background: #f4f8ff;
+    color: #0b49aa;
+}
+
+.sales-wizard-btn.primary {
+    margin-left: auto;
+    border-color: #0648ae;
+    background: #0648ae;
+    color: #fff;
+}
+
+.sales-wizard-btn.primary:hover {
+    border-color: #043d93;
+    background: #043d93;
+    color: #fff;
+}
+
+.sales-wizard-btn .sales-btn-arrow {
+    display: inline-block;
+    margin: 0 8px;
+    font-size: 20px;
+    line-height: 1;
+    vertical-align: -1px;
+}
+
+body.sales-mode #page2 .step2-title {
+    font-size: 18px;
+}
+
+@media (max-width: 800px) {
+    .sales-wizard-shell {
+            padding: 14px 16px 0;
+        }
+    
+        .sales-step-bar {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            padding: 6px 0 0;
+        }
+    
+        .sales-step-bar::before {
+            display: none;
+        }
+    
+        .sales-step-item {
+            width: 100%;
+        }
+    
+        .sales-step-name {
+            min-height: 38px;
+            font-size: 12px;
+        }
+    .sales-wizard-actions {
+        padding: 18px 16px 24px;
+    }
+
+    .sales-wizard-actions-inner {
+        flex-wrap: wrap;
+    }
+
+    .sales-wizard-btn {
+        min-width: 96px;
+    }
+
+    .sales-wizard-btn.primary {
+        margin-left: auto;
+    }
+}
+
+body.sales-mode #page1 .step-description {
+    display: block !important;
+}
+
+body.sales-mode #page2 .step2-title-row {
+    display: flex !important;
+}
+
+
+/* 영업 모드 공통 상단 제목 */
+.sales-page-header {
+    margin: 0 auto;
+}
+
+.sales-page-header .page-title {
+    margin-bottom: 8px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.sales-page-header .page-desc {
+    font-size: 13px;
+    color: #888;
+}
+
+.sales-wizard-shell {
+    padding-top: 10px;
+}
+
+
+.admin-only-page-top { display:block; }
+body.sales-mode .admin-only-page-top { display:none !important; }
 </style>
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/components.css">
@@ -1799,6 +2116,38 @@ button {
 
 <body>
 
+<!-- 영업 모드 상단 제목 -->
+<div id="salesPageHeader" class="sales-page-header sales-only">
+    <!-- <div class="page-title">STL 시뮬레이션</div> -->
+    <div id="salesPageDescription" class="page-desc">
+        제품 선택부터 시뮬레이션 결과 확인까지 단계형 웹 견적 프로세스
+    </div>
+</div>
+
+<!-- =========================================================
+     영업 모드 전용 3단계 진행 바
+========================================================= -->
+<div id="salesWizardShell" class="sales-wizard-shell sales-only">
+    <div class="sales-wizard-inner">
+        <div class="sales-step-bar">
+            <div class="sales-step-item active" data-sales-step-item="1" data-step="1">
+                <span class="sales-step-name">01 제품 선택</span>
+                <span class="sales-step-desc">제품과 Dialyzer를 선택합니다.</span>
+            </div>
+
+            <div class="sales-step-item" data-sales-step-item="2" data-step="2">
+                <span class="sales-step-name">02. 제품 및 소모품 선택</span>
+                <span class="sales-step-desc">기기별 소모품과 조건을 확인합니다.</span>
+            </div>
+
+            <div class="sales-step-item" data-sales-step-item="3" data-step="3">
+                <span class="sales-step-name">03. 시뮬레이션 결과 확인 및 견적 확정</span>
+                <span class="sales-step-desc">시뮬레이션 결과와 견적을 확인합니다.</span>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- =========================
      PAGE 1
 ========================= -->
@@ -1806,13 +2155,12 @@ button {
 
     <div class="top-area">
         <div>
-            <!-- <div class="page-title">STL 시뮬레이션</div> -->
+            <div class="page-title">STL 시뮬레이션</div>
             <div class="page-desc">
                 제품 선택부터 시뮬레이션 결과 확인까지 단계형 웹 견적 프로세스
             </div>
         </div>
     </div>
-
 
     <div class="step-title-area">
         <div class="step-title">제품 선택</div>
@@ -1945,22 +2293,35 @@ button {
 ========================= -->
 <div id="page2" class="wrap">
 
-    <div class="top-area step2-top-area">
+    <div class="top-area step2-top-area admin-only-page-top">
         <div>
-            <div class="page-title">STL 시뮬레이션</div>
+            <!-- <div class="page-title">STL 시뮬레이션</div> -->
             <div class="page-desc">가격 Factor 및 계약조건 1page입니다.</div>
         </div>
     </div>
-
-    <div class="step2-title-row">
+<div class="step2-title-row">
         <div class="step2-title">제품 및 소모품 선택</div>
 
-        <button
-            type="button"
-            id="prevButton"
-            class="btn-prev-top">
-            <span>‹</span>이전
-        </button>
+        <div style="justify-content: space-between;">
+            <button
+                type="button"
+                id="prevButton"
+                class="btn-prev-top">
+                <span>‹</span>이전
+            </button>
+
+            <button
+                type="button"
+                class="btn-prev-top">
+                저장
+            </button>
+
+            <button
+                type="button"
+                class="btn-next">
+                확정
+            </button>
+        </div>
     </div>
 
     <div class="step2-layout">
@@ -2558,6 +2919,22 @@ button {
 
 
 <script>
+
+/* ==================================================
+   로그인 모드
+   admin : 기존 관리자 화면
+   sales : 3단계 영업 Wizard
+================================================== */
+const fmcMode =
+    sessionStorage.getItem("fmcLoginMode") === "admin"
+        ? "admin"
+        : "sales";
+
+const isSalesMode =
+    fmcMode === "sales";
+
+let currentSalesStep = 1;
+
 /* ==================================================
    제품 데이터
    실제 사용 시 DB/API 데이터로 대체해도 됩니다.
@@ -4597,6 +4974,228 @@ function bindSupplyEvents() {
 }
 
 
+
+/* ==================================================
+   영업 모드 Wizard
+================================================== */
+function setSalesStep(step) {
+
+    if (!isSalesMode) {
+        return;
+    }
+
+    currentSalesStep =
+        Math.max(1, Math.min(3, step));
+
+    const salesPageDescription =
+        document.getElementById("salesPageDescription");
+
+    if (salesPageDescription) {
+        if (currentSalesStep === 1) {
+            salesPageDescription.textContent =
+                "제품 선택부터 시뮬레이션 결과 확인까지 단계형 웹 견적 프로세스";
+        }
+        else if (currentSalesStep === 2) {
+            salesPageDescription.textContent =
+                "가격 Factor 및 계약조건 1page입니다.";
+        }
+        else if (currentSalesStep === 3) {
+            salesPageDescription.textContent =
+                "시뮬레이션 결과를 확인하고 최종 견적을 확정합니다.";
+        }
+    }
+
+    document.body.classList.remove(
+        "sales-step-1",
+        "sales-step-2",
+        "sales-step-3"
+    );
+
+    document.body.classList.add(
+        "sales-step-" + currentSalesStep
+    );
+
+    document
+        .querySelectorAll("[data-sales-step-item]")
+        .forEach(item => {
+
+            const itemStep =
+                Number(item.dataset.salesStepItem);
+
+            item.classList.toggle(
+                "active",
+                itemStep === currentSalesStep
+            );
+
+            item.classList.toggle(
+                "completed",
+                itemStep < currentSalesStep
+            );
+        });
+
+    const prevBtn =
+        document.getElementById("salesPrevBtn");
+
+    const nextBtn =
+        document.getElementById("salesNextBtn");
+
+    if (prevBtn) {
+        prevBtn.disabled =
+            currentSalesStep === 1;
+    }
+
+    if (nextBtn) {
+        nextBtn.innerHTML =
+            currentSalesStep === 3
+                ? "확정"
+                : '다음<span class="sales-btn-arrow">›</span>';
+    }
+
+    /*
+        STEP 2 진입:
+        선택한 제품/Dialyzer 기준으로
+        기기별 소모품 표를 생성합니다.
+    */
+    if (currentSalesStep === 2) {
+
+        renderStep2Selection();
+        renderMachineSupplySections();
+
+        const stepTitle =
+            document.querySelector(
+                "#page2 .step2-title"
+            );
+
+        if (stepTitle) {
+            stepTitle.textContent =
+                "제품 및 소모품 선택";
+        }
+    }
+
+    /*
+        STEP 3 진입:
+        결과 영역 값 갱신
+    */
+    if (currentSalesStep === 3) {
+
+        updateResultSummary();
+
+        const stepTitle =
+            document.querySelector(
+                "#page2 .step2-title"
+            );
+
+        if (stepTitle) {
+            stepTitle.textContent =
+                "시뮬레이션 결과 확인 및 견적 확정";
+        }
+    }
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+function saveSalesDraft() {
+
+    const draft = {
+        step: currentSalesStep,
+
+        products: products.map(product => ({
+            id: product.id,
+            selected: product.selected,
+            qty: product.qty
+        })),
+
+        supplies: supplies.map(item => ({
+            id: item.id,
+            checked: item.checked
+        })),
+
+        memo:
+            document.getElementById("resultMemo")
+                ? document.getElementById("resultMemo").value
+                : "",
+
+        savedAt:
+            new Date().toISOString()
+    };
+
+    localStorage.setItem(
+        "fmcSalesSimulationDraft",
+        JSON.stringify(draft)
+    );
+
+    alert("임시저장되었습니다.");
+}
+
+
+function confirmSalesSimulation() {
+
+    /*
+        실제 저장/API 연결 시 이 위치에서
+        최종 확정 처리를 호출하면 됩니다.
+    */
+    alert("견적이 확정되었습니다.");
+}
+
+
+function initSalesWizard() {
+
+    if (!isSalesMode) {
+        return;
+    }
+
+    document.body.classList.add(
+        "sales-mode"
+    );
+
+    document
+        .getElementById("salesPrevBtn")
+        .addEventListener(
+            "click",
+            function () {
+
+                if (currentSalesStep > 1) {
+                    setSalesStep(
+                        currentSalesStep - 1
+                    );
+                }
+            }
+        );
+
+    document
+        .getElementById("salesSaveBtn")
+        .addEventListener(
+            "click",
+            saveSalesDraft
+        );
+
+    document
+        .getElementById("salesNextBtn")
+        .addEventListener(
+            "click",
+            function () {
+
+                if (currentSalesStep < 3) {
+
+                    setSalesStep(
+                        currentSalesStep + 1
+                    );
+
+                    return;
+                }
+
+                confirmSalesSimulation();
+            }
+        );
+
+    setSalesStep(1);
+}
+
+
 /* ==================================================
    초기화
 ================================================== */
@@ -4617,20 +5216,27 @@ document.addEventListener(
         bindStep2Events();
 
 
-        document
-            .getElementById("nextButton")
-            .addEventListener(
-                "click",
-                goNextPage
-            );
+        if (isSalesMode) {
 
+            initSalesWizard();
 
-        document
-            .getElementById("prevButton")
-            .addEventListener(
-                "click",
-                goPreviousPage
-            );
+        }
+        else {
+
+            document
+                .getElementById("nextButton")
+                .addEventListener(
+                    "click",
+                    goNextPage
+                );
+
+            document
+                .getElementById("prevButton")
+                .addEventListener(
+                    "click",
+                    goPreviousPage
+                );
+        }
     }
 );
 
@@ -4776,6 +5382,34 @@ document.addEventListener("DOMContentLoaded",function(){
 });
 
 </script>
+
+
+
+
+<!-- =========================================================
+     영업 모드 전용 단계 이동 버튼
+========================================================= -->
+<div id="salesWizardActions" class="sales-wizard-actions sales-only">
+    <div class="sales-wizard-actions-inner">
+        <button type="button"
+                id="salesPrevBtn"
+                class="sales-wizard-btn">
+            이전
+        </button>
+
+        <button type="button"
+                id="salesSaveBtn"
+                class="sales-wizard-btn save">
+            임시저장
+        </button>
+
+        <button type="button"
+                id="salesNextBtn"
+                class="sales-wizard-btn primary">
+            다음
+        </button>
+    </div>
+</div>
 
 </body>
 </html>

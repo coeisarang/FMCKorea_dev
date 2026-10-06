@@ -1,136 +1,1239 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STL 시뮬레이션 리스트</title>
-<style>
-*{box-sizing:border-box} html,body{margin:0;padding:0}
-body{font-family:"Malgun Gothic","맑은 고딕",Arial,sans-serif;font-size:13px;color:#333;background:#f5f6f9}
-button,input{font-family:inherit}
-.page{width:100%;min-height:100vh;padding:30px 36px}
-.page-title{margin-bottom:26px}.page-title h2{margin:0 0 8px;font-size:20px;font-weight:700;color:#222}.page-title p{margin:0;font-size:12px;color:#888}
-.search-panel{margin-bottom:28px;padding:20px 24px;background:#fff;border:1px solid #e6e8ec}
-.search-row{display:flex;align-items:center;gap:28px;flex-wrap:wrap;justify-content: space-between}
-.search-item{display:flex;align-items:center;gap:12px;min-width:0}
-.search-item.status{width:330px}.search-item.customer{width:470px}
-.search-label{flex:0 0 64px;color:#333;font-size:12px;font-weight:700;white-space:nowrap;text-align:right}
-.status-buttons,.customer-search-wrap{flex:1;min-width:0}
-.status-buttons{display:flex;gap:8px}
-.status-btn{flex:1;min-width:68px;height:34px;padding:0 16px;border:1px solid #cbd2dc;border-radius:4px;background:#fff;color:#444;font-size:12px;font-weight:600;cursor:pointer;transition:.15s}
-.status-btn:hover{border-color:#1769e0;color:#1769e0}
-.status-btn.active{border:2px solid #1769e0;background:#f6f9ff;color:#0759c7;font-weight:700}
-.customer-search-wrap{display:flex}
-input[type=text]{width:100%;height:34px;padding:0 10px;border:1px solid #d5d9df;border-radius:3px;background:#fff;color:#444;font-size:12px;outline:none}
-input[type=text]:focus{border-color:#367bd8}
-.search-button{flex:0 0 78px;height:29px;margin-left:10px;padding:0 12px;border:0;border-radius:3px;background:#64676c;color:#fff;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;font-size:12px;font-weight:600}
-.search-button img{width:15px;height:15px;object-fit:contain}.search-button:hover{background:#484b50}
-.result-header{display:flex;align-items:center;margin-bottom:12px;font-size:12px;font-weight:700}.result-count{margin-left:4px;color:#1769e0}
-.grid-wrap{overflow-x:auto;border:1px solid #e1e3e7;background:#fff}
-table{width:100%;min-width:1180px;border-collapse:collapse;table-layout:fixed}
-thead th{height:38px;padding:0 10px;background:#dfe7f5;color:#30343b;font-size:13px;font-weight:700;text-align:center;border-bottom:1px solid #d7dce4}
-tbody td{height:46px;padding:0 12px;border-bottom:1px solid #eceef1;color:#444;font-size:13px;text-align:center;white-space:nowrap;text-overflow:ellipsis}
-tbody tr:hover{background:#f3f3f3} tbody tr:last-child td{border-bottom:0}
-.customer-cell{font-weight:600;color:#333}.price-cell{text-align:center;padding-right:24px;font-weight:600}
-.condition-badge,.case-badge{display:inline-flex;align-items:center;justify-content:center;height:24px;padding:0 10px;border-radius:12px;font-size:11px;font-weight:700}
-.condition-badge{min-width:112px}
-.condition-meet{color:#237341;background:#e5f4ea}.condition-review{color:#a36418;background:#fff2dc}
-.case-badge{min-width:58px;background:#eef3fb;color:#3d5f91}
-.toggle-wrap{display:flex;align-items:center;justify-content:center;gap:8px}
-.toggle{position:relative;width:32px;height:18px;padding:0;border:1px solid #c9cdd2;border-radius:10px;background:#f1f2f3;cursor:pointer;transition:.15s}
-.toggle:after{content:"";position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:#c6c9ce;transition:.15s}
-.toggle.on{border-color:#1765df;background:#f7faff}.toggle.on:after{left:16px;background:#0759c7}
-.toggle-text{min-width:28px;color:#777;font-size:11px;font-weight:600}.toggle-text.on{color:#0759c7}
-.quote-btn{min-width:64px;height:28px;padding:0 14px;border:1px solid #cbd2dc;border-radius:3px;background:#fff;color:#444;font-size:11px;font-weight:700;cursor:pointer}
-.quote-btn:hover{border-color:#1769e0;color:#1769e0;background:#f7faff}.no-data{height:100px!important;color:#999!important;text-align:center!important}
-@media(max-width:900px){.page{padding:20px}.search-row{gap:15px}.search-item.status,.search-item.customer{width:100%}.search-label{flex-basis:64px;text-align:left}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>STL 완료 리스트</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+            font-size: 13px;
+            color: #333;
+            background: #f5f6f9;
+        }
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+
+        /* =========================================================
+           Layout
+        ========================================================= */
+
+        .page {
+            width: 100%;
+            min-height: 100vh;
+            padding: 30px 36px;
+        }
+
+        .page-title {
+            margin-bottom: 26px;
+        }
+
+        .page-title h2 {
+            margin: 0 0 8px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #222;
+        }
+
+        .page-title p {
+            margin: 0;
+            font-size: 12px;
+            color: #888;
+        }
+
+
+        /* =========================================================
+           검색 영역
+        ========================================================= */
+
+        .search-panel {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            background: #fff;
+            border: 1px solid #e6e8ec;
+        }
+
+        .search-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 28px;
+            flex-wrap: wrap;
+        }
+
+        .search-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .search-item.status {
+            width: 330px;
+        }
+
+        .search-item.customer {
+            width: 470px;
+        }
+
+        .search-label {
+            flex: 0 0 64px;
+            color: #333;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+            text-align: right;
+        }
+
+
+        /* =========================================================
+           상태 버튼
+        ========================================================= */
+
+        .status-buttons,
+        .customer-search-wrap {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .status-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .status-btn {
+            flex: 1;
+            min-width: 68px;
+            height: 34px;
+            padding: 0 16px;
+            border: 1px solid #cbd2dc;
+            border-radius: 4px;
+            background: #fff;
+            color: #444;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .15s;
+        }
+
+        .status-btn:hover {
+            border-color: #1769e0;
+            color: #1769e0;
+        }
+
+        .status-btn.active {
+            border: 2px solid #1769e0;
+            background: #f6f9ff;
+            color: #0759c7;
+            font-weight: 700;
+        }
+
+
+        /* =========================================================
+           거래처 검색
+        ========================================================= */
+
+        .customer-search-wrap {
+            display: flex;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            height: 34px;
+            padding: 0 10px;
+            border: 1px solid #d5d9df;
+            border-radius: 3px;
+            background: #fff;
+            color: #444;
+            font-size: 12px;
+            outline: none;
+        }
+
+        input[type="text"]:focus {
+            border-color: #367bd8;
+        }
+
+        .search-button {
+            flex: 0 0 78px;
+            height: 29px;
+            margin-left: 10px;
+            padding: 0 12px;
+            border: 0;
+            border-radius: 3px;
+            background: #64676c;
+            color: #fff;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .search-button img {
+            width: 15px;
+            height: 15px;
+            object-fit: contain;
+        }
+
+        .search-button:hover {
+            background: #484b50;
+        }
+
+
+        /* =========================================================
+           결과 영역
+        ========================================================= */
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .result-count {
+            margin-left: 4px;
+            color: #1769e0;
+        }
+
+
+        /* =========================================================
+           Table
+        ========================================================= */
+
+        .grid-wrap {
+            overflow-x: auto;
+            border: 1px solid #e1e3e7;
+            background: #fff;
+        }
+
+        table {
+            width: 100%;
+            min-width: 750px;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        thead th {
+            height: 38px;
+            padding: 0 10px;
+            background: #dfe7f5;
+            color: #30343b;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+            border-bottom: 1px solid #d7dce4;
+        }
+
+        tbody td {
+            height: 46px;
+            padding: 0 12px;
+            border-bottom: 1px solid #eceef1;
+            color: #444;
+            font-size: 13px;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        tbody tr:hover {
+            background: #f3f3f3;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .customer-cell {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .price-cell {
+            padding-right: 24px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+
+        /* =========================================================
+           Badge
+        ========================================================= */
+
+        .condition-badge,
+        .case-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 24px;
+            padding: 0 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .condition-badge {
+            min-width: 112px;
+        }
+
+        .condition-meet {
+            color: #237341;
+            background: #e5f4ea;
+        }
+
+        .condition-review {
+            color: #a36418;
+            background: #fff2dc;
+        }
+
+        .case-badge {
+            min-width: 58px;
+            color: #3d5f91;
+            background: #eef3fb;
+        }
+
+
+        /* =========================================================
+           활성/비활성
+        ========================================================= */
+
+        .toggle-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .toggle {
+            position: relative;
+            width: 32px;
+            height: 18px;
+            padding: 0;
+            border: 1px solid #c9cdd2;
+            border-radius: 10px;
+            background: #f1f2f3;
+            cursor: pointer;
+            transition: .15s;
+        }
+
+        .toggle::after {
+            content: "";
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #c6c9ce;
+            transition: .15s;
+        }
+
+        .toggle.on {
+            border-color: #1765df;
+            background: #f7faff;
+        }
+
+        .toggle.on::after {
+            left: 16px;
+            background: #0759c7;
+        }
+
+        .toggle-text {
+            min-width: 28px;
+            color: #777;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .toggle-text.on {
+            color: #0759c7;
+        }
+
+
+        /* =========================================================
+           비고
+        ========================================================= */
+
+        .quote-btn {
+            min-width: 64px;
+            height: 28px;
+            padding: 0 14px;
+            border: 1px solid #cbd2dc;
+            border-radius: 3px;
+            background: #fff;
+            color: #444;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .quote-btn:hover {
+            border-color: #1769e0;
+            color: #1769e0;
+            background: #f7faff;
+        }
+
+
+        /* =========================================================
+           데이터 없음
+        ========================================================= */
+
+        .no-data {
+            height: 100px !important;
+            color: #999 !important;
+            text-align: center !important;
+        }
+
+
+        /* =========================================================
+           Sales Mode
+           영업 사용자는 관리자 전용 항목 숨김
+        ========================================================= */
+
+        body.sales-mode .admin-only {
+            display: none !important;
+        }
+
+        body.sales-mode col.admin-only-col {
+            display: none;
+        }
+
+        /*
+         * 영업 모드에서는 5개 열만 표시되므로
+         * 각 열의 폭을 다시 지정
+         */
+        body.sales-mode col.col-customer {
+            width: 20% !important;
+        }
+
+        body.sales-mode col.col-date {
+            width: 18% !important;
+        }
+
+        body.sales-mode col.col-price {
+            width: 20% !important;
+        }
+
+        body.sales-mode col.col-condition {
+            width: 24% !important;
+        }
+
+        body.sales-mode col.col-ebit {
+            width: 18% !important;
+        }
+
+
+        /* =========================================================
+           Responsive
+        ========================================================= */
+
+        @media (max-width: 900px) {
+
+            .page {
+                padding: 20px;
+            }
+
+            .search-row {
+                gap: 15px;
+            }
+
+            .search-item.status,
+            .search-item.customer {
+                width: 100%;
+            }
+
+            .search-label {
+                flex-basis: 64px;
+                text-align: left;
+            }
+
+        }
+    </style>
+
+
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="common.css">
+
     <script src="common-layout.js" defer></script>
 </head>
+
 <body>
+
 <div class="page">
-  <div class="page-title"><h2>STL 시뮬레이션 리스트</h2><p>거래처별 STL 시뮬레이션 결과와 활성 상태를 조회할 수 있습니다.</p></div>
-  <div class="search-panel"><div class="search-row">
-    <div class="search-item status"><div class="search-label">상태</div><div class="status-buttons">
-      <button class="status-btn active" data-status="전체">전체</button><button class="status-btn" data-status="활성">활성</button><button class="status-btn" data-status="비활성">비활성</button>
-    </div></div>
-    <div class="search-item customer"><div class="search-label">거래처</div><div class="customer-search-wrap">
-      <input type="text" id="customerFilter" placeholder="거래처 검색">
-      <button class="search-button" id="customerSearchBtn" type="button"><img src="/images/common/ico_search_white.svg" alt=""><span>검색</span></button>
-    </div></div>
-  </div></div>
-  <div class="result-header">시뮬레이션 목록 <span class="result-count" id="resultCount">(0)</span></div>
-  <div class="grid-wrap"><table>
-    <colgroup><col style="width:18%"><col style="width:13%"><col style="width:16%"><col style="width:19%"><col style="width:13%"><col style="width:11%"><col style="width:10%"></colgroup>
-    <thead><tr><th>거래처</th><th>완료일자</th><th>Set Price</th><th>Price 조건</th><th>EBIT &amp; investment</th><th>활성/비활성</th><th>비고</th></tr></thead>
-    <tbody id="simulationTableBody"></tbody>
-  </table></div>
+
+    <!-- =========================================================
+         제목
+    ========================================================= -->
+
+    <div class="page-title">
+        <h2>STL 완료 리스트</h2>
+        <p>거래처별 STL 시뮬레이션 결과와 활성 상태를 조회할 수 있습니다.</p>
+    </div>
+
+
+    <!-- =========================================================
+         검색
+    ========================================================= -->
+
+    <div class="search-panel">
+
+        <div class="search-row">
+
+            <!-- 관리자 전용 상태 검색 -->
+            <div class="search-item status admin-only">
+
+                <div class="search-label">
+                    상태
+                </div>
+
+                <div class="status-buttons">
+
+                    <button
+                        type="button"
+                        class="status-btn active"
+                        data-status="전체">
+                        전체
+                    </button>
+
+                    <button
+                        type="button"
+                        class="status-btn"
+                        data-status="활성">
+                        활성
+                    </button>
+
+                    <button
+                        type="button"
+                        class="status-btn"
+                        data-status="비활성">
+                        비활성
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- 거래처 검색 -->
+            <div class="search-item customer">
+
+                <div class="search-label">
+                    거래처
+                </div>
+
+                <div class="customer-search-wrap">
+
+                    <input
+                        type="text"
+                        id="customerFilter"
+                        placeholder="거래처 검색">
+
+                    <button
+                        type="button"
+                        class="search-button"
+                        id="customerSearchBtn">
+
+                        <img
+                            src="/images/common/ico_search_white.svg"
+                            alt="">
+
+                        <span>검색</span>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         결과
+    ========================================================= -->
+
+    <div class="result-header">
+        시뮬레이션 목록
+        <span
+            class="result-count"
+            id="resultCount">
+            (0)
+        </span>
+    </div>
+
+
+    <!-- =========================================================
+         목록
+    ========================================================= -->
+
+    <div class="grid-wrap">
+
+        <table>
+
+            <colgroup>
+
+                <col
+                    class="col-customer"
+                    style="width:14%">
+
+                <col
+                    class="col-date"
+                    style="width:14%">
+
+                <col
+                    class="col-price"
+                    style="width:14%">
+
+                <col
+                    class="col-condition"
+                    style="width:14%">
+
+                <col
+                    class="col-ebit"
+                    style="width:14%">
+
+                <col
+                    class="admin-only-col"
+                    style="width:11%">
+
+                <col
+                    class="admin-only-col"
+                    style="width:10%">
+
+            </colgroup>
+
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        거래처
+                    </th>
+
+                    <th>
+                        완료일자
+                    </th>
+
+                    <th>
+                        Set Price
+                    </th>
+
+                    <th>
+                        Price 조건
+                    </th>
+
+                    <th>
+                        EBIT &amp; investment
+                    </th>
+
+                    <th class="admin-only">
+                        활성/비활성
+                    </th>
+
+                    <th class="admin-only">
+                        비고
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="simulationTableBody">
+            </tbody>
+
+        </table>
+
+    </div>
+
 </div>
 
+
 <script>
-const simulationData=[
-{id:1,customer:"트루인포",completedDate:"2026-09-17",setPrice:23000,priceCondition:"Meet price target",ebitCase:"Case1",active:true},
-{id:2,customer:"서울메디텍",completedDate:"2026-09-15",setPrice:27000,priceCondition:"Review required",ebitCase:"Case2",active:false},
-{id:3,customer:"세림메디칼",completedDate:"2026-09-12",setPrice:25000,priceCondition:"Meet price target",ebitCase:"Case3",active:true},
-{id:4,customer:"한빛병원",completedDate:"2026-09-10",setPrice:20000,priceCondition:"Review required",ebitCase:"Case4",active:false},
-{id:5,customer:"미래헬스케어",completedDate:"2026-09-08",setPrice:23000,priceCondition:"Meet price target",ebitCase:"Case2",active:true},
-{id:6,customer:"메디파트너",completedDate:"2026-09-03",setPrice:21000,priceCondition:"Review required",ebitCase:"Case1",active:false}
-];
+    /* =========================================================
+       로그인 모드
 
-let selectedStatus="전체";
-const tbody=document.getElementById("simulationTableBody");
-const count=document.getElementById("resultCount");
-const customerFilter=document.getElementById("customerFilter");
+       admin : 관리자
+       sales : 영업
+    ========================================================= */
 
-function formatPrice(v){return Number(v).toLocaleString("ko-KR")+" 원";}
-function renderTable(){
-  const keyword=customerFilter.value.trim().toLowerCase();
-  const filtered=simulationData.filter(x=>{
-    const statusOk=selectedStatus==="전체"||(selectedStatus==="활성"&&x.active)||(selectedStatus==="비활성"&&!x.active);
-    const customerOk=keyword===""||x.customer.toLowerCase().includes(keyword);
-    return statusOk&&customerOk;
-  });
-  count.textContent=`(${filtered.length})`;
-  tbody.innerHTML="";
-  if(!filtered.length){tbody.innerHTML='<tr><td colspan="7" class="no-data">조회된 시뮬레이션 내역이 없습니다.</td></tr>';return;}
-  filtered.forEach(x=>{
-    const tr=document.createElement("tr");
-    const conditionClass=x.priceCondition==="Meet price target"?"condition-meet":"condition-review";
-    tr.innerHTML=`
-      <td class="customer-cell">${x.customer}</td>
-      <td>${x.completedDate}</td>
-      <td class="price-cell">${formatPrice(x.setPrice)}</td>
-      <td><span class="condition-badge ${conditionClass}">${x.priceCondition}</span></td>
-      <td><span class="case-badge">${x.ebitCase}</span></td>
-      <td><div class="toggle-wrap"><button class="toggle ${x.active?"on":""}" data-id="${x.id}" type="button"></button><span class="toggle-text ${x.active?"on":""}">${x.active?"활성":"비활성"}</span></div></td>
-      <td><button class="quote-btn" data-id="${x.id}" type="button">견적</button></td>`;
-    tbody.appendChild(tr);
-  });
-  bindRows();
-}
+    const fmcMode =
+        sessionStorage.getItem("fmcLoginMode") === "admin"
+            ? "admin"
+            : "sales";
 
-function bindRows(){
-  document.querySelectorAll(".toggle").forEach(btn=>btn.onclick=()=>{
-    const item=simulationData.find(x=>x.id===Number(btn.dataset.id));
-    if(item){item.active=!item.active;renderTable();}
-  });
-  document.querySelectorAll(".quote-btn").forEach(btn=>btn.onclick=()=>{
-    const item=simulationData.find(x=>x.id===Number(btn.dataset.id));
-    if(item) console.log("추후 견적리스트 연결:",item.customer);
-  });
-}
+    const isSalesMode =
+        fmcMode === "sales";
 
-document.querySelectorAll(".status-btn").forEach(btn=>btn.onclick=()=>{
-  document.querySelectorAll(".status-btn").forEach(x=>x.classList.remove("active"));
-  btn.classList.add("active");selectedStatus=btn.dataset.status;renderTable();
-});
-document.getElementById("customerSearchBtn").onclick=renderTable;
-customerFilter.addEventListener("keydown",e=>{if(e.key==="Enter")renderTable();});
-renderTable();
+
+    /*
+     * 영업 사용자
+     */
+    if (isSalesMode) {
+
+        document.body.classList.add(
+            "sales-mode"
+        );
+
+    }
+
+
+    /* =========================================================
+       임시 데이터
+    ========================================================= */
+
+    const simulationData = [
+
+        {
+            id: 1,
+            customer: "트루인포",
+            completedDate: "2026-09-17",
+            setPrice: 23000,
+            priceCondition: "Meet price target",
+            ebitCase: "Case1",
+            active: true
+        },
+
+        {
+            id: 2,
+            customer: "서울메디텍",
+            completedDate: "2026-09-15",
+            setPrice: 27000,
+            priceCondition: "Review required",
+            ebitCase: "Case2",
+            active: false
+        },
+
+        {
+            id: 3,
+            customer: "세림메디칼",
+            completedDate: "2026-09-12",
+            setPrice: 25000,
+            priceCondition: "Meet price target",
+            ebitCase: "Case3",
+            active: true
+        },
+
+        {
+            id: 4,
+            customer: "한빛병원",
+            completedDate: "2026-09-10",
+            setPrice: 20000,
+            priceCondition: "Review required",
+            ebitCase: "Case4",
+            active: false
+        },
+
+        {
+            id: 5,
+            customer: "미래헬스케어",
+            completedDate: "2026-09-08",
+            setPrice: 23000,
+            priceCondition: "Meet price target",
+            ebitCase: "Case2",
+            active: true
+        },
+
+        {
+            id: 6,
+            customer: "메디파트너",
+            completedDate: "2026-09-03",
+            setPrice: 21000,
+            priceCondition: "Review required",
+            ebitCase: "Case1",
+            active: false
+        }
+
+    ];
+
+
+    /* =========================================================
+       변수
+    ========================================================= */
+
+    let selectedStatus =
+        "전체";
+
+
+    const tbody =
+        document.getElementById(
+            "simulationTableBody"
+        );
+
+
+    const count =
+        document.getElementById(
+            "resultCount"
+        );
+
+
+    const customerFilter =
+        document.getElementById(
+            "customerFilter"
+        );
+
+
+    /* =========================================================
+       금액 Format
+    ========================================================= */
+
+    function formatPrice(value) {
+
+        return (
+            Number(value)
+                .toLocaleString("ko-KR")
+            + " 원"
+        );
+
+    }
+
+
+    /* =========================================================
+       목록 조회
+    ========================================================= */
+
+    function renderTable() {
+
+        const keyword =
+            customerFilter
+                .value
+                .trim()
+                .toLowerCase();
+
+
+        const filtered =
+            simulationData.filter(item => {
+
+
+                /*
+                 * 영업 사용자는 상태 검색 자체가 없으므로
+                 * 상태 조건을 적용하지 않음
+                 */
+                const statusOk =
+                    isSalesMode
+                        ? true
+                        : (
+                            selectedStatus === "전체"
+
+                            || (
+                                selectedStatus === "활성"
+                                && item.active
+                            )
+
+                            || (
+                                selectedStatus === "비활성"
+                                && !item.active
+                            )
+                        );
+
+
+                const customerOk =
+                    keyword === ""
+
+                    || item.customer
+                        .toLowerCase()
+                        .includes(keyword);
+
+
+                return (
+                    statusOk
+                    && customerOk
+                );
+
+            });
+
+
+        /*
+         * 건수
+         */
+        count.textContent =
+            `(${filtered.length})`;
+
+
+        /*
+         * 초기화
+         */
+        tbody.innerHTML = "";
+
+
+        /*
+         * 데이터 없음
+         */
+        if (filtered.length === 0) {
+
+            const columnCount =
+                isSalesMode
+                    ? 5
+                    : 7;
+
+
+            tbody.innerHTML = `
+                <tr>
+                    <td
+                        colspan="${columnCount}"
+                        class="no-data">
+                        조회된 시뮬레이션 내역이 없습니다.
+                    </td>
+                </tr>
+            `;
+
+            return;
+
+        }
+
+
+        /*
+         * Row 생성
+         */
+        filtered.forEach(item => {
+
+
+            const tr =
+                document.createElement(
+                    "tr"
+                );
+
+
+            const conditionClass =
+                item.priceCondition
+                === "Meet price target"
+                    ? "condition-meet"
+                    : "condition-review";
+
+
+            /*
+             * 공통 5개 열
+             */
+            let html = `
+
+                <td class="customer-cell">
+                    ${item.customer}
+                </td>
+
+                <td>
+                    ${item.completedDate}
+                </td>
+
+                <td class="price-cell">
+                    ${formatPrice(item.setPrice)}
+                </td>
+
+                <td>
+                    <span
+                        class="condition-badge ${conditionClass}">
+                        ${item.priceCondition}
+                    </span>
+                </td>
+
+                <td>
+                    <span class="case-badge">
+                        ${item.ebitCase}
+                    </span>
+                </td>
+
+            `;
+
+
+            /*
+             * 관리자일 때만
+             * 활성/비활성 + 비고 추가
+             */
+            if (!isSalesMode) {
+
+                html += `
+
+                    <td>
+
+                        <div class="toggle-wrap">
+
+                            <button
+                                type="button"
+                                class="toggle ${item.active ? "on" : ""}"
+                                data-id="${item.id}">
+                            </button>
+
+                            <span
+                                class="toggle-text ${item.active ? "on" : ""}">
+
+                                ${
+                                    item.active
+                                        ? "활성"
+                                        : "비활성"
+                                }
+
+                            </span>
+
+                        </div>
+
+                    </td>
+
+
+                    <td>
+
+                        <button
+                            type="button"
+                            class="quote-btn"
+                            data-id="${item.id}">
+                            견적
+                        </button>
+
+                    </td>
+
+                `;
+
+            }
+
+
+            tr.innerHTML =
+                html;
+
+
+            tbody.appendChild(
+                tr
+            );
+
+        });
+
+
+        /*
+         * 관리자 버튼 Event
+         */
+        if (!isSalesMode) {
+
+            bindAdminButtons();
+
+        }
+
+    }
+
+
+    /* =========================================================
+       관리자 전용 Event
+    ========================================================= */
+
+    function bindAdminButtons() {
+
+
+        /*
+         * 활성 / 비활성
+         */
+        document
+            .querySelectorAll(
+                ".toggle"
+            )
+            .forEach(button => {
+
+
+                button.onclick =
+                    function () {
+
+
+                        const id =
+                            Number(
+                                this.dataset.id
+                            );
+
+
+                        const item =
+                            simulationData.find(
+                                row => row.id === id
+                            );
+
+
+                        if (!item) {
+                            return;
+                        }
+
+
+                        item.active =
+                            !item.active;
+
+
+                        renderTable();
+
+                    };
+
+            });
+
+
+        /*
+         * 견적
+         */
+        document
+            .querySelectorAll(
+                ".quote-btn"
+            )
+            .forEach(button => {
+
+
+                button.onclick =
+                    function () {
+
+
+                        const id =
+                            Number(
+                                this.dataset.id
+                            );
+
+
+                        const item =
+                            simulationData.find(
+                                row => row.id === id
+                            );
+
+
+                        if (!item) {
+                            return;
+                        }
+
+
+                        const templateById = {
+                        1: "5008",
+                        2: "6008",
+                        3: "4008",
+                        4: "5008",
+                        5: "6008",
+                        6: "4008"
+                    };
+
+                    const estimateItem = {
+                        id: item.id,
+                        customer: item.customer,
+                        date: item.completedDate,
+                        template: templateById[item.id] || "5008",
+                        to: item.customer,
+                        cc: "",
+                        from: "",
+                        content: "인공신장기 임대 및 소모품 견적의 건",
+                        note: ""
+                    };
+
+                    sessionStorage.setItem(
+                        "selectedSimulation",
+                        JSON.stringify(estimateItem)
+                    );
+
+                    sessionStorage.removeItem("selectedEstimate");
+
+                    location.href =
+                        `estimate-detail.html?simulationId=${encodeURIComponent(item.id)}&template=${encodeURIComponent(estimateItem.template)}`;
+
+                    };
+
+            });
+
+    }
+
+
+    /* =========================================================
+       상태 Filter
+       관리자만 실제 화면에서 사용
+    ========================================================= */
+
+    document
+        .querySelectorAll(
+            ".status-btn"
+        )
+        .forEach(button => {
+
+
+            button.addEventListener(
+                "click",
+                function () {
+
+
+                    document
+                        .querySelectorAll(
+                            ".status-btn"
+                        )
+                        .forEach(item => {
+
+                            item.classList.remove(
+                                "active"
+                            );
+
+                        });
+
+
+                    this.classList.add(
+                        "active"
+                    );
+
+
+                    selectedStatus =
+                        this.dataset.status;
+
+
+                    renderTable();
+
+                }
+            );
+
+        });
+
+
+    /* =========================================================
+       거래처 검색
+    ========================================================= */
+
+    document
+        .getElementById(
+            "customerSearchBtn"
+        )
+        .addEventListener(
+            "click",
+            renderTable
+        );
+
+
+    customerFilter.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (event.key === "Enter") {
+
+                renderTable();
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       최초 조회
+    ========================================================= */
+
+    renderTable();
+
 </script>
+
 </body>
 </html>

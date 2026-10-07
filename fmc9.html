@@ -2287,7 +2287,7 @@ body.sales-mode .simulation-analysis-area {
     display: none !important;
 }
 
-body.sales-mode.sales-step-3 #page2 .simulation-analysis-area {
+body.sales-mode.sales-step-3 #page2 .simulation-analysis-area:not(.admin-only-validation-section) {
     display: block !important;
 }
 
@@ -2886,6 +2886,41 @@ body.sales-mode .sales-result-title {
     margin-left: 3px;
     text-align: left;
     color: #7b8492;
+}
+
+
+
+/* =========================================================
+   영업모드 최종 화면:
+   견적서 미리보기까지 표시하고 Approval Matrix부터는 숨김
+========================================================= */
+
+/* Approval Matrix 자체 숨김 */
+body.sales-mode #page2 .approval-matrix-wrap {
+    display: none !important;
+}
+
+/*
+    result-summary-section 다음에 나오는 영역은 모두 관리자용입니다.
+    따라서 영업모드에서는 검산 확인표 / 계산기 / 상세 결과표 등
+    이후 영역 전체를 표시하지 않습니다.
+*/
+body.sales-mode #page2 .result-summary-section ~ * {
+    display: none !important;
+}
+
+
+
+/* =========================================================
+   영업모드: 검산 확인표 전체 숨김
+   - 검산 확인표 제목
+   - Cost inflation p/a
+   - Sales condition
+   - P&L / Investment
+   - Price/COP ~ P&L / Investment 결과 요약
+========================================================= */
+body.sales-mode #page2 .admin-only-validation-section {
+    display: none !important;
 }
 
 </style>
@@ -3652,11 +3687,11 @@ body.sales-mode .sales-result-title {
         </div>
     </div>
 
-    <div class="result-section-title">
+    <div class="result-section-title admin-only-validation-section">
         검산 확인표
     </div>
 
-    <div class="simulation-analysis-area">
+    <div class="simulation-analysis-area admin-only-validation-section">
 
         <!-- =====================================================
              Excel 계산 조건

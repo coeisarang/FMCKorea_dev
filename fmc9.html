@@ -264,6 +264,18 @@ button {
     font-size: 14px;
 }
 
+.product-list-summary .product-total-qty {
+    width: 54px;
+    height: 28px;
+    font-size: 12px;
+}
+
+.product-list-summary .product-total-qty.qty-error {
+    border: 1px solid #e53935;
+    box-shadow: 0 0 0 1px rgba(229, 57, 53, .12);
+    background: #fffafa;
+}
+
 /* =========================
    오른쪽 상세
 ========================= */
@@ -769,8 +781,6 @@ button {
     font-weight: 700;
 }
 
-
-
 .estimate-row {
     display: grid;
     grid-template-columns: 1fr auto;
@@ -906,7 +916,6 @@ button {
     margin-left: 13px;
 }
 
-
 .supply-table-wrap {
     max-height: 450px;
     overflow-y: auto;
@@ -976,7 +985,6 @@ button {
     width: auto;
 }
 
-
 .supply-check-wrap {
     display: flex;
     justify-content: center;
@@ -1025,7 +1033,6 @@ button {
     line-height: 1.5;
 }
 
-
 @media (max-width: 900px) {
     .supply-header {
         flex-direction: column;
@@ -1036,43 +1043,96 @@ button {
 /* =========================
    PAGE 2 기기별 소모품 선택
 ========================= */
+/* 선택 기계명: 섹션 제목과 구분되는 인라인 정보 헤더 */
+.machine-supply-inner-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 40px;
+    margin: 0 0 12px;
+    color: #6f7b8b;
+    line-height: 1;
+    margin-left: 2px;
+}
+
+.machine-supply-inner-title .machine-title-name {
+    color: #0a4fae;
+    font-size: 24px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -0.2px;
+}
+
+.machine-supply-inner-title .machine-title-count {
+    margin-left: 0;
+    color: #3e4c60;
+    font-size: 18px;
+    line-height: 1;
+    font-weight: 700;
+}
+
 .machine-supply-section {
-    padding: 30px 40px 35px;
-    margin-top: 30px;
+    padding: 20px 36px 38px;
+    margin-top: 0;
     background: #fff;
     border: 1px solid #dfe4eb;
+}
+
+/* 제품 및 소모품 선택 섹션 제목 */
+.machine-supply-title {
+    position: relative;
+    margin: 0 0 18px;
+    padding-left: 12px;
+    color: #222;
+    font-size: 17px;
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+.machine-supply-title::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 2px;
+    width: 4px;
+    height: 18px;
+    background: #124ec4;
 }
 
 .machine-config-card + .machine-config-card {
     margin-top: 50px;
 }
 
-/* 기계명 / 대수 - 리포트 탭 느낌의 구분 헤더 */
+/*
+    선택 기계는 별도 대형 카드처럼 보이지 않도록 간결하게 정리합니다.
+    기계명 바로 옆에 수량을 괄호로 표시합니다.
+*/
 .machine-summary-bar {
     position: relative;
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 14px;
-    width: 230px;
-    min-height: 38px;
+    width: 100%;
+    min-height: 50px;
     margin-bottom: 0;
-    padding: 0 14px 0 16px;
-    background: #0054b8;
-    border: 1px solid #124ec4;
-    border-radius: 5px 5px 0 0;
-    box-shadow: none;
+    padding: 11px 16px;
+    background: #f7f9fc;
+    border: 1px solid #d8e1ee;
+    border-left: 4px solid #0a57c8;
+    border-radius: 4px;
 }
 
-/* 왼쪽 탭 포인트 */
-.machine-summary-bar::before {
-    content: "";
-    position: absolute;
-    left: -1px;
-    top: -1px;
-    bottom: -1px;
-    width: 4px;
-    border-radius: 5px 0 0 0;
+.machine-summary-main {
+    min-width: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+}
+
+.machine-summary-label {
+    flex: 0 0 auto;
+    color: #6f7b8b;
+    font-size: 11px;
+    font-weight: 700;
 }
 
 .machine-summary-name {
@@ -1080,37 +1140,29 @@ button {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 700;
+    color: #0a4fae;
+    font-size: 18px;
+    line-height: 1.2;
+    font-weight: 800;
     letter-spacing: -0.2px;
 }
 
-.machine-summary-qty {
-    flex: 0 0 auto;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 0;
-    border: 0;
-    border-radius: 0;
-    background: transparent;
-    color: rgba(255,255,255,.82);
-    font-size: 10px;
-}
-
-.machine-summary-qty strong {
-    margin-left: 0;
-    color: #fff;
+.machine-summary-count {
+    margin-left: 5px;
+    color: #536176;
     font-size: 12px;
-    font-weight: 800;
+    font-weight: 700;
 }
 
-/* 리포트처럼 탭 아래 본문은 전체 폭으로 이어짐 */
+/* 선택 요약과 상세 영역 사이의 간격 */
+.machine-summary-bar + .machine-total-wrap {
+    margin-top: 10px;
+}
+
 .machine-summary-bar + .machine-config-body {
     margin-top: 0;
     padding-top: 16px;
-    border-top: 2px solid #124ec4;
+    border-top: 0;
 }
 
 .machine-config-body {
@@ -1118,7 +1170,7 @@ button {
 }
 
 .machine-consumable-block + .machine-consumable-block {
-    margin-top: 24px;
+    margin-top: 30px;
 }
 
 .machine-consumable-heading {
@@ -1126,16 +1178,17 @@ button {
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    margin-bottom: 8px;
-    margin-top: 15px;
+    margin-bottom: 10px;
+    margin-top: 18px;
 }
 
 .machine-consumable-title {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    font-weight: 700;
+    gap: 9px;
+    font-size: 15px;
+    line-height: 1.25;
+    font-weight: 800;
     color: #222;
 }
 
@@ -1152,14 +1205,14 @@ button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 25px;
-    height: 25px;
+    width: 28px;
+    height: 28px;
     padding: 0;
     border: 1px solid #b9c3d0;
     border-radius: 50%;
     background: #fff;
     color: #155bc1;
-    font-size: 18px;
+    font-size: 19px;
     line-height: 1;
     cursor: pointer;
 }
@@ -1182,20 +1235,22 @@ button {
 }
 
 .machine-consumable-table thead th {
-    background: #f7f9fc;
-    color: #444;
-    font-size: 11px;
-    font-weight: 700;
+    height: 42px;
+    background: #f5f7fa;
+    color: #303846;
+    font-size: 12px;
+    font-weight: 800;
     text-align: center;
-    border-bottom: 1px solid #d9dde3;
-    padding: 10px 7px;
+    border-bottom: 1px solid #cfd6df;
+    padding: 11px 8px;
 }
 
 .machine-consumable-table tbody td {
-    border-bottom: 1px solid #eceff3;
-    padding: 9px 7px;
-    font-size: 11px;
-    color: #555;
+    height: 48px;
+    border-bottom: 1px solid #e8ecf1;
+    padding: 10px 8px;
+    font-size: 12px;
+    color: #404854;
     vertical-align: middle;
 }
 
@@ -1234,41 +1289,50 @@ button {
 .machine-extra-value {
     text-align: right;
     color: #124ec4;
-    font-weight: 700;
+    font-size: 12px;
+    font-weight: 800;
     white-space: nowrap;
 }
 
 .machine-item-name {
     color: #1f2d3d;
-    font-weight: 600;
+    font-size: 12px;
+    font-weight: 700;
 }
 
 .machine-price-input {
     width: 100%;
-    height: 28px;
-    padding: 0 7px;
-    border: 1px solid #b3b3b3;
-    color: #333;
-    font-size: 11px;
+    height: 34px;
+    padding: 0 9px;
+    border: 1px solid #b7bec8;
+    border-radius: 3px;
+    background: #fff;
+    color: #222;
+    font-size: 12px;
+    font-weight: 600;
     text-align: right;
     outline: none;
 }
 
 .machine-usage-input {
     width: 100%;
-    height: 28px;
-    padding: 0 7px;
-    border: 1px solid #b3b3b3;
-    color: #333;
-    font-size: 11px;
+    height: 34px;
+    padding: 0 9px;
+    border: 1px solid #b7bec8;
+    border-radius: 3px;
+    background: #fff;
+    color: #222;
+    font-size: 12px;
+    font-weight: 600;
     text-align: right;
     outline: none;
 }
 
 .machine-readonly-price {
     text-align: right;
-    color: #333;
-    font-weight: 600;
+    color: #2f3742;
+    font-size: 12px;
+    font-weight: 700;
     white-space: nowrap;
 }
 
@@ -1277,14 +1341,14 @@ button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
     padding: 0;
     border: 1px solid #c7cdd5;
     border-radius: 50%;
     background: #fff;
-    color: #777;
-    font-size: 15px;
+    color: #666;
+    font-size: 16px;
     line-height: 1;
     cursor: pointer;
 }
@@ -1296,29 +1360,33 @@ button {
 }
 
 .machine-total-wrap {
-    margin-top: 14px;
+    margin-top: 6px;
     overflow-x: auto;
 }
 
 .machine-grand-total {
     display: grid;
+    /*
+        위 Dialyzer / Bloodline / Etc 테이블과 동일한 열 비율.
+        수량 / Set Price는 낮은 요약 행으로 유지하되
+        행 전체 외곽선만 표시합니다.
+    */
     grid-template-columns:
-        180px
-        130px
-        130px
-        130px
-        130px
-        120px
-        120px
-        90px
-        90px
-        52px;
+        180fr
+        130fr
+        130fr
+        130fr
+        130fr
+        120fr
+        120fr
+        90fr
+        90fr
+        52fr;
     align-items: stretch;
     width: 100%;
     min-width: 1172px;
-    border: 1px solid #dfe4eb;
-    border-top: 2px solid #909090;
-    background: #f7f9fc;
+    border: 1px solid #d7dde6;
+    background: #fff;
     font-size: 11px;
     font-weight: 700;
     color: #333;
@@ -1327,8 +1395,39 @@ button {
 .machine-grand-total > div {
     display: flex;
     align-items: center;
-    min-height: 40px;
-    padding: 10px 7px;
+    min-height: 36px;
+    padding: 4px 10px;
+    border-right: 0;
+}
+
+.machine-grand-total-label {
+    color: #26313f;
+    font-size: 12px;
+    font-weight: 800;
+    background: #f4f7fb;
+}
+
+.machine-grand-total-value2 {
+    flex-direction: column;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    gap: 3px;
+    margin-right: 0 !important;
+    text-align: right;
+}
+
+.machine-qty-caption {
+    color: #8a94a3;
+    font-size: 9px;
+    line-height: 1.1;
+    font-weight: 600;
+}
+
+.machine-qty-number {
+    color: #1f2d3d;
+    font-size: 12px;
+    line-height: 1.1;
+    font-weight: 800;
 }
 
 .machine-grand-total > div:last-child {
@@ -1338,6 +1437,8 @@ button {
 .machine-grand-total-value {
     justify-content: flex-end;
     color: #e54b4b;
+    font-size: 12px;
+    font-weight: 800;
     text-align: right;
 }
 
@@ -1348,9 +1449,11 @@ button {
 }
 
 .machine-grand-total-usage {
-    justify-content: right;
+    justify-content: flex-end;
     color: #e54b4b;
-    text-align: center;
+    font-size: 12px;
+    font-weight: 800;
+    text-align: right;
 }
 
 .machine-grand-total-empty {
@@ -1367,9 +1470,6 @@ button {
         padding: 0 20px 30px;
     }
 }
-
-
-
 
 /* =========================
    PAGE 2 결과 요약
@@ -1787,7 +1887,68 @@ button {
 .cop-table-scroll::-webkit-scrollbar{height:10px}
 .cop-table-scroll::-webkit-scrollbar-thumb{background:#c7ccd3;border:2px solid #fff;border-radius:8px}
 .cop-table-scroll::-webkit-scrollbar-track{background:#f5f6f8}
+
 @media(max-width:760px){.cop-detail-content{padding:12px}}
+
+/* =========================================================
+   Excel 수익분석 상세 - Revenue / COGS / Profit / Margin / P&L
+========================================================= */
+.finance-year-table{
+    min-width:1320px;
+}
+.finance-year-table .finance-total-col{
+    width:110px;
+}
+.finance-year-table .finance-year-col{
+    width:95px;
+}
+.finance-total-row td{
+    background:#f7f9fc!important;
+    border-top:2px solid #8f98a3;
+    color:#222;
+    font-weight:800;
+}
+.finance-percent{
+    text-align:right!important;
+    font-variant-numeric:tabular-nums;
+}
+.finance-subtitle{
+    margin:0 0 10px;
+    color:#333;
+    font-size:12px;
+    font-weight:700;
+}
+.finance-subtitle:not(:first-child){
+    margin-top:22px;
+}
+.finance-pnl-table{
+    min-width:1080px;
+}
+.finance-pnl-table .finance-item-col{
+    width:180px;
+}
+.finance-pnl-table .finance-year-col{
+    width:95px;
+}
+.finance-pnl-table .finance-total-col{
+    width:120px;
+}
+.finance-investment-table{
+    min-width:620px;
+    max-width:820px;
+}
+.finance-investment-table .finance-item-col{
+    width:260px;
+}
+.finance-investment-table .finance-value-col{
+    width:180px;
+}
+.finance-emphasis-row td{
+    background:#f7f9fc!important;
+    border-top:2px solid #8f98a3;
+    font-weight:800;
+}
+
 
 
 /* =========================================================
@@ -2106,6 +2267,627 @@ body.sales-mode #page2 .step2-title-row {
 
 .admin-only-page-top { display:block; }
 body.sales-mode .admin-only-page-top { display:none !important; }
+
+
+/* =========================================================
+   STEP 3 Excel Simulation Calculator / Dynamic Result Tables
+========================================================= */
+
+/*
+    관리자 모드는 기존 표시 방식을 유지합니다.
+
+    영업 모드에서는 계산기 + 6개 결과표를
+    STEP 1 / STEP 2에서는 숨기고 STEP 3에서만 표시합니다.
+*/
+.simulation-analysis-area {
+    margin: 20px 0 26px;
+}
+
+body.sales-mode .simulation-analysis-area {
+    display: none !important;
+}
+
+body.sales-mode.sales-step-3 #page2 .simulation-analysis-area {
+    display: block !important;
+}
+
+/*
+    기존 영업모드 CSS에서 .cop-detail-section 전체를 숨기고 있으므로
+    STEP 3의 시뮬레이션 결과 영역에 한해서 다시 표시합니다.
+*/
+body.sales-mode.sales-step-3 #page2
+.simulation-analysis-area .cop-detail-section {
+    display: block !important;
+}
+
+/*
+    영업 STEP 3에서는 Price/COP 포함 6개 표를
+    아코디언 클릭 없이 한 번에 모두 펼쳐서 표시합니다.
+*/
+body.sales-mode.sales-step-3 #page2
+.simulation-analysis-area .cop-detail-content {
+    display: block !important;
+}
+
+/* STEP 3에서는 접기/펼치기 상태와 관계없이 화살표를 열린 상태로 통일 */
+body.sales-mode.sales-step-3 #page2
+.simulation-analysis-area .cop-toggle-arrow {
+    transform: rotate(-90deg) !important;
+}
+
+
+.simulation-calculator-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin: 0 0 24px;
+}
+
+.simulation-calculator-card {
+    min-width: 0;
+    padding: 17px 18px 18px;
+    background: #fff;
+    border: 1px solid #dfe4eb;
+    border-top: 3px solid #155bc1;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .025);
+}
+
+.simulation-calculator-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 7px;
+}
+
+.simulation-calculator-number {
+    margin-bottom: 4px;
+    color: #155bc1;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .7px;
+}
+
+.simulation-calculator-title {
+    color: #1f2d3d;
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.25;
+}
+
+.simulation-calculator-badge {
+    flex: 0 0 auto;
+    padding: 4px 8px;
+    border: 1px solid #d7e2f2;
+    border-radius: 999px;
+    background: #f7faff;
+    color: #42658d;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.simulation-calculator-desc {
+    min-height: 31px;
+    margin-bottom: 12px;
+    color: #8a94a3;
+    font-size: 10px;
+    line-height: 1.55;
+}
+
+.simulation-calculator-desc b {
+    color: #155bc1;
+}
+
+.simulation-input-table-wrap {
+    border: 1px solid #e3e7ec;
+}
+
+.simulation-input-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 10px;
+}
+
+.simulation-input-table th {
+    height: 31px;
+    padding: 6px 7px;
+    border-bottom: 1px solid #dfe4eb;
+    border-right: 1px solid #edf0f3;
+    background: #f7f9fc;
+    color: #5a6472;
+    font-weight: 700;
+    text-align: center;
+}
+
+.simulation-input-table th:first-child {
+    width: 42%;
+    text-align: left;
+    padding-left: 10px;
+}
+
+.simulation-input-table th:last-child,
+.simulation-input-table td:last-child {
+    border-right: 0;
+}
+
+.simulation-input-table td {
+    height: 34px;
+    padding: 5px 7px;
+    border-bottom: 1px solid #edf0f3;
+    border-right: 1px solid #edf0f3;
+    background: #fff;
+    color: #333;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.simulation-input-table tr:last-child td {
+    border-bottom: 0;
+}
+
+.simulation-input-table td:first-child {
+    padding-left: 10px;
+    color: #3d4652;
+    font-weight: 600;
+    text-align: left;
+}
+
+.simulation-input-table td:nth-child(2):not([colspan]) {
+    color: #7a8491;
+}
+
+.simulation-number-input {
+    width: 54px;
+    height: 25px;
+    margin-right: 3px;
+    padding: 0 6px;
+    border: 1px solid #cfd6df;
+    border-radius: 3px;
+    background: #fff;
+    color: #154e9f;
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 700;
+    text-align: right;
+    outline: none;
+}
+
+.simulation-number-input:focus,
+.simulation-pnl-input:focus {
+    border-color: #1765df;
+    box-shadow: 0 0 0 1px rgba(23, 101, 223, .10);
+}
+
+.simulation-number-input-wide {
+    width: 78px;
+}
+
+.simulation-single-input {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.simulation-pnl-input-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+}
+
+.simulation-pnl-field {
+    display: block;
+    min-width: 0;
+    padding: 10px;
+    border: 1px solid #e1e6ec;
+    border-radius: 4px;
+    background: #fbfcfe;
+}
+
+.simulation-pnl-field > span {
+    display: block;
+    margin-bottom: 7px;
+    color: #5f6977;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.simulation-pnl-field > div {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.simulation-pnl-field em {
+    color: #6e7988;
+    font-size: 10px;
+    font-style: normal;
+}
+
+.simulation-pnl-input {
+    width: 100%;
+    min-width: 0;
+    height: 29px;
+    padding: 0 8px;
+    border: 1px solid #cfd6df;
+    border-radius: 3px;
+    background: #fff;
+    color: #154e9f;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    text-align: right;
+    outline: none;
+}
+
+.simulation-table-guide {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 0 0 9px;
+    padding: 0 2px;
+}
+
+.simulation-table-guide strong {
+    color: #222;
+    font-size: 13px;
+}
+
+.simulation-table-guide span {
+    color: #999;
+    font-size: 10px;
+}
+
+.simulation-result-section {
+    margin-top: 10px;
+}
+
+.simulation-result-section + .simulation-result-section {
+    margin-top: 10px;
+}
+
+.simulation-result-section .cop-toggle-bar {
+    min-height: 39px;
+    border-color: #dce2e9;
+    background: #fff;
+}
+
+.simulation-result-section .cop-toggle-title {
+    font-size: 12px;
+}
+
+.simulation-result-section .cop-toggle-title small {
+    margin-left: 4px;
+    color: #8a94a3;
+    font-size: 9px;
+    font-weight: 500;
+}
+
+.simulation-result-section .cop-detail-content {
+    padding: 12px;
+}
+
+.simulation-dynamic-scroll {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #e0e4e9;
+}
+
+.simulation-dynamic-table {
+    width: 100%;
+    min-width: 1080px;
+    border-collapse: collapse;
+    table-layout: fixed;
+    background: #fff;
+    font-size: 10px;
+}
+
+.simulation-dynamic-table th,
+.simulation-dynamic-table td {
+    height: 34px;
+    padding: 7px 8px;
+    border-bottom: 1px solid #edf0f3;
+    border-right: 1px solid #f1f3f6;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.simulation-dynamic-table th:last-child,
+.simulation-dynamic-table td:last-child {
+    border-right: 0;
+}
+
+.simulation-dynamic-table thead th {
+    background: #f7f9fc;
+    color: #4d5663;
+    font-weight: 700;
+    text-align: right;
+}
+
+.simulation-dynamic-table thead th:first-child,
+.simulation-dynamic-table thead th:nth-child(2),
+.simulation-dynamic-table thead th:nth-child(3) {
+    text-align: left;
+}
+
+.simulation-dynamic-table tbody td {
+    color: #333;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.simulation-dynamic-table tbody td:first-child,
+.simulation-dynamic-table tbody td:nth-child(2),
+.simulation-dynamic-table tbody td:nth-child(3) {
+    text-align: left;
+}
+
+.simulation-dynamic-table tbody tr:hover td {
+    background: #fbfcfe;
+}
+
+.simulation-dynamic-table .simulation-group-cell {
+    color: #155bc1;
+    font-weight: 800;
+}
+
+.simulation-dynamic-table .simulation-name-cell {
+    font-weight: 700;
+    color: #273142;
+}
+
+.simulation-dynamic-table .simulation-code-cell {
+    color: #7a8491;
+}
+
+.simulation-dynamic-table .simulation-total-row td {
+    background: #f7f9fc;
+    border-top: 2px solid #8e98a5;
+    color: #222;
+    font-weight: 800;
+}
+
+.simulation-dynamic-table .simulation-ebit-value {
+    color: #155bc1;
+    font-weight: 800;
+}
+
+.simulation-dynamic-table .simulation-negative {
+    color: #d64545;
+}
+
+.simulation-dynamic-table .simulation-percent-cell {
+    color: #155bc1;
+    font-weight: 700;
+}
+
+.simulation-dynamic-table .simulation-empty {
+    padding: 16px 10px;
+    color: #999;
+    text-align: center !important;
+}
+
+.simulation-pnl-summary-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 14px;
+}
+
+.simulation-investment-box {
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid #e0e4e9;
+    background: #fff;
+}
+
+.simulation-investment-title {
+    padding: 10px 12px;
+    border-bottom: 1px solid #e0e4e9;
+    background: #f7f9fc;
+    color: #333;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.simulation-investment-header,
+.simulation-investment-row {
+    display: grid;
+    /*
+        Investment 박스 내부를 정확히 3열로 고정합니다.
+        기존 px 고정폭 때문에 EUR 열이 박스 밖으로 밀려났으므로
+        컨테이너 너비 안에서 비율로 나눕니다.
+    */
+    grid-template-columns:
+        minmax(0, 1.45fr)
+        minmax(0, .85fr)
+        minmax(0, .70fr);
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    min-width: 0;
+    min-height: 38px;
+    padding: 8px 10px;
+    border-bottom: 1px solid #edf0f3;
+    font-size: 10px;
+}
+
+.simulation-investment-header {
+    min-height: 32px;
+    background: #f7f9fc;
+    color: #5f6977;
+    font-weight: 700;
+}
+
+.simulation-investment-header strong {
+    color: #5f6977;
+    font-size: 10px;
+    text-align: right;
+}
+
+.simulation-investment-row:last-child {
+    border-bottom: 0;
+}
+
+.simulation-investment-row span {
+    color: #697382;
+}
+
+.simulation-investment-row strong {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #154e9f;
+    font-size: 11px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.simulation-investment-row.total {
+    background: #f9fbff;
+}
+
+.simulation-investment-row.total span,
+.simulation-investment-row.total strong {
+    font-weight: 800;
+}
+
+.simulation-investment-row.total strong {
+    font-size: 12px;
+}
+
+body.sales-mode.sales-step-3 #page2 .simulation-analysis-area .cop-detail-section {
+    display: block !important;
+}
+
+@media (max-width: 1150px) {
+    .simulation-calculator-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .simulation-calculator-desc {
+        min-height: 0;
+    }
+
+    .simulation-pnl-summary-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+
+/* =========================================================
+   관리자 PAGE2 섹션 구분 라벨
+========================================================= */
+.admin-section-heading {
+    position: relative;
+    margin: 28px 0 12px;
+    padding-left: 12px;
+    color: #222;
+    font-size: 19px;
+    line-height: 1.25;
+    font-weight: 800;
+}
+
+.admin-section-heading::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 1px;
+    width: 4px;
+    height: 18px;
+    background: #124ec4;
+}
+
+body.sales-mode .admin-only-section-heading {
+    display: none !important;
+}
+
+.sales-result-title {
+    display: none;
+}
+
+body.sales-mode .admin-result-title {
+    display: none;
+}
+
+body.sales-mode .sales-result-title {
+    display: inline;
+}
+
+.approval-check-heading {
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+
+/* Sales condition - 기존 P&L 카드형 스타일 */
+.simulation-sales-condition-grid {
+    align-items: stretch;
+}
+
+.simulation-dual-inputs {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    width: 100%;
+}
+
+.simulation-mini-input {
+    min-width: 0;
+}
+
+.simulation-mini-input small {
+    display: block;
+    margin-bottom: 4px;
+    color: #8a94a3;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.simulation-mini-input > div {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.simulation-sales-condition-grid .simulation-pnl-input {
+    height: 30px;
+}
+
+
+/* P&L / Investment - 2열 테이블 */
+.simulation-two-col-table th:first-child {
+    width: 52%;
+}
+
+.simulation-two-col-table th:last-child {
+    width: 48%;
+}
+
+.simulation-two-col-table td:last-child {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.simulation-two-col-table .simulation-number-input-wide {
+    width: 100px;
+    text-align: right;
+}
+
+/*
+    1번째 행의 '%' 폭을 기준으로 2~4행에도 동일한 단위 공간을 확보해
+    모든 입력칸의 왼쪽 시작점과 오른쪽 끝점을 동일하게 맞춥니다.
+*/
+.simulation-two-col-table .pnl-unit-slot {
+    display: inline-block;
+    margin-left: 3px;
+    text-align: left;
+    color: #7b8492;
+}
+
 </style>
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/components.css">
@@ -2300,7 +3082,7 @@ body.sales-mode .admin-only-page-top { display:none !important; }
         </div>
     </div>
 <div class="step2-title-row">
-        <div class="step2-title">제품 및 소모품 선택</div>
+        <div></div>
 
         <div style="justify-content: space-between;">
             <button
@@ -2322,6 +3104,10 @@ body.sales-mode .admin-only-page-top { display:none !important; }
                 확정
             </button>
         </div>
+    </div>
+
+    <div class="admin-section-heading admin-only-section-heading" style="margin-top: -15px;">
+        Price Pactors
     </div>
 
     <div class="step2-layout">
@@ -2456,17 +3242,11 @@ body.sales-mode .admin-only-page-top { display:none !important; }
                             inputmode="numeric"
                             readonly
                             value="75000">
-                    </div>       
-                    
-                      
+                    </div>                                
                 </div>
             </div>
-
-
         </div>
 
-
-        <!-- 오른쪽 예상 가격 -->
         <!-- 오른쪽 예상 가격 -->
         <div class="estimate-panel">
 
@@ -2547,24 +3327,30 @@ body.sales-mode .admin-only-page-top { display:none !important; }
 
     </div>
 
-
     <!-- =========================
          기기별 소모품 선택
     ========================== -->
+    <div class="admin-section-heading admin-only-section-heading">
+        제품 및 소모품 선택
+    </div>
+
     <div class="machine-supply-section">
+        <div id="machineSupplyOuterTitle" class="machine-supply-inner-title">
+        </div>
+
         <div id="machineSupplySections"></div>
     </div>
 
 
     <div class="result-section-title">
-        시뮬레이션 결과 확인 및 견적 확정
+        <span class="admin-result-title">시뮬레이션 결과 확인</span>
+        <span class="sales-result-title">시뮬레이션 결과 확인 및 견적 확정</span>
     </div>
+
     <!-- =========================
          시뮬레이션 결과 요약
     ========================== -->
     <div class="result-summary-section">
-
-        
 
         <div class="result-layout">
 
@@ -2635,8 +3421,6 @@ body.sales-mode .admin-only-page-top { display:none !important; }
                         </div>
                     </div>
 
-                    
-
                     <div class="result-card">
                         <div class="result-card-label">EBIT &amp; investment</div>
                         <div
@@ -2665,7 +3449,6 @@ body.sales-mode .admin-only-page-top { display:none !important; }
                         maxlength="2000"
                         placeholder="메모를 입력하세요."></textarea>
                 </div>
-
             </div>
 
 
@@ -2722,7 +3505,7 @@ body.sales-mode .admin-only-page-top { display:none !important; }
                 </div>
 
                 <div class="receipt-row">
-                    <span>%</span>
+                    <span class="pnl-unit-slot">%</span>
                     <strong style="color:#e54b4b;">17.4%</strong>
                 </div>
 
@@ -2866,55 +3649,304 @@ body.sales-mode .admin-only-page-top { display:none !important; }
                     </tbody>
                 </table>
             </div>
-
         </div>
-
     </div>
 
+    <div class="result-section-title">
+        검산 확인표
+    </div>
 
-    <!-- =========================
-         연도별 Unit COP 상세
-    ========================== -->
-    <section class="cop-detail-section">
-        <button type="button" id="copToggleBar" class="cop-toggle-bar"
-                aria-expanded="true" aria-controls="copDetailContent">
-            <span class="cop-toggle-title">Price/ COP</span>
-            <span class="cop-toggle-arrow" aria-hidden="true">›</span>
-        </button>
+    <div class="simulation-analysis-area">
 
-        <div id="copDetailContent" class="cop-detail-content open">
-            <div class="cop-table-scroll">
-                <table class="cop-table">
-                    <colgroup>
-                        <col class="cop-group-col"><col class="cop-name-col"><col class="cop-code-col">
-                        <col class="cop-price-col"><col class="cop-price-col"><col class="cop-price-col">
-                        <col class="cop-year-col"><col class="cop-year-col"><col class="cop-year-col">
-                        <col class="cop-year-col"><col class="cop-year-col"><col class="cop-year-col">
-                        <col class="cop-year-col"><col class="cop-year-col"><col class="cop-year-col">
-                        <col class="cop-year-col">
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            <th rowspan="2">구분</th>
-                            <th rowspan="2">제품명</th>
-                            <th rowspan="2">코드</th>
-                            <th>Unit Price</th>
-                            <th>Unit COP</th>
-                            <th>Unit COP</th>
-                            <th colspan="10">Unit COP</th>
-                        </tr>
-                        <tr>
-                            <th>KRW</th><th>EUR</th><th>KRW</th>
-                            <th>Y1</th><th>Y2</th><th>Y3</th><th>Y4</th><th>Y5</th>
-                            <th>Y6</th><th>Y7</th><th>Y8</th><th>Y9</th><th>Y10</th>
-                        </tr>
-                    </thead>
-                    <tbody id="copTableBody"></tbody>
-                </table>
-            </div>
+        <!-- =====================================================
+             Excel 계산 조건
+        ====================================================== -->
+        <div class="simulation-calculator-grid">
+
+            <!-- 1. Cost inflation p/a -->
+            <section class="simulation-calculator-card">
+                <div class="simulation-calculator-head">
+                    <div>
+                        <div class="simulation-calculator-number">01</div>
+                        <div class="simulation-calculator-title">Cost inflation p/a</div>
+                    </div>
+                    <div class="simulation-calculator-badge">Cost</div>
+                </div>
+
+                <div class="simulation-calculator-desc">
+                    APIC은 기준값이며 <b>반영</b> 값만 시뮬레이션 계산에 적용됩니다.
+                </div>
+
+                <div class="simulation-input-table-wrap">
+                    <table class="simulation-input-table">
+                        <thead>
+                            <tr>
+                                <th>구분</th>
+                                <th>APIC</th>
+                                <th>반영</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Dialyzer</td>
+                                <td>1.0%</td>
+                                <td><input id="simInflationDialyzer" class="simulation-number-input" value="1.0" inputmode="decimal"><span>%</span></td>
+                            </tr>
+                            <tr>
+                                <td>Bloodline</td>
+                                <td>1.0%</td>
+                                <td><input id="simInflationBloodline" class="simulation-number-input" value="1.0" inputmode="decimal"><span>%</span></td>
+                            </tr>
+                            <tr>
+                                <td>Bibag</td>
+                                <td>1.0%</td>
+                                <td><input id="simInflationBibag" class="simulation-number-input" value="1.0" inputmode="decimal"><span>%</span></td>
+                            </tr>
+                            <tr>
+                                <td>Concentrate</td>
+                                <td>1.0%</td>
+                                <td><input id="simInflationConcentrate" class="simulation-number-input" value="1.0" inputmode="decimal"><span>%</span></td>
+                            </tr>
+                            <tr>
+                                <td>Equipment</td>
+                                <td>2.0%</td>
+                                <td><input id="simInflationEquipment" class="simulation-number-input" value="2.0" inputmode="decimal"><span>%</span></td>
+                            </tr>
+                            <tr>
+                                <td>Other expenses</td>
+                                <td>2.0%</td>
+                                <td><input id="simInflationOther" class="simulation-number-input" value="2.0" inputmode="decimal"><span>%</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+
+            <!-- 2. New / Extension / Wholesale / Credit card -->
+            <section class="simulation-calculator-card">
+                <div class="simulation-calculator-head">
+                    <div>
+                        <div class="simulation-calculator-number">02</div>
+                        <div class="simulation-calculator-title">Sales condition</div>
+                    </div>
+                    <div class="simulation-calculator-badge">Rate</div>
+                </div>
+
+                <div class="simulation-calculator-desc">
+                    New · Extension은 Y1/Y2 값을 입력하고, 도매마진 · Credit card charges는 단일 값을 적용합니다.
+                </div>
+
+                <div class="simulation-pnl-input-grid simulation-sales-condition-grid">
+
+                    <label class="simulation-pnl-field">
+                        <span>New</span>
+                        <div class="simulation-dual-inputs">
+                            <div class="simulation-mini-input">
+                                <small>Y1</small>
+                                <div>
+                                    <input id="simNewY1" class="simulation-pnl-input" value="5" inputmode="decimal">
+                                    <em>%</em>
+                                </div>
+                            </div>
+                            <div class="simulation-mini-input">
+                                <small>Y2</small>
+                                <div>
+                                    <input id="simNewY2" class="simulation-pnl-input" value="8" inputmode="decimal">
+                                    <em>%</em>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <label class="simulation-pnl-field">
+                        <span>Extension</span>
+                        <div class="simulation-dual-inputs">
+                            <div class="simulation-mini-input">
+                                <small>Y1</small>
+                                <div>
+                                    <input id="simExtensionY1" class="simulation-pnl-input" value="5" inputmode="decimal">
+                                    <em>%</em>
+                                </div>
+                            </div>
+                            <div class="simulation-mini-input">
+                                <small>Y2</small>
+                                <div>
+                                    <input id="simExtensionY2" class="simulation-pnl-input" value="8" inputmode="decimal">
+                                    <em>%</em>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <label class="simulation-pnl-field">
+                        <span>도매마진</span>
+                        <div>
+                            <input id="simWholesaleY1" class="simulation-pnl-input" value="2" inputmode="decimal">
+                            <em>%</em>
+                        </div>
+                    </label>
+
+                    <label class="simulation-pnl-field">
+                        <span>Credit card charges</span>
+                        <div>
+                            <input id="simCreditCard" class="simulation-pnl-input" value="2.5" inputmode="decimal">
+                            <em>%</em>
+                        </div>
+                    </label>
+
+                </div>
+            </section>
+
+
+            <!-- 3. P&L / Investment -->
+            <section class="simulation-calculator-card">
+                <div class="simulation-calculator-head">
+                    <div>
+                        <div class="simulation-calculator-number">03</div>
+                        <div class="simulation-calculator-title">P&amp;L / Investment</div>
+                    </div>
+                    <div class="simulation-calculator-badge">P&amp;L</div>
+                </div>
+
+                <div class="simulation-calculator-desc">
+                    P&amp;L / Investment 입력값 4개를 시뮬레이션 계산에 반영합니다.
+                </div>
+
+                <div class="simulation-input-table-wrap">
+                    <table class="simulation-input-table simulation-two-col-table">
+                        <thead>
+                            <tr>
+                                <th>항목</th>
+                                <th>반영</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>컬럼 1</td>
+                                <td>
+                                    <input id="simPnl1" class="simulation-number-input simulation-number-input-wide" value="2" inputmode="decimal">
+                                    <span>%</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>컬럼 2</td>
+                                <td>
+                                    <input id="simPnl2" class="simulation-number-input simulation-number-input-wide" value="189092" inputmode="numeric">
+                                    <span class="pnl-unit-slot">&nbsp;</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>컬럼 3</td>
+                                <td>
+                                    <input id="simPnl3" class="simulation-number-input simulation-number-input-wide" value="15810" inputmode="numeric">
+                                    <span class="pnl-unit-slot">&nbsp;</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>컬럼 4</td>
+                                <td>
+                                    <input id="simPnl4" class="simulation-number-input simulation-number-input-wide" value="3000000" inputmode="numeric">
+                                    <span class="pnl-unit-slot">&nbsp;</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
         </div>
-    </section>
 
+
+        <div class="simulation-table-guide">
+            <strong>Simulation detail</strong>
+        </div>
+
+
+        <!-- 1. Price / COP -->
+        <section class="cop-detail-section simulation-result-section">
+            <button type="button" id="copToggleBar" class="cop-toggle-bar"
+                    aria-expanded="true" aria-controls="copDetailContent">
+                <span class="cop-toggle-title">Price / COP</span>
+                <span class="cop-toggle-arrow" aria-hidden="true">›</span>
+            </button>
+
+            <div id="copDetailContent" class="cop-detail-content open">
+                <div id="simPriceCopTable"></div>
+            </div>
+        </section>
+
+
+        <!-- 2. Revenue -->
+        <section class="cop-detail-section simulation-result-section">
+            <button type="button" class="cop-toggle-bar"
+                    aria-expanded="true" aria-controls="revenueDetailContent">
+                <span class="cop-toggle-title">Revenue <small>매출</small></span>
+                <span class="cop-toggle-arrow" aria-hidden="true">›</span>
+            </button>
+
+            <div id="revenueDetailContent" class="cop-detail-content open">
+                <div id="simRevenueTable"></div>
+            </div>
+        </section>
+
+
+        <!-- 3. COGS -->
+        <section class="cop-detail-section simulation-result-section">
+            <button type="button" class="cop-toggle-bar"
+                    aria-expanded="true" aria-controls="cogsDetailContent">
+                <span class="cop-toggle-title">COGS <small>원가</small></span>
+                <span class="cop-toggle-arrow" aria-hidden="true">›</span>
+            </button>
+
+            <div id="cogsDetailContent" class="cop-detail-content open">
+                <div id="simCogsTable"></div>
+            </div>
+        </section>
+
+
+        <!-- 4. EBIT -->
+        <section class="cop-detail-section simulation-result-section">
+            <button type="button" class="cop-toggle-bar"
+                    aria-expanded="true" aria-controls="ebitDetailContent">
+                <span class="cop-toggle-title">EBIT <small>영업이익</small></span>
+                <span class="cop-toggle-arrow" aria-hidden="true">›</span>
+            </button>
+
+            <div id="ebitDetailContent" class="cop-detail-content open">
+                <div id="simEbitTable"></div>
+            </div>
+        </section>
+
+
+        <!-- 5. EBIT Margin -->
+        <section class="cop-detail-section simulation-result-section">
+            <button type="button" class="cop-toggle-bar"
+                    aria-expanded="true" aria-controls="marginDetailContent">
+                <span class="cop-toggle-title">EBIT Margin <small>영업이익률</small></span>
+                <span class="cop-toggle-arrow" aria-hidden="true">›</span>
+            </button>
+
+            <div id="marginDetailContent" class="cop-detail-content open">
+                <div id="simMarginTable"></div>
+            </div>
+        </section>
+
+
+        <!-- 6. P&L / Investment -->
+        <section class="cop-detail-section simulation-result-section">
+            <button type="button" class="cop-toggle-bar"
+                    aria-expanded="true" aria-controls="pnlInvestmentDetailContent">
+                <span class="cop-toggle-title">P&amp;L / Investment <small>요약</small></span>
+                <span class="cop-toggle-arrow" aria-hidden="true">›</span>
+            </button>
+
+            <div id="pnlInvestmentDetailContent" class="cop-detail-content open">
+                <div id="simPnlInvestmentTable"></div>
+            </div>
+        </section>
+
+    </div>
 </div>
 
 
@@ -2949,8 +3981,8 @@ const products = [
         subtitle: "More care. Less complexity",
         image: "machin1.png",
         price: "₩ 10,970,000",
-        qty: 10,
-        selected: true,
+        qty: "",
+        selected: false,
         features: [
             "자동복막투석(APD)은 가정에서 수면 시간에 복막투석을 시행하는 치료 방식으로 환자의 생활 패턴에 맞춰 사용할 수 있습니다.",
             "치료 과정 및 설정 정보를 간편하게 확인할 수 있도록 사용자 중심으로 구성되어 있습니다.",
@@ -2964,7 +3996,7 @@ const products = [
         subtitle: "Opening a world of possibilities",
         image: "machin1.png",
         price: "₩ 8,500,000",
-        qty: 15,
+        qty: "",
         selected: true,
         features: [
             "5008 시스템은 효율적인 혈액투석 치료를 지원하도록 설계되었습니다.",
@@ -3130,10 +4162,6 @@ function getPriceData(category, item) {
     return item;
 }
 
-
-
-
-
 /*
     selectedProductId는 "체크된 제품"을 의미하는 값이 아닙니다.
     오른쪽 상세정보에 현재 표시할 제품 ID입니다.
@@ -3152,7 +4180,18 @@ function renderProductList() {
 
     list.innerHTML = `
         <div class="product-list-summary">
-            총 수량 <strong id="totalProductQty">0</strong>대
+            총 수량
+            <input
+                type="text"
+                inputmode="numeric"
+                pattern="[0-9]*"
+                maxlength="3"
+                autocomplete="off"
+                class="product-qty product-total-qty"
+                id="totalProductQtyInput"
+                placeholder=""
+            >
+            대
         </div>
     `;
 
@@ -3185,7 +4224,6 @@ function renderProductList() {
                     this.nextElementSibling.style.display='flex';
                 "
             >
-
             <div
                 class="product-thumb-placeholder"
                 style="display:none;">
@@ -3204,38 +4242,25 @@ function renderProductList() {
 
             <div class="product-select-control">
                 <div class="check-box"></div>
-
-                <div class="product-qty-label">수량</div>
-
-                <input
-                    type="text"
-                    inputmode="numeric"
-                    pattern="[0-9]*"
-                    maxlength="3"
-                    autocomplete="off"
-                    class="product-qty"
-                    data-product-id="${product.id}"
-                    value="${product.qty}"
-                    placeholder=""
-                    ${product.selected ? "" : "disabled"}
-                >
             </div>
         `;
 
         /*
             제품 영역 클릭:
-            - 해당 제품 체크/해제
+            - 해당 제품 하나만 선택
             - 우측 상세도 클릭한 제품으로 변경
         */
         item.addEventListener("click", function () {
             toggleProductSelection(product.id);
         });
 
-        /*
-            수량 입력 클릭 시 제품 체크가 토글되지 않도록
-            이벤트 전파를 막습니다.
-        */
-        const qtyInput = item.querySelector(".product-qty");
+        list.appendChild(item);
+    });
+
+    const qtyInput =
+        document.getElementById("totalProductQtyInput");
+
+    if (qtyInput) {
 
         qtyInput.addEventListener("click", function (e) {
             e.stopPropagation();
@@ -3248,43 +4273,57 @@ function renderProductList() {
         qtyInput.addEventListener("input", function (e) {
             e.stopPropagation();
 
-            /*
-                키보드로 숫자만 입력할 수 있도록 처리합니다.
-                기본값은 없으며 빈 값도 허용합니다.
-            */
-            this.value = this.value.replace(/[^0-9]/g, "");
+            this.classList.remove("qty-error");
+
+            this.value =
+                this.value.replace(/[^0-9]/g, "");
+
+            const selectedProduct =
+                products.find(product => product.selected);
+
+            if (!selectedProduct) {
+                this.value = "";
+                return;
+            }
 
             if (this.value === "") {
-                product.qty = "";
+                selectedProduct.qty = "";
             }
             else {
-                const qty = parseInt(this.value, 10);
+                const qty =
+                    parseInt(this.value, 10);
 
-                product.qty = qty >= 1
-                    ? qty
-                    : "";
+                selectedProduct.qty =
+                    qty >= 1
+                        ? qty
+                        : "";
             }
-
-            updateProductTotalCount();
         });
 
         qtyInput.addEventListener("blur", function () {
-            /*
-                0만 입력한 경우 유효한 수량이 아니므로
-                다시 빈 값으로 처리합니다.
-            */
-            const qty = parseInt(this.value, 10);
 
-            if (this.value !== "" && (isNaN(qty) || qty < 1)) {
+            const selectedProduct =
+                products.find(product => product.selected);
+
+            if (!selectedProduct) {
                 this.value = "";
-                product.qty = "";
+                return;
+            }
+
+            const qty =
+                parseInt(this.value, 10);
+
+            if (
+                this.value !== "" &&
+                (isNaN(qty) || qty < 1)
+            ) {
+                this.value = "";
+                selectedProduct.qty = "";
             }
 
             updateProductTotalCount();
         });
-
-        list.appendChild(item);
-    });
+    }
 
     updateProductTotalCount();
 }
@@ -3304,15 +4343,14 @@ function toggleProductSelection(productId) {
     }
 
     /*
-        다른 제품의 selected 값을 건드리지 않습니다.
-        따라서 여러 제품을 동시에 선택할 수 있습니다.
+        하나의 제품만 선택할 수 있도록
+        클릭한 제품만 selected = true 로 처리합니다.
     */
-    product.selected = !product.selected;
+    products.forEach(item => {
+        item.selected =
+            item.id === productId;
+    });
 
-    /*
-        선택/해제와 관계없이 마지막으로 클릭한 제품은
-        우측 상세정보에 표시합니다.
-    */
     selectedProductId = productId;
 
     renderProductList();
@@ -3326,23 +4364,30 @@ function toggleProductSelection(productId) {
 ================================================== */
 function updateProductTotalCount() {
 
-    const total = products
-        .filter(product => product.selected)
-        .reduce((sum, product) => {
-            const qty = parseInt(product.qty, 10);
+    const selectedProduct =
+        products.find(product => product.selected);
 
-            return sum + (
-                isNaN(qty) || qty < 1
-                    ? 0
-                    : qty
-            );
-        }, 0);
+    const qty =
+        selectedProduct
+            ? parseInt(selectedProduct.qty, 10)
+            : 0;
 
-    const totalEl =
-        document.getElementById("totalProductQty");
+    const total =
+        isNaN(qty) || qty < 1
+            ? 0
+            : qty;
 
-    if (totalEl) {
-        totalEl.textContent = total;
+    const totalInput =
+        document.getElementById("totalProductQtyInput");
+
+    if (totalInput) {
+        totalInput.value =
+            selectedProduct &&
+            selectedProduct.qty !== ""
+                ? selectedProduct.qty
+                : "";
+        totalInput.disabled =
+            !selectedProduct;
     }
 
     return total;
@@ -3464,18 +4509,24 @@ function loadProductFromUrl() {
 
 
     /*
-        products 파라미터가 있을 때만
-        체크 상태를 URL 기준으로 복원합니다.
+        products 파라미터가 있을 때도
+        하나의 제품만 선택 상태로 복원합니다.
     */
     if (selectedProducts !== null) {
 
-        const selectedIds = selectedProducts
-            .split(",")
-            .filter(Boolean);
+        const selectedId =
+            selectedProducts
+                .split(",")
+                .filter(Boolean)
+                .find(id =>
+                    products.some(
+                        product => product.id === id
+                    )
+                );
 
         products.forEach(product => {
             product.selected =
-                selectedIds.includes(product.id);
+                product.id === selectedId;
         });
     }
 
@@ -3488,7 +4539,19 @@ function loadProductFromUrl() {
     ) {
         selectedProductId = activeProductId;
     }
+
+    /*
+        선택된 제품이 없으면 현재 상세 제품을
+        기본 선택 제품으로 사용합니다.
+    */
+    if (!products.some(product => product.selected)) {
+        products.forEach(product => {
+            product.selected =
+                product.id === selectedProductId;
+        });
+    }
 }
+
 
 
 
@@ -3596,7 +4659,6 @@ function calcPriceTotals(
             }
         }
     });
-
 
     /*
         Usage %는 금액처럼 단순 합산하지 않습니다.
@@ -4138,14 +5200,44 @@ function renderMachineSupplySections() {
             supply => supply.checked
         );
 
+    const outerTitle =
+        document.getElementById(
+            "machineSupplyOuterTitle"
+        );
+
     container.innerHTML = "";
 
     if (selectedProducts.length === 0) {
+
+        if (outerTitle) {
+            outerTitle.innerHTML =
+                "선택된 기기가 없습니다.";
+        }
         container.innerHTML =
             '<div class="machine-empty-row">선택한 기기가 없습니다.</div>';
         return;
     }
 
+
+    if (outerTitle) {
+
+        const titleProduct =
+            selectedProducts[0];
+
+        const titleQty =
+            parseInt(
+                titleProduct.qty,
+                10
+            ) || 0;
+
+        outerTitle.innerHTML =
+            '<span class="machine-title-name">' +
+            titleProduct.name +
+            '</span>' +
+            '<span class="machine-title-count">(' +
+            titleQty +
+            '대)</span>';
+    }
 
     selectedProducts.forEach(
         (product, index) => {
@@ -4202,17 +5294,6 @@ function renderMachineSupplySections() {
                 "machine-config-card";
 
             card.innerHTML = `
-                <div class="machine-summary-bar">
-                    <div class="machine-summary-name">
-                        ${product.name}
-                    </div>
-
-                    <div class="machine-summary-qty">
-                        (대수
-                        <strong>${qty}</strong>)
-                    </div>
-                </div>
-
                 <div class="machine-total-wrap">
                         <div class="machine-grand-total">
 
@@ -4221,15 +5302,16 @@ function renderMachineSupplySections() {
                             </div>
 
                             <div class="machine-grand-total-value2">
-                                1,000 qty
+
+                                <span class="machine-qty-number">1,000 qty</span>
                             </div>
 
                             <div class="machine-grand-total-value2">
-                                1,000 qty
+                                <span class="machine-qty-number">1,000 qty</span>
                             </div>
 
                             <div class="machine-grand-total-value2">
-                                1,000 qty
+                                <span class="machine-qty-number">1,000 qty</span>
                             </div>
 
                             <div class="machine-grand-total-empty"></div>
@@ -4379,9 +5461,53 @@ function renderMachineSupplySections() {
 
 
 /* ==================================================
+   기계 수량 필수 입력 검증
+================================================== */
+function validateMachineQuantity() {
+
+    const selectedProduct =
+        products.find(product => product.selected);
+
+    const qtyInput =
+        document.getElementById("totalProductQtyInput");
+
+    const qty =
+        selectedProduct
+            ? parseInt(selectedProduct.qty, 10)
+            : 0;
+
+    const isValid =
+        selectedProduct &&
+        !isNaN(qty) &&
+        qty >= 1;
+
+    if (isValid) {
+        if (qtyInput) {
+            qtyInput.classList.remove("qty-error");
+        }
+
+        return true;
+    }
+
+    if (qtyInput) {
+        qtyInput.classList.add("qty-error");
+        qtyInput.focus();
+    }
+
+    alert("기계 수량 입력은 필수입니다.");
+
+    return false;
+}
+
+
+/* ==================================================
    2단계 화면 표시
 ================================================== */
 function goNextPage() {
+
+    if (!validateMachineQuantity()) {
+        return;
+    }
 
     renderStep2Selection();
     updateStep2Estimate();
@@ -5181,6 +6307,13 @@ function initSalesWizard() {
 
                 if (currentSalesStep < 3) {
 
+                    if (
+                        currentSalesStep === 1 &&
+                        !validateMachineQuantity()
+                    ) {
+                        return;
+                    }
+
                     setSalesStep(
                         currentSalesStep + 1
                     );
@@ -5299,6 +6432,1303 @@ const copTableData = [
     }
 ];
 
+/* ==================================================
+   Excel 수익분석 상세
+   기준 파일: 2026 STL Profit simulation Tool_공유.xlsx
+================================================== */
+const financialDetailData = {
+    "revenue": {
+        "rows": [
+            {
+                "group": "Machine",
+                "name": "4008S V10",
+                "code": "M204001",
+                "total": "",
+                "years": [
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ]
+            },
+            {
+                "group": "",
+                "name": "5008S",
+                "code": "M201211",
+                "total": "",
+                "years": [
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ]
+            },
+            {
+                "group": "",
+                "name": "6008",
+                "code": "M201701",
+                "total": "",
+                "years": [
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ]
+            },
+            {
+                "group": "Dialyzer",
+                "name": "FX 5 (Korea)",
+                "code": "F00005646",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "FX 8 (Korea)",
+                "code": "F00005647",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "FX CorDiax 60",
+                "code": "F00005651",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "FX CorDiax 80",
+                "code": "F00005652",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "FX Coral 60",
+                "code": "F00006821",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "FX Coral 80",
+                "code": "F00006822",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "FX 60 classix",
+                "code": "F00005659",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "FX 80 classix",
+                "code": "F00005660",
+                "total": "882,000,000",
+                "years": [
+                    "126,000,000",
+                    "126,000,000",
+                    "126,000,000",
+                    "126,000,000",
+                    "126,000,000",
+                    "126,000,000",
+                    "126,000,000",
+                    "0"
+                ]
+            },
+            {
+                "group": "Bloodline",
+                "name": "4008",
+                "code": "AP16721",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "5008 Online Plus",
+                "code": "F00005444",
+                "total": "482,160,000",
+                "years": [
+                    "68,880,000",
+                    "68,880,000",
+                    "68,880,000",
+                    "68,880,000",
+                    "68,880,000",
+                    "68,880,000",
+                    "68,880,000",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "5008 Post R",
+                "code": "F00005680",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "6008 Careset",
+                "code": "F00006808",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "BIBAG",
+                "code": "5060781k",
+                "total": "289,624,364",
+                "years": [
+                    "41,374,909",
+                    "41,374,909",
+                    "41,374,909",
+                    "41,374,909",
+                    "41,374,909",
+                    "41,374,909",
+                    "41,374,909",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "Concentrate",
+                "code": "",
+                "total": "296,652,900",
+                "years": [
+                    "42,378,986",
+                    "42,378,986",
+                    "42,378,986",
+                    "42,378,986",
+                    "42,378,986",
+                    "42,378,986",
+                    "42,378,986",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "Service Revenue",
+                "code": "",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            }
+        ],
+        "total": "1,950,437,264",
+        "totalYears": [
+            "278,633,895",
+            "278,633,895",
+            "278,633,895",
+            "278,633,895",
+            "278,633,895",
+            "278,633,895",
+            "278,633,895",
+            "0"
+        ]
+    },
+    "cogs": {
+        "rows": [
+            {
+                "group": "Machine",
+                "name": "4008S V10",
+                "code": "M204001",
+                "total": "0",
+                "years": [
+                    "0",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ]
+            },
+            {
+                "group": "",
+                "name": "5008S",
+                "code": "M201211",
+                "total": "309,600,000",
+                "years": [
+                    "309,600,000",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ]
+            },
+            {
+                "group": "",
+                "name": "6008",
+                "code": "M201701",
+                "total": "0",
+                "years": [
+                    "0",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ]
+            },
+            {
+                "group": "Dialyzer",
+                "name": "FX 5 (Korea)",
+                "code": "F00005646",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "FX 8 (Korea)",
+                "code": "F00005647",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "FX CorDiax 60",
+                "code": "F00005651",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "FX CorDiax 80",
+                "code": "F00005652",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "FX Coral 60",
+                "code": "F00006821",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "FX Coral 80",
+                "code": "F00006822",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "FX 60 classix",
+                "code": "F00005659",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "FX 80 classix",
+                "code": "F00005660",
+                "total": "309,600,000",
+                "years": [
+                    "44,228,571",
+                    "44,228,571",
+                    "44,228,571",
+                    "44,228,571",
+                    "44,228,571",
+                    "44,228,571",
+                    "44,228,571",
+                    "0"
+                ]
+            },
+            {
+                "group": "Bloodline",
+                "name": "4008",
+                "code": "AP16721",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "5008 Online Plus",
+                "code": "F00005444",
+                "total": "516,000,000",
+                "years": [
+                    "73,714,286",
+                    "73,714,286",
+                    "73,714,286",
+                    "73,714,286",
+                    "73,714,286",
+                    "73,714,286",
+                    "73,714,286",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "5008 Post R",
+                "code": "F00005680",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "6008 Careset",
+                "code": "F00006808",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "BIBAG",
+                "code": "5060781k",
+                "total": "103,200,000",
+                "years": [
+                    "14,742,857",
+                    "14,742,857",
+                    "14,742,857",
+                    "14,742,857",
+                    "14,742,857",
+                    "14,742,857",
+                    "14,742,857",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "Concentrate",
+                "code": "",
+                "total": "223,740,000",
+                "years": [
+                    "31,962,857",
+                    "31,962,857",
+                    "31,962,857",
+                    "31,962,857",
+                    "31,962,857",
+                    "31,962,857",
+                    "31,962,857",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "Service Revenue",
+                "code": "",
+                "total": "",
+                "years": [
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ]
+            }
+        ],
+        "total": "1,462,140,000",
+        "totalYears": [
+            "474,248,571",
+            "164,648,571",
+            "164,648,571",
+            "164,648,571",
+            "164,648,571",
+            "164,648,571",
+            "164,648,571",
+            "0"
+        ]
+    },
+    "profit": {
+        "rows": [
+            {
+                "group": "Machine",
+                "name": "4008S V10",
+                "code": "M204001",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    ""
+                ]
+            },
+            {
+                "group": "",
+                "name": "5008S",
+                "code": "M201211",
+                "total": "-309,600,000",
+                "years": [
+                    "-309,600,000",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    ""
+                ]
+            },
+            {
+                "group": "",
+                "name": "6008",
+                "code": "M201701",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    ""
+                ]
+            },
+            {
+                "group": "Dialyzer",
+                "name": "FX 5 (Korea)",
+                "code": "F00005646",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "FX 8 (Korea)",
+                "code": "F00005647",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "FX CorDiax 60",
+                "code": "F00005651",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "FX CorDiax 80",
+                "code": "F00005652",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "FX Coral 60",
+                "code": "F00006821",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "FX Coral 80",
+                "code": "F00006822",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "FX 60 classix",
+                "code": "F00005659",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "FX 80 classix",
+                "code": "F00005660",
+                "total": "572,400,000",
+                "years": [
+                    "81,771,429",
+                    "81,771,429",
+                    "81,771,429",
+                    "81,771,429",
+                    "81,771,429",
+                    "81,771,429",
+                    "81,771,429",
+                    "0"
+                ]
+            },
+            {
+                "group": "Bloodline",
+                "name": "4008",
+                "code": "AP16721",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "5008 Online Plus",
+                "code": "F00005444",
+                "total": "-33,840,000",
+                "years": [
+                    "-4,834,286",
+                    "-4,834,286",
+                    "-4,834,286",
+                    "-4,834,286",
+                    "-4,834,286",
+                    "-4,834,286",
+                    "-4,834,286",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "5008 Post R",
+                "code": "F00005680",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "6008 Careset",
+                "code": "F00006808",
+                "total": "0",
+                "years": [
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "BIBAG",
+                "code": "5060781k",
+                "total": "186,424,364",
+                "years": [
+                    "26,632,052",
+                    "26,632,052",
+                    "26,632,052",
+                    "26,632,052",
+                    "26,632,052",
+                    "26,632,052",
+                    "26,632,052",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "Concentrate",
+                "code": "",
+                "total": "72,912,900",
+                "years": [
+                    "10,416,129",
+                    "10,416,129",
+                    "10,416,129",
+                    "10,416,129",
+                    "10,416,129",
+                    "10,416,129",
+                    "10,416,129",
+                    "0"
+                ]
+            },
+            {
+                "group": "",
+                "name": "Service Revenue",
+                "code": "",
+                "total": "",
+                "years": [
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ]
+            }
+        ],
+        "total": "488,297,264",
+        "totalYears": [
+            "-195,614,677",
+            "113,985,323",
+            "113,985,323",
+            "113,985,323",
+            "113,985,323",
+            "113,985,323",
+            "113,985,323",
+            ""
+        ]
+    },
+    "margin": {
+        "rows": [
+            {
+                "group": "",
+                "name": "FX 80 classix",
+                "code": "F00005660",
+                "total": "65%",
+                "years": [
+                    "65%",
+                    "65%",
+                    "65%",
+                    "65%",
+                    "65%",
+                    "65%",
+                    "65%",
+                    ""
+                ]
+            },
+            {
+                "group": "",
+                "name": "5008 Online Plus",
+                "code": "F00005444",
+                "total": "-7%",
+                "years": [
+                    "-7%",
+                    "-7%",
+                    "-7%",
+                    "-7%",
+                    "-7%",
+                    "-7%",
+                    "-7%",
+                    ""
+                ]
+            },
+            {
+                "group": "",
+                "name": "BIBAG",
+                "code": "5060781k",
+                "total": "64%",
+                "years": [
+                    "64%",
+                    "64%",
+                    "64%",
+                    "64%",
+                    "64%",
+                    "64%",
+                    "64%",
+                    ""
+                ]
+            },
+            {
+                "group": "",
+                "name": "Concentrate",
+                "code": "",
+                "total": "25%",
+                "years": [
+                    "25%",
+                    "25%",
+                    "25%",
+                    "25%",
+                    "25%",
+                    "25%",
+                    "25%",
+                    ""
+                ]
+            }
+        ],
+        "total": "25%",
+        "totalYears": [
+            "-70%",
+            "41%",
+            "41%",
+            "41%",
+            "41%",
+            "41%",
+            "41%",
+            ""
+        ]
+    },
+    "pnl": [
+        {
+            "name": "Revenue",
+            "years": [
+                "278,633,895",
+                "278,633,895",
+                "278,633,895",
+                "278,633,895",
+                "278,633,895",
+                "278,633,895",
+                "278,633,895",
+                "0"
+            ],
+            "total": "1,950,437,264",
+            "emphasis": false
+        },
+        {
+            "name": "Cogs",
+            "years": [
+                "537,248,571",
+                "164,648,571",
+                "164,648,571",
+                "164,648,571",
+                "164,648,571",
+                "164,648,571",
+                "164,648,571",
+                "0"
+            ],
+            "total": "1,525,140,000",
+            "emphasis": false
+        },
+        {
+            "name": "Distribution",
+            "years": [
+                "5,572,678",
+                "5,572,678",
+                "5,572,678",
+                "5,572,678",
+                "5,572,678",
+                "5,572,678",
+                "5,572,678",
+                "0"
+            ],
+            "total": "39,008,745",
+            "emphasis": false
+        },
+        {
+            "name": "MC maintenance",
+            "years": [
+                "3,781,840",
+                "3,781,840",
+                "3,781,840",
+                "3,781,840",
+                "3,781,840",
+                "3,781,840",
+                "3,781,840",
+                "0"
+            ],
+            "total": "26,472,880",
+            "emphasis": false
+        },
+        {
+            "name": "MC Collection",
+            "years": [
+                "",
+                "",
+                "",
+                "",
+                "0",
+                "0",
+                "0",
+                "316,200"
+            ],
+            "total": "316,200",
+            "emphasis": false
+        },
+        {
+            "name": "TDMS",
+            "years": [
+                "3,000,000",
+                "3,000,000",
+                "3,000,000",
+                "3,000,000",
+                "3,000,000",
+                "3,000,000",
+                "3,000,000",
+                "0"
+            ],
+            "total": "21,000,000",
+            "emphasis": false
+        },
+        {
+            "name": "Credit card charges",
+            "years": [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+            ],
+            "total": "",
+            "emphasis": false
+        },
+        {
+            "name": "Set",
+            "years": [
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0"
+            ],
+            "total": "0",
+            "emphasis": false
+        },
+        {
+            "name": "Bibag",
+            "years": [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+            ],
+            "total": "0",
+            "emphasis": false
+        },
+        {
+            "name": "concentrate",
+            "years": [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+            ],
+            "total": "0",
+            "emphasis": false
+        },
+        {
+            "name": "EBIT",
+            "years": [
+                "-270,969,195",
+                "101,630,805",
+                "101,630,805",
+                "101,630,805",
+                "101,630,805",
+                "101,630,805",
+                "101,630,805",
+                "-316,200"
+            ],
+            "total": "338,499,438",
+            "emphasis": true
+        }
+    ],
+    "investment": [
+        {
+            "name": "Capex",
+            "krw": "372,600,000",
+            "eur": "216,628",
+            "emphasis": false
+        },
+        {
+            "name": "AR",
+            "krw": "68,704,248",
+            "eur": "39,944",
+            "emphasis": false
+        },
+        {
+            "name": "Inventory",
+            "krw": "132,472,250",
+            "eur": "77,019",
+            "emphasis": false
+        },
+        {
+            "name": "AP",
+            "krw": "88,314,834",
+            "eur": "51,346",
+            "emphasis": false
+        },
+        {
+            "name": "Working Capital",
+            "krw": "112,861,665",
+            "eur": "65,617",
+            "emphasis": false
+        },
+        {
+            "name": "Total investment",
+            "krw": "485,461,665",
+            "eur": "282,245",
+            "emphasis": true
+        }
+    ]
+};
+
+function appendFinanceCell(tr, value, className) {
+    const td = document.createElement("td");
+    td.className = className || "cop-number";
+    td.textContent = value === "" ? "-" : value;
+    tr.appendChild(td);
+}
+
+function renderFinancialYearTable(bodyId, data, isPercent) {
+    const body = document.getElementById(bodyId);
+    if (!body || !data) return;
+
+    body.innerHTML = "";
+
+    data.rows.forEach(function (item) {
+        const tr = document.createElement("tr");
+
+        appendFinanceCell(tr, item.group || "", "cop-group-cell");
+        appendFinanceCell(tr, item.name || "", "cop-name");
+        appendFinanceCell(tr, item.code || "", "cop-code");
+        appendFinanceCell(tr, item.total || "", isPercent ? "finance-percent" : "cop-number");
+
+        item.years.forEach(function (value) {
+            appendFinanceCell(tr, value, isPercent ? "finance-percent" : "cop-number");
+        });
+
+        body.appendChild(tr);
+    });
+
+    const totalRow = document.createElement("tr");
+    totalRow.className = "finance-total-row";
+
+    appendFinanceCell(totalRow, "", "cop-group-cell");
+    appendFinanceCell(totalRow, "Total", "cop-name");
+    appendFinanceCell(totalRow, "", "cop-code");
+    appendFinanceCell(totalRow, data.total || "", isPercent ? "finance-percent" : "cop-number");
+
+    data.totalYears.forEach(function (value) {
+        appendFinanceCell(totalRow, value, isPercent ? "finance-percent" : "cop-number");
+    });
+
+    body.appendChild(totalRow);
+}
+
+function renderPnlTable() {
+    const body = document.getElementById("pnlTableBody");
+    if (!body) return;
+
+    body.innerHTML = "";
+
+    financialDetailData.pnl.forEach(function (item) {
+        const tr = document.createElement("tr");
+
+        if (item.emphasis) {
+            tr.classList.add("finance-emphasis-row");
+        }
+
+        appendFinanceCell(tr, item.name || "", "cop-name");
+
+        item.years.forEach(function (value) {
+            appendFinanceCell(tr, value, "cop-number");
+        });
+
+        appendFinanceCell(tr, item.total || "", "cop-number");
+        body.appendChild(tr);
+    });
+}
+
+function renderInvestmentTable() {
+    const body = document.getElementById("investmentTableBody");
+    if (!body) return;
+
+    body.innerHTML = "";
+
+    financialDetailData.investment.forEach(function (item) {
+        const tr = document.createElement("tr");
+
+        if (item.emphasis) {
+            tr.classList.add("finance-emphasis-row");
+        }
+
+        appendFinanceCell(tr, item.name || "", "cop-name");
+        appendFinanceCell(tr, item.krw || "", "cop-number");
+        appendFinanceCell(tr, item.eur || "", "cop-number");
+
+        body.appendChild(tr);
+    });
+}
+
+function renderFinancialDetailTables() {
+    renderFinancialYearTable("revenueTableBody", financialDetailData.revenue, false);
+    renderFinancialYearTable("cogsTableBody", financialDetailData.cogs, false);
+    renderFinancialYearTable("profitTableBody", financialDetailData.profit, false);
+    renderFinancialYearTable("marginTableBody", financialDetailData.margin, true);
+    renderPnlTable();
+    renderInvestmentTable();
+}
+
 function renderCopTable(){
     const body=document.getElementById("copTableBody");
     if(!body)return;
@@ -5364,21 +7794,25 @@ function renderCopTable(){
     });
 }
 
-function bindCopToggle(){
-    const button=document.getElementById("copToggleBar");
-    const content=document.getElementById("copDetailContent");
-    if(!button||!content)return;
+function bindCopToggles(){
+    document.querySelectorAll(".cop-toggle-bar[aria-controls]").forEach(function(button){
+        const contentId = button.getAttribute("aria-controls");
+        const content = document.getElementById(contentId);
 
-    button.addEventListener("click",function(){
-        const open=button.getAttribute("aria-expanded")!=="true";
-        button.setAttribute("aria-expanded",String(open));
-        content.classList.toggle("open",open);
+        if(!content)return;
+
+        button.addEventListener("click",function(){
+            const open = button.getAttribute("aria-expanded") !== "true";
+            button.setAttribute("aria-expanded", String(open));
+            content.classList.toggle("open", open);
+        });
     });
 }
 
 document.addEventListener("DOMContentLoaded",function(){
     renderCopTable();
-    bindCopToggle();
+    renderFinancialDetailTables();
+    bindCopToggles();
 });
 
 </script>
@@ -5410,6 +7844,2148 @@ document.addEventListener("DOMContentLoaded",function(){
         </button>
     </div>
 </div>
+
+
+
+<script>
+/* =========================================================
+   Excel 기반 STEP 3 동적 시뮬레이션
+========================================================= */
+(function () {
+
+    const SIM_FX = 1720;
+    const SIM_CONSUMABLE_QTY_PER_YEAR = 1000;
+
+    const simulationMachineCop = {
+        "4008": { code: "M204001", copEur: 6000 },
+        "5008": { code: "M201211", copEur: 9000 },
+        "6008": { code: "M201701", copEur: 10000 }
+    };
+
+    const simulationConsumableCop = {
+        "F00005646": { category: "Dialyzer", copEur: 3, copKrw: 5160 },
+        "F00005647": { category: "Dialyzer", copEur: 3, copKrw: 5160 },
+        "F00005651": { category: "Dialyzer", copEur: 3, copKrw: 5160 },
+        "F00005652": { category: "Dialyzer", copEur: 3, copKrw: 5160 },
+        "F00006821": { category: "Dialyzer", copEur: 3, copKrw: 5160 },
+        "F00006822": { category: "Dialyzer", copEur: 3, copKrw: 5160 },
+        "F00005659": { category: "Dialyzer", copEur: 3, copKrw: 5160 },
+        "F00005660": { category: "Dialyzer", copEur: 3, copKrw: 5160 },
+        "AP16721":   { category: "Bloodline", copEur: 3, copKrw: 5160 },
+        "F00005444": { category: "Bloodline", copEur: 5, copKrw: 8600 },
+        "F00005680": { category: "Bloodline", copEur: 5, copKrw: 8600 },
+        "F00006808": { category: "Bloodline", copEur: 7, copKrw: 12040 }
+    };
+
+    const simulationBloodlineCodes = {
+        "BL-4008": "AP16721",
+        "BL-5008-ONLINE": "F00005444",
+        "BL-5008-POSTR": "F00005680",
+        "BL-6008": "F00006808"
+    };
+
+
+    function simNumber(id, fallback) {
+        const element = document.getElementById(id);
+
+        if (!element) {
+            return fallback;
+        }
+
+        const value =
+            Number(
+                String(element.value)
+                    .replace(/,/g, "")
+                    .replace(/[^0-9.-]/g, "")
+            );
+
+        return Number.isFinite(value)
+            ? value
+            : fallback;
+    }
+
+
+    function simRate(id, fallbackPercent) {
+        return simNumber(id, fallbackPercent) / 100;
+    }
+
+
+    function simClamp(value, min, max) {
+        return Math.min(
+            max,
+            Math.max(min, value)
+        );
+    }
+
+
+    function simFormatNumber(value, decimals) {
+
+        if (
+            value === null ||
+            value === undefined ||
+            !Number.isFinite(Number(value))
+        ) {
+            return "-";
+        }
+
+        const number =
+            Number(value);
+
+        if (Math.abs(number) < 0.0000001) {
+            return "-";
+        }
+
+        return number.toLocaleString(
+            "ko-KR",
+            {
+                minimumFractionDigits: decimals || 0,
+                maximumFractionDigits: decimals || 0
+            }
+        );
+    }
+
+
+    function simFormatPercent(value) {
+
+        if (
+            value === null ||
+            value === undefined ||
+            !Number.isFinite(Number(value))
+        ) {
+            return "-";
+        }
+
+        return (
+            Number(value) * 100
+        ).toLocaleString(
+            "ko-KR",
+            {
+                minimumFractionDigits: 1,
+                maximumFractionDigits: 1
+            }
+        ) + "%";
+    }
+
+
+    function simParseProductPrice(product) {
+
+        if (!product) {
+            return 0;
+        }
+
+        return Number(
+            String(product.price || "")
+                .replace(/[^0-9]/g, "")
+        ) || 0;
+    }
+
+
+    function simContractYears() {
+
+        const input =
+            document.getElementById(
+                "contractPeriod"
+            );
+
+        const value =
+            input
+                ? parseInt(input.value, 10)
+                : 10;
+
+        return simClamp(
+            Number.isFinite(value) ? value : 10,
+            1,
+            10
+        );
+    }
+
+
+    /*
+        Excel New / Extension:
+        Y1/Y2는 직접 입력,
+        나머지 기간은 잔여 비중을 균등 배분합니다.
+    */
+    function simAllocationProfile(
+        years,
+        y1Rate,
+        y2Rate
+    ) {
+
+        if (years <= 1) {
+            return [1];
+        }
+
+        if (years === 2) {
+            const sum =
+                y1Rate + y2Rate;
+
+            if (sum <= 0) {
+                return [0.5, 0.5];
+            }
+
+            return [
+                y1Rate / sum,
+                y2Rate / sum
+            ];
+        }
+
+        let y1 =
+            simClamp(y1Rate, 0, 1);
+
+        let y2 =
+            simClamp(y2Rate, 0, 1);
+
+        if (y1 + y2 > 1) {
+            const total =
+                y1 + y2;
+
+            y1 /= total;
+            y2 /= total;
+        }
+
+        const remaining =
+            Math.max(
+                0,
+                1 - y1 - y2
+            );
+
+        const rest =
+            remaining / (years - 2);
+
+        return Array.from(
+            { length: years },
+            function (_, index) {
+                if (index === 0) {
+                    return y1;
+                }
+
+                if (index === 1) {
+                    return y2;
+                }
+
+                return rest;
+            }
+        );
+    }
+
+
+    function simCurrentInputs() {
+
+        const years =
+            simContractYears();
+
+        return {
+            years: years,
+
+            inflation: {
+                dialyzer:
+                    simRate(
+                        "simInflationDialyzer",
+                        1
+                    ),
+
+                bloodline:
+                    simRate(
+                        "simInflationBloodline",
+                        1
+                    ),
+
+                bibag:
+                    simRate(
+                        "simInflationBibag",
+                        1
+                    ),
+
+                concentrate:
+                    simRate(
+                        "simInflationConcentrate",
+                        1
+                    ),
+
+                equipment:
+                    simRate(
+                        "simInflationEquipment",
+                        2
+                    ),
+
+                other:
+                    simRate(
+                        "simInflationOther",
+                        2
+                    )
+            },
+
+            newProfile:
+                simAllocationProfile(
+                    years,
+                    simRate("simNewY1", 5),
+                    simRate("simNewY2", 8)
+                ),
+
+            extensionProfile:
+                simAllocationProfile(
+                    years,
+                    simRate("simExtensionY1", 5),
+                    simRate("simExtensionY2", 8)
+                ),
+
+            wholesale: [
+                simRate("simWholesaleY1", 2),
+                simRate("simWholesaleY1", 2)
+            ],
+
+            creditCard:
+                simRate(
+                    "simCreditCard",
+                    2.5
+                ),
+
+            pnl: [
+                simRate("simPnl1", 2),
+                simNumber("simPnl2", 189092),
+                simNumber("simPnl3", 15810),
+                simNumber("simPnl4", 3000000)
+            ]
+        };
+    }
+
+
+    function simReadCurrentCategory(
+        category,
+        items
+    ) {
+
+        const card =
+            document.querySelector(
+                "#machineSupplySections .machine-config-card"
+            );
+
+        const block =
+            card
+                ? card.querySelector(
+                    '[data-consumable-category="' +
+                    category +
+                    '"]'
+                )
+                : null;
+
+        const rows =
+            block
+                ? Array.from(
+                    block.querySelectorAll(
+                        "tbody tr"
+                    )
+                )
+                : [];
+
+        return items.map(
+            function (item, index) {
+
+                const fallback =
+                    getPriceData(
+                        category,
+                        item
+                    ) || {};
+
+                const row =
+                    rows[index];
+
+                const priceInputs =
+                    row
+                        ? Array.from(
+                            row.querySelectorAll(
+                                ".machine-price-input"
+                            )
+                        )
+                        : [];
+
+                const usageInput =
+                    row
+                        ? row.querySelector(
+                            ".machine-usage-input"
+                        )
+                        : null;
+
+                function readPrice(
+                    position,
+                    fallbackValue
+                ) {
+
+                    if (!priceInputs[position]) {
+                        return Number(fallbackValue) || 0;
+                    }
+
+                    return (
+                        parseMachinePriceValue(
+                            priceInputs[position].value
+                        ) || 0
+                    );
+                }
+
+                const usage =
+                    usageInput
+                        ? (
+                            Number(
+                                String(
+                                    usageInput.value
+                                ).replace(
+                                    /[^0-9.-]/g,
+                                    ""
+                                )
+                            ) || 0
+                        ) / 100
+                        : (
+                            Number(fallback.usage) || 0
+                        ) / 100;
+
+                return {
+                    item: item,
+                    contract:
+                        readPrice(
+                            0,
+                            fallback.contract
+                        ),
+                    first:
+                        readPrice(
+                            1,
+                            fallback.first
+                        ),
+                    second:
+                        readPrice(
+                            2,
+                            fallback.second
+                        ),
+                    usage:
+                        simClamp(
+                            usage,
+                            0,
+                            10
+                        )
+                };
+            }
+        );
+    }
+
+
+    function simPriceForYear(
+        row,
+        yearIndex
+    ) {
+
+        if (yearIndex === 0) {
+            return row.contract || 0;
+        }
+
+        if (yearIndex === 1) {
+            return (
+                row.first ||
+                row.contract ||
+                0
+            );
+        }
+
+        return (
+            row.second ||
+            row.first ||
+            row.contract ||
+            0
+        );
+    }
+
+
+    function simInflated(
+        baseValue,
+        rate,
+        yearIndex
+    ) {
+
+        return (
+            baseValue *
+            Math.pow(
+                1 + rate,
+                yearIndex
+            )
+        );
+    }
+
+
+    function simSum(values) {
+        return values.reduce(
+            function (sum, value) {
+                return sum + (Number(value) || 0);
+            },
+            0
+        );
+    }
+
+
+    function simBuildModel() {
+
+        const input =
+            simCurrentInputs();
+
+        const selectedProduct =
+            products.find(
+                function (product) {
+                    return product.selected;
+                }
+            );
+
+        const years =
+            input.years;
+
+        const emptyYearValues =
+            function () {
+                return Array.from(
+                    { length: years },
+                    function () {
+                        return 0;
+                    }
+                );
+            };
+
+        if (!selectedProduct) {
+            return {
+                input: input,
+                years: years,
+                product: null,
+                lines: [],
+                revenueTotals: emptyYearValues(),
+                cogsTotals: emptyYearValues(),
+                ebitTotals: emptyYearValues(),
+                marginTotals: emptyYearValues(),
+                pnl: {},
+                investment: {}
+            };
+        }
+
+        const machineKey =
+            getMachineKey(
+                selectedProduct
+            );
+
+        const machineInfo =
+            simulationMachineCop[
+                machineKey
+            ] || {
+                code: selectedProduct.id,
+                copEur: 0
+            };
+
+        const machineQty =
+            parseInt(
+                selectedProduct.qty,
+                10
+            ) || 0;
+
+        const lines = [];
+
+        /*
+            Machine
+        */
+        const machineRevenue =
+            emptyYearValues();
+
+        const machineCogs =
+            emptyYearValues();
+
+        const machineCopYears =
+            emptyYearValues();
+
+        const machineUnitPrice =
+            simParseProductPrice(
+                selectedProduct
+            );
+
+        const machineCopKrw =
+            machineInfo.copEur *
+            SIM_FX;
+
+        input.newProfile.forEach(
+            function (share, yearIndex) {
+
+                const yearQty =
+                    machineQty *
+                    share;
+
+                machineRevenue[yearIndex] =
+                    machineUnitPrice *
+                    yearQty;
+
+                machineCopYears[yearIndex] =
+                    simInflated(
+                        machineCopKrw,
+                        input.inflation.equipment,
+                        yearIndex
+                    );
+
+                machineCogs[yearIndex] =
+                    machineCopYears[yearIndex] *
+                    yearQty;
+            }
+        );
+
+        lines.push({
+            group: "Machine",
+            categoryKey: "equipment",
+            name: selectedProduct.name,
+            code: machineInfo.code,
+            unitPrice: machineUnitPrice,
+            unitCopEur: machineInfo.copEur,
+            unitCopKrw: machineCopKrw,
+            copYears: machineCopYears,
+            revenueYears: machineRevenue,
+            cogsYears: machineCogs
+        });
+
+
+        /*
+            Dialyzer
+        */
+        const selectedDialyzers =
+            supplies.filter(
+                function (item) {
+                    return item.checked;
+                }
+            );
+
+        const dialyzerRows =
+            simReadCurrentCategory(
+                "dialyzer",
+                selectedDialyzers
+            );
+
+        dialyzerRows.forEach(
+            function (row) {
+
+                if (
+                    !row.contract &&
+                    !row.first &&
+                    !row.second
+                ) {
+                    return;
+                }
+
+                const cop =
+                    simulationConsumableCop[
+                        row.item.code
+                    ] || {
+                        copEur: 3,
+                        copKrw: 5160
+                    };
+
+                const revenueYears =
+                    emptyYearValues();
+
+                const cogsYears =
+                    emptyYearValues();
+
+                const copYears =
+                    emptyYearValues();
+
+                input.extensionProfile.forEach(
+                    function (share, yearIndex) {
+
+                        const contractQty =
+                            SIM_CONSUMABLE_QTY_PER_YEAR *
+                            years;
+
+                        const yearQty =
+                            contractQty *
+                            share *
+                            row.usage;
+
+                        const wholesale =
+                            yearIndex < 2
+                                ? input.wholesale[
+                                    yearIndex
+                                ]
+                                : 0;
+
+                        revenueYears[yearIndex] =
+                            simPriceForYear(
+                                row,
+                                yearIndex
+                            ) *
+                            yearQty *
+                            (1 - wholesale);
+
+                        copYears[yearIndex] =
+                            simInflated(
+                                cop.copKrw,
+                                input.inflation.dialyzer,
+                                yearIndex
+                            );
+
+                        cogsYears[yearIndex] =
+                            copYears[yearIndex] *
+                            yearQty;
+                    }
+                );
+
+                lines.push({
+                    group: "Dialyzer",
+                    categoryKey: "dialyzer",
+                    name: row.item.name,
+                    code: row.item.code,
+                    unitPrice: row.contract,
+                    unitCopEur: cop.copEur,
+                    unitCopKrw: cop.copKrw,
+                    copYears: copYears,
+                    revenueYears: revenueYears,
+                    cogsYears: cogsYears
+                });
+            }
+        );
+
+
+        /*
+            Bloodline
+        */
+        const matchedBloodlines =
+            bloodlines.filter(
+                function (item) {
+                    return (
+                        item.machineKey ===
+                        machineKey
+                    );
+                }
+            );
+
+        const bloodlineRows =
+            simReadCurrentCategory(
+                "bloodline",
+                matchedBloodlines
+            );
+
+        bloodlineRows.forEach(
+            function (row) {
+
+                if (
+                    !row.contract &&
+                    !row.first &&
+                    !row.second
+                ) {
+                    return;
+                }
+
+                const code =
+                    simulationBloodlineCodes[
+                        row.item.id
+                    ] || row.item.id;
+
+                const cop =
+                    simulationConsumableCop[
+                        code
+                    ] || {
+                        copEur: 0,
+                        copKrw: 0
+                    };
+
+                const revenueYears =
+                    emptyYearValues();
+
+                const cogsYears =
+                    emptyYearValues();
+
+                const copYears =
+                    emptyYearValues();
+
+                input.extensionProfile.forEach(
+                    function (share, yearIndex) {
+
+                        const contractQty =
+                            SIM_CONSUMABLE_QTY_PER_YEAR *
+                            years;
+
+                        const yearQty =
+                            contractQty *
+                            share *
+                            row.usage;
+
+                        const wholesale =
+                            yearIndex < 2
+                                ? input.wholesale[
+                                    yearIndex
+                                ]
+                                : 0;
+
+                        revenueYears[yearIndex] =
+                            simPriceForYear(
+                                row,
+                                yearIndex
+                            ) *
+                            yearQty *
+                            (1 - wholesale);
+
+                        copYears[yearIndex] =
+                            simInflated(
+                                cop.copKrw,
+                                input.inflation.bloodline,
+                                yearIndex
+                            );
+
+                        cogsYears[yearIndex] =
+                            copYears[yearIndex] *
+                            yearQty;
+                    }
+                );
+
+                lines.push({
+                    group: "Bloodline",
+                    categoryKey: "bloodline",
+                    name: row.item.name,
+                    code: code,
+                    unitPrice: row.contract,
+                    unitCopEur: cop.copEur,
+                    unitCopKrw: cop.copKrw,
+                    copYears: copYears,
+                    revenueYears: revenueYears,
+                    cogsYears: cogsYears
+                });
+            }
+        );
+
+
+        /*
+            값이 있는 Etc 항목만 반영
+        */
+        const etcRows =
+            simReadCurrentCategory(
+                "etc",
+                etcItems
+            );
+
+        etcRows.forEach(
+            function (row) {
+
+                if (
+                    !row.contract &&
+                    !row.first &&
+                    !row.second
+                ) {
+                    return;
+                }
+
+                const revenueYears =
+                    emptyYearValues();
+
+                const cogsYears =
+                    emptyYearValues();
+
+                const copYears =
+                    emptyYearValues();
+
+                input.extensionProfile.forEach(
+                    function (share, yearIndex) {
+
+                        const contractQty =
+                            SIM_CONSUMABLE_QTY_PER_YEAR *
+                            years;
+
+                        const yearQty =
+                            contractQty *
+                            share *
+                            row.usage;
+
+                        const wholesale =
+                            yearIndex < 2
+                                ? input.wholesale[
+                                    yearIndex
+                                ]
+                                : 0;
+
+                        revenueYears[yearIndex] =
+                            simPriceForYear(
+                                row,
+                                yearIndex
+                            ) *
+                            yearQty *
+                            (1 - wholesale);
+
+                        copYears[yearIndex] =
+                            simInflated(
+                                0,
+                                input.inflation.other,
+                                yearIndex
+                            );
+
+                        cogsYears[yearIndex] =
+                            copYears[yearIndex] *
+                            yearQty;
+                    }
+                );
+
+                lines.push({
+                    group: "Etc",
+                    categoryKey: "other",
+                    name: row.item.name,
+                    code: row.item.id,
+                    unitPrice: row.contract,
+                    unitCopEur: 0,
+                    unitCopKrw: 0,
+                    copYears: copYears,
+                    revenueYears: revenueYears,
+                    cogsYears: cogsYears
+                });
+            }
+        );
+
+
+        const revenueTotals =
+            emptyYearValues();
+
+        const cogsTotals =
+            emptyYearValues();
+
+        lines.forEach(
+            function (line) {
+
+                line.revenueYears.forEach(
+                    function (value, index) {
+                        revenueTotals[index] +=
+                            value;
+                    }
+                );
+
+                line.cogsYears.forEach(
+                    function (value, index) {
+                        cogsTotals[index] +=
+                            value;
+                    }
+                );
+            }
+        );
+
+
+        /*
+            P&L 입력 4개
+            컬럼1 : % 성격의 비용
+            컬럼2 : 기기당 연간 비용
+            컬럼3 : 계약 종료 시 기기당 비용
+            컬럼4 : 연간 고정비
+        */
+        const distribution =
+            revenueTotals.map(
+                function (value) {
+                    return (
+                        value *
+                        input.pnl[0]
+                    );
+                }
+            );
+
+        const maintenance =
+            revenueTotals.map(
+                function (_, yearIndex) {
+                    return (
+                        machineQty > 0 &&
+                        yearIndex < years
+                            ? input.pnl[1] *
+                              machineQty
+                            : 0
+                    );
+                }
+            );
+
+        const collection =
+            revenueTotals.map(
+                function (_, yearIndex) {
+                    return (
+                        yearIndex ===
+                        years - 1
+                            ? input.pnl[2] *
+                              machineQty
+                            : 0
+                    );
+                }
+            );
+
+        const tdms =
+            revenueTotals.map(
+                function (_, yearIndex) {
+                    return (
+                        yearIndex < years
+                            ? input.pnl[3]
+                            : 0
+                    );
+                }
+            );
+
+        const creditCard =
+            revenueTotals.map(
+                function (value) {
+                    return (
+                        value *
+                        input.creditCard
+                    );
+                }
+            );
+
+        const ebitTotals =
+            revenueTotals.map(
+                function (revenue, index) {
+                    return (
+                        revenue -
+                        cogsTotals[index] -
+                        distribution[index] -
+                        maintenance[index] -
+                        collection[index] -
+                        tdms[index] -
+                        creditCard[index]
+                    );
+                }
+            );
+
+        const marginTotals =
+            revenueTotals.map(
+                function (revenue, index) {
+                    return (
+                        revenue === 0
+                            ? null
+                            : (
+                                ebitTotals[index] /
+                                revenue
+                            )
+                    );
+                }
+            );
+
+
+        /*
+            제품별 EBIT / EBIT Margin
+
+            - Distribution(컬럼1): 각 제품 매출 × 입력 비율
+            - Credit card charges: 각 제품 매출 × 입력 비율
+            - Maintenance / Collection / TDMS 같은 공통비용:
+              해당 연도의 제품 매출 비중으로 배분
+
+            따라서 Revenue / COGS와 동일하게 제품별 행을 유지하면서
+            각 제품마다 서로 다른 EBIT / EBIT Margin을 표시합니다.
+        */
+        lines.forEach(
+            function (line) {
+
+                line.ebitYears =
+                    line.revenueYears.map(
+                        function (revenue, yearIndex) {
+
+                            const totalRevenue =
+                                revenueTotals[yearIndex] || 0;
+
+                            const revenueShare =
+                                totalRevenue === 0
+                                    ? 0
+                                    : revenue / totalRevenue;
+
+                            const lineDistribution =
+                                revenue *
+                                input.pnl[0];
+
+                            const lineCreditCard =
+                                revenue *
+                                input.creditCard;
+
+                            const allocatedSharedCost =
+                                (
+                                    maintenance[yearIndex] +
+                                    collection[yearIndex] +
+                                    tdms[yearIndex]
+                                ) *
+                                revenueShare;
+
+                            return (
+                                revenue -
+                                (line.cogsYears[yearIndex] || 0) -
+                                lineDistribution -
+                                lineCreditCard -
+                                allocatedSharedCost
+                            );
+                        }
+                    );
+
+                line.marginYears =
+                    line.revenueYears.map(
+                        function (revenue, yearIndex) {
+
+                            if (!revenue) {
+                                return null;
+                            }
+
+                            return (
+                                line.ebitYears[yearIndex] /
+                                revenue
+                            );
+                        }
+                    );
+            }
+        );
+
+
+        /*
+            Excel Investment 구조를 참고한 간단 요약
+            AR  : Revenue / 365 * 90
+            Inv : COGS / 365 * 90
+            AP  : COGS / 365 * 60
+        */
+        const capexKrw =
+            machineUnitPrice *
+            machineQty;
+
+        const ar =
+            (
+                revenueTotals[0] || 0
+            ) / 365 * 90;
+
+        const inventory =
+            (
+                cogsTotals[0] || 0
+            ) / 365 * 90;
+
+        const ap =
+            (
+                cogsTotals[0] || 0
+            ) / 365 * 60;
+
+        const workingCapitalKrw =
+            ar +
+            inventory -
+            ap;
+
+        const capexKEur =
+            capexKrw /
+            SIM_FX /
+            1000;
+
+        const workingCapitalKEur =
+            workingCapitalKrw /
+            SIM_FX /
+            1000;
+
+        const totalInvestmentKEur =
+            capexKEur +
+            workingCapitalKEur;
+
+        return {
+            input: input,
+            years: years,
+            product: selectedProduct,
+            machineQty: machineQty,
+            lines: lines,
+            revenueTotals: revenueTotals,
+            cogsTotals: cogsTotals,
+            ebitTotals: ebitTotals,
+            marginTotals: marginTotals,
+
+            pnl: {
+                distribution: distribution,
+                maintenance: maintenance,
+                collection: collection,
+                tdms: tdms,
+                creditCard: creditCard
+            },
+
+            investment: {
+                capexKrw: capexKrw,
+                arKrw: ar,
+                inventoryKrw: inventory,
+                apKrw: ap,
+                workingCapitalKrw:
+                    workingCapitalKrw,
+
+                capexKEur:
+                    capexKrw / SIM_FX,
+                arKEur:
+                    ar / SIM_FX,
+                inventoryKEur:
+                    inventory / SIM_FX,
+                apKEur:
+                    ap / SIM_FX,
+                workingCapitalKEur:
+                    workingCapitalKrw / SIM_FX,
+
+                totalInvestmentKrw:
+                    capexKrw +
+                    workingCapitalKrw,
+
+                totalInvestmentKEur:
+                    (
+                        capexKrw +
+                        workingCapitalKrw
+                    ) / SIM_FX
+            }
+        };
+    }
+
+
+    function simYearHeaders(years) {
+
+        return Array.from(
+            { length: years },
+            function (_, index) {
+                return (
+                    "<th>Y" +
+                    (index + 1) +
+                    "</th>"
+                );
+            }
+        ).join("");
+    }
+
+
+    function simRowCells(
+        values,
+        formatter,
+        className
+    ) {
+
+        return values.map(
+            function (value) {
+
+                const numeric =
+                    Number(value);
+
+                const negativeClass =
+                    Number.isFinite(numeric) &&
+                    numeric < 0
+                        ? " simulation-negative"
+                        : "";
+
+                return (
+                    '<td class="' +
+                    (className || "") +
+                    negativeClass +
+                    '">' +
+                    formatter(value) +
+                    "</td>"
+                );
+            }
+        ).join("");
+    }
+
+
+    function simRenderPriceCop(model) {
+
+        const target =
+            document.getElementById(
+                "simPriceCopTable"
+            );
+
+        if (!target) {
+            return;
+        }
+
+        /*
+            Price / COP은 선택 결과표가 아니라 전체 기준표입니다.
+            따라서 선택한 기계 / 소모품 여부와 관계없이
+            copTableData 전체 항목을 항상 표시합니다.
+
+            Cost inflation p/a의 "반영" 값은
+            각 품목의 Y1~Y10 COP 계산에만 적용합니다.
+        */
+        const input =
+            model && model.input
+                ? model.input
+                : simCurrentInputs();
+
+        const yearCount = 10;
+
+        function parseReferenceNumber(value) {
+
+            if (
+                value === null ||
+                value === undefined ||
+                value === "" ||
+                value === "-"
+            ) {
+                return 0;
+            }
+
+            return (
+                Number(
+                    String(value)
+                        .replace(/,/g, "")
+                        .replace(/[^0-9.-]/g, "")
+                ) || 0
+            );
+        }
+
+
+        function getInflationRate(
+            groupName,
+            itemName
+        ) {
+
+            if (groupName === "Machine") {
+                return input.inflation.equipment;
+            }
+
+            if (groupName === "Dialyzer") {
+                return input.inflation.dialyzer;
+            }
+
+            if (groupName === "Bloodline") {
+                return input.inflation.bloodline;
+            }
+
+            const name =
+                String(itemName || "")
+                    .toLowerCase();
+
+            if (name.indexOf("bibag") >= 0) {
+                return input.inflation.bibag;
+            }
+
+            if (
+                name.indexOf("concentrate") >= 0
+            ) {
+                return input.inflation.concentrate;
+            }
+
+            return input.inflation.other;
+        }
+
+
+        const header =
+            Array.from(
+                { length: yearCount },
+                function (_, index) {
+                    return (
+                        "<th>Y" +
+                        (index + 1) +
+                        "</th>"
+                    );
+                }
+            ).join("");
+
+
+        let rows = "";
+
+        copTableData.forEach(
+            function (groupData) {
+
+                groupData.items.forEach(
+                    function (item) {
+
+                        const baseCopKrw =
+                            parseReferenceNumber(
+                                item.unitCopKrw
+                            );
+
+                        const inflationRate =
+                            getInflationRate(
+                                groupData.group,
+                                item.name
+                            );
+
+                        const yearValues =
+                            Array.from(
+                                { length: yearCount },
+                                function (_, yearIndex) {
+
+                                    /*
+                                        기존 기준표와 동일하게
+                                        Machine은 Y1만 표시합니다.
+                                    */
+                                    if (
+                                        groupData.group ===
+                                            "Machine" &&
+                                        yearIndex >= 1
+                                    ) {
+                                        return null;
+                                    }
+
+                                    if (baseCopKrw <= 0) {
+                                        return null;
+                                    }
+
+                                    return (
+                                        baseCopKrw *
+                                        Math.pow(
+                                            1 + inflationRate,
+                                            yearIndex
+                                        )
+                                    );
+                                }
+                            );
+
+                        rows += `
+                            <tr>
+                                <td class="simulation-group-cell">${groupData.group || ""}</td>
+                                <td class="simulation-name-cell">${item.name || ""}</td>
+                                <td class="simulation-code-cell">${item.code || "-"}</td>
+                                <td>${item.unitPriceKrw || "-"}</td>
+                                <td>${item.unitCopEur || "-"}</td>
+                                <td>${item.unitCopKrw || "-"}</td>
+                                ${yearValues.map(function (value) {
+                                    return (
+                                        "<td>" +
+                                        (
+                                            value === null
+                                                ? ""
+                                                : simFormatNumber(
+                                                    value,
+                                                    0
+                                                )
+                                        ) +
+                                        "</td>"
+                                    );
+                                }).join("")}
+                            </tr>
+                        `;
+                    }
+                );
+            }
+        );
+
+
+        target.innerHTML = `
+            <div class="simulation-dynamic-scroll">
+                <table class="simulation-dynamic-table">
+                    <thead>
+                        <tr>
+                            <th style="width:95px;">구분</th>
+                            <th style="width:150px;">제품명</th>
+                            <th style="width:110px;">코드</th>
+                            <th style="width:100px;">Unit Price<br>KRW</th>
+                            <th style="width:85px;">Unit COP<br>EUR</th>
+                            <th style="width:100px;">Unit COP<br>KRW</th>
+                            ${header}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rows}
+                    </tbody>
+                </table>
+            </div>
+        `;
+    }
+
+    function simRenderFinancialLineTable(
+        targetId,
+        model,
+        valueField
+    ) {
+
+        const target =
+            document.getElementById(
+                targetId
+            );
+
+        if (!target) {
+            return;
+        }
+
+        const visibleLines =
+            model.lines.filter(
+                function (line) {
+
+                    const values =
+                        line[valueField] || [];
+
+                    return (
+                        simSum(
+                            values.map(
+                                function (value) {
+                                    return Math.abs(
+                                        Number(value) || 0
+                                    );
+                                }
+                            )
+                        ) > 0
+                    );
+                }
+            );
+
+        if (!visibleLines.length) {
+            target.innerHTML =
+                '<div class="simulation-dynamic-table simulation-empty">현재 선택 기준으로 표시할 값이 없습니다.</div>';
+            return;
+        }
+
+        const header =
+            simYearHeaders(
+                model.years
+            );
+
+        const rows =
+            visibleLines.map(
+                function (line) {
+
+                    const values =
+                        line[valueField] || [];
+
+                    const total =
+                        simSum(values);
+
+                    return `
+                        <tr>
+                            <td class="simulation-group-cell">${line.group}</td>
+                            <td class="simulation-name-cell">${line.name}</td>
+                            <td class="simulation-code-cell">${line.code || "-"}</td>
+                            <td><b>${simFormatNumber(total, 0)}</b></td>
+                            ${simRowCells(values, function (value) { return simFormatNumber(value, 0); })}
+                        </tr>
+                    `;
+                }
+            ).join("");
+
+        const totals =
+            valueField ===
+            "revenueYears"
+                ? model.revenueTotals
+                : model.cogsTotals;
+
+        target.innerHTML = `
+            <div class="simulation-dynamic-scroll">
+                <table class="simulation-dynamic-table">
+                    <thead>
+                        <tr>
+                            <th style="width:95px;">구분</th>
+                            <th style="width:150px;">제품명</th>
+                            <th style="width:110px;">코드</th>
+                            <th style="width:115px;">Total</th>
+                            ${header}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rows}
+                        <tr class="simulation-total-row">
+                            <td></td>
+                            <td>Total</td>
+                            <td></td>
+                            <td>${simFormatNumber(simSum(totals), 0)}</td>
+                            ${simRowCells(totals, function (value) { return simFormatNumber(value, 0); })}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        `;
+    }
+
+
+    function simRenderProductMetricTable(
+        targetId,
+        model,
+        valueField,
+        isPercent
+    ) {
+
+        const target =
+            document.getElementById(
+                targetId
+            );
+
+        if (!target) {
+            return;
+        }
+
+        const visibleLines =
+            model.lines.filter(
+                function (line) {
+
+                    const revenueTotal =
+                        simSum(
+                            line.revenueYears || []
+                        );
+
+                    /*
+                        Revenue가 실제로 존재하는 선택 항목만 표시합니다.
+                        빈 행은 EBIT / Margin에서도 제외합니다.
+                    */
+                    return revenueTotal !== 0;
+                }
+            );
+
+        if (!visibleLines.length) {
+            target.innerHTML =
+                '<div class="simulation-dynamic-table simulation-empty">현재 선택 기준으로 표시할 값이 없습니다.</div>';
+            return;
+        }
+
+        const header =
+            simYearHeaders(
+                model.years
+            );
+
+        const formatter =
+            isPercent
+                ? simFormatPercent
+                : function (value) {
+                    return simFormatNumber(
+                        value,
+                        0
+                    );
+                };
+
+        const rows =
+            visibleLines.map(
+                function (line) {
+
+                    const values =
+                        line[valueField] || [];
+
+                    let total;
+
+                    if (isPercent) {
+
+                        const totalRevenue =
+                            simSum(
+                                line.revenueYears || []
+                            );
+
+                        const totalEbit =
+                            simSum(
+                                line.ebitYears || []
+                            );
+
+                        total =
+                            totalRevenue === 0
+                                ? null
+                                : totalEbit /
+                                  totalRevenue;
+                    }
+                    else {
+                        total =
+                            simSum(values);
+                    }
+
+                    return `
+                        <tr>
+                            <td class="simulation-group-cell">${line.group}</td>
+                            <td class="simulation-name-cell">${line.name}</td>
+                            <td class="simulation-code-cell">${line.code || "-"}</td>
+                            <td class="${isPercent ? "simulation-percent-cell" : "simulation-ebit-value"}">
+                                ${formatter(total)}
+                            </td>
+                            ${simRowCells(
+                                values,
+                                formatter,
+                                isPercent
+                                    ? "simulation-percent-cell"
+                                    : "simulation-ebit-value"
+                            )}
+                        </tr>
+                    `;
+                }
+            ).join("");
+
+        const totalValue =
+            isPercent
+                ? (
+                    simSum(
+                        model.revenueTotals
+                    ) === 0
+                        ? null
+                        : (
+                            simSum(
+                                model.ebitTotals
+                            ) /
+                            simSum(
+                                model.revenueTotals
+                            )
+                        )
+                )
+                : simSum(
+                    model.ebitTotals
+                );
+
+        const totalYears =
+            isPercent
+                ? model.marginTotals
+                : model.ebitTotals;
+
+        target.innerHTML = `
+            <div class="simulation-dynamic-scroll">
+                <table class="simulation-dynamic-table">
+                    <thead>
+                        <tr>
+                            <th style="width:95px;">구분</th>
+                            <th style="width:150px;">제품명</th>
+                            <th style="width:110px;">코드</th>
+                            <th style="width:115px;">Total</th>
+                            ${header}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rows}
+
+                        <tr class="simulation-total-row">
+                            <td></td>
+                            <td>Total</td>
+                            <td></td>
+                            <td class="${isPercent ? "simulation-percent-cell" : "simulation-ebit-value"}">
+                                ${formatter(totalValue)}
+                            </td>
+                            ${simRowCells(
+                                totalYears,
+                                formatter,
+                                isPercent
+                                    ? "simulation-percent-cell"
+                                    : "simulation-ebit-value"
+                            )}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        `;
+    }
+
+    function simRenderPnlInvestment(
+        model
+    ) {
+
+        const target =
+            document.getElementById(
+                "simPnlInvestmentTable"
+            );
+
+        if (!target) {
+            return;
+        }
+
+        const header =
+            simYearHeaders(
+                model.years
+            );
+
+        const pnlRows = [
+            {
+                label: "Revenue",
+                values: model.revenueTotals
+            },
+            {
+                label: "COGS",
+                values: model.cogsTotals
+            },
+            {
+                label: "Distribution",
+                values: model.pnl.distribution
+            },
+            {
+                label: "MC maintenance",
+                values: model.pnl.maintenance
+            },
+            {
+                label: "MC Collection",
+                values: model.pnl.collection
+            },
+            {
+                label: "TDMS",
+                values: model.pnl.tdms
+            },
+            {
+                label: "Credit card charges",
+                values: model.pnl.creditCard
+            },
+            {
+                label: "EBIT",
+                values: model.ebitTotals,
+                emphasis: true
+            }
+        ];
+
+        const rows =
+            pnlRows.map(
+                function (row) {
+
+                    return `
+                        <tr class="${row.emphasis ? "simulation-total-row" : ""}">
+                            <td class="simulation-name-cell">${row.label}</td>
+                            <td>${simFormatNumber(simSum(row.values), 0)}</td>
+                            ${simRowCells(
+                                row.values,
+                                function (value) {
+                                    return simFormatNumber(
+                                        value,
+                                        0
+                                    );
+                                },
+                                row.emphasis
+                                    ? "simulation-ebit-value"
+                                    : ""
+                            )}
+                        </tr>
+                    `;
+                }
+            ).join("");
+
+        target.innerHTML = `
+            <div class="simulation-pnl-summary-grid">
+
+                <div class="simulation-dynamic-scroll">
+                    <table class="simulation-dynamic-table">
+                        <thead>
+                            <tr>
+                                <th style="width:165px;">P&amp;L 항목</th>
+                                <th style="width:120px;">Total</th>
+                                ${header}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${rows}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="simulation-investment-box">
+                    <div class="simulation-investment-title">
+                        Investment
+                    </div>
+
+                    <div class="simulation-investment-header">
+                        <span>항목</span>
+                        <strong></strong>
+                        <strong></strong>
+                    </div>
+
+                    <div class="simulation-investment-row">
+                        <span>Capex</span>
+                        <strong>${simFormatNumber(model.investment.capexKrw, 0)}</strong>
+                        <strong>${simFormatNumber(model.investment.capexKEur, 0)}</strong>
+                    </div>
+
+                    <div class="simulation-investment-row">
+                        <span>AR</span>
+                        <strong>${simFormatNumber(model.investment.arKrw, 0)}</strong>
+                        <strong>${simFormatNumber(model.investment.arKEur, 0)}</strong>
+                    </div>
+
+                    <div class="simulation-investment-row">
+                        <span>Inventory</span>
+                        <strong>${simFormatNumber(model.investment.inventoryKrw, 0)}</strong>
+                        <strong>${simFormatNumber(model.investment.inventoryKEur, 0)}</strong>
+                    </div>
+
+                    <div class="simulation-investment-row">
+                        <span>AP</span>
+                        <strong>${simFormatNumber(model.investment.apKrw, 0)}</strong>
+                        <strong>${simFormatNumber(model.investment.apKEur, 0)}</strong>
+                    </div>
+
+                    <div class="simulation-investment-row">
+                        <span>Working Capital</span>
+                        <strong>${simFormatNumber(model.investment.workingCapitalKrw, 0)}</strong>
+                        <strong>${simFormatNumber(model.investment.workingCapitalKEur, 0)}</strong>
+                    </div>
+
+                    <div class="simulation-investment-row total">
+                        <span>Total Investment</span>
+                        <strong>${simFormatNumber(model.investment.totalInvestmentKrw, 0)}</strong>
+                        <strong>${simFormatNumber(model.investment.totalInvestmentKEur, 0)}</strong>
+                    </div>
+                </div>
+
+            </div>
+        `;
+    }
+
+
+    function simUpdateReceipt(
+        model
+    ) {
+
+        const totalRevenue =
+            simSum(
+                model.revenueTotals
+            );
+
+        const totalEbit =
+            simSum(
+                model.ebitTotals
+            );
+
+        const totalMargin =
+            totalRevenue === 0
+                ? null
+                : totalEbit /
+                  totalRevenue;
+
+        document
+            .querySelectorAll(
+                ".result-receipt .receipt-row"
+            )
+            .forEach(
+                function (row) {
+
+                    const labelElement =
+                        row.querySelector(
+                            "span"
+                        );
+
+                    const valueElement =
+                        row.querySelector(
+                            "strong"
+                        );
+
+                    if (
+                        !labelElement ||
+                        !valueElement
+                    ) {
+                        return;
+                    }
+
+                    const label =
+                        labelElement
+                            .textContent
+                            .trim();
+
+                    if (label === "Sales") {
+                        valueElement.textContent =
+                            simFormatNumber(
+                                totalRevenue,
+                                0
+                            );
+                    }
+
+                    if (
+                        label ===
+                        "Combined EBIT margin (Net profit)"
+                    ) {
+                        valueElement.textContent =
+                            simFormatNumber(
+                                totalEbit,
+                                0
+                            );
+                    }
+
+                    if (label === "%") {
+                        valueElement.textContent =
+                            simFormatPercent(
+                                totalMargin
+                            );
+                        valueElement.style.color =
+                            "#e54b4b";
+                    }
+
+                    if (
+                        label ===
+                        "Capex (100%)"
+                    ) {
+                        valueElement.textContent =
+                            simFormatNumber(
+                                model.investment
+                                    .capexKEur,
+                                0
+                            );
+                    }
+
+                    if (
+                        label ===
+                        "Initial working capital"
+                    ) {
+                        valueElement.textContent =
+                            simFormatNumber(
+                                model.investment
+                                    .workingCapitalKEur,
+                                0
+                            );
+                    }
+
+                    if (
+                        label ===
+                        "Total Investment (K, EUR)"
+                    ) {
+                        valueElement.textContent =
+                            simFormatNumber(
+                                model.investment
+                                    .totalInvestmentKEur,
+                                0
+                            );
+                    }
+                }
+            );
+
+
+        const caseElement =
+            document.getElementById(
+                "resultEbitCase"
+            );
+
+        if (caseElement) {
+
+            const investment =
+                model.investment
+                    .totalInvestmentKEur || 0;
+
+            let caseName =
+                "Case 3";
+
+            if (investment >= 2500) {
+                caseName =
+                    "Case 4";
+            }
+            else if (investment >= 300) {
+                caseName =
+                    "Case 3";
+            }
+            else if (
+                totalMargin !== null &&
+                totalMargin >= 0.25
+            ) {
+                caseName =
+                    "Case 1";
+            }
+            else if (
+                totalMargin !== null &&
+                totalMargin >= 0.20
+            ) {
+                caseName =
+                    "Case 2";
+            }
+
+            caseElement.textContent =
+                caseName;
+        }
+    }
+
+
+    function renderExcelSimulation() {
+
+        const model =
+            simBuildModel();
+
+        simRenderPriceCop(
+            model
+        );
+
+        simRenderFinancialLineTable(
+            "simRevenueTable",
+            model,
+            "revenueYears"
+        );
+
+        simRenderFinancialLineTable(
+            "simCogsTable",
+            model,
+            "cogsYears"
+        );
+
+        simRenderProductMetricTable(
+            "simEbitTable",
+            model,
+            "ebitYears",
+            false
+        );
+
+        simRenderProductMetricTable(
+            "simMarginTable",
+            model,
+            "marginYears",
+            true
+        );
+
+        simRenderPnlInvestment(
+            model
+        );
+
+        simUpdateReceipt(
+            model
+        );
+    }
+
+
+    function simNormalizeCalculatorInput(
+        input
+    ) {
+
+        if (!input) {
+            return;
+        }
+
+        input.value =
+            input.value
+                .replace(/,/g, "")
+                .replace(
+                    /[^0-9.-]/g,
+                    ""
+                );
+    }
+
+
+    document.addEventListener(
+        "input",
+        function (event) {
+
+            const target =
+                event.target;
+
+            if (
+                target &&
+                (
+                    target.closest(
+                        ".simulation-calculator-card"
+                    ) ||
+                    target.classList.contains(
+                        "machine-price-input"
+                    ) ||
+                    target.classList.contains(
+                        "machine-usage-input"
+                    ) ||
+                    target.id ===
+                        "contractPeriod"
+                )
+            ) {
+
+                if (
+                    target.closest(
+                        ".simulation-calculator-card"
+                    )
+                ) {
+                    simNormalizeCalculatorInput(
+                        target
+                    );
+                }
+
+                renderExcelSimulation();
+            }
+        }
+    );
+
+
+    document.addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                event.target &&
+                (
+                    event.target.closest(
+                        "#salesNextBtn"
+                    ) ||
+                    event.target.closest(
+                        ".btn-step2-next"
+                    )
+                )
+            ) {
+                setTimeout(
+                    renderExcelSimulation,
+                    0
+                );
+            }
+        }
+    );
+
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+            setTimeout(
+                renderExcelSimulation,
+                0
+            );
+        }
+    );
+
+
+    /*
+        다른 기존 코드에서도 필요 시 호출할 수 있도록 공개
+    */
+    window.renderExcelSimulation =
+        renderExcelSimulation;
+
+})();
+</script>
 
 </body>
 </html>
